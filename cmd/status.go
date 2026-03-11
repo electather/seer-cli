@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	api "seer-cli/pkg/api"
 )
 
@@ -18,6 +19,19 @@ var statusCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// Initialize the API configuration
 		configuration := api.NewConfiguration()
+		
+		// Set server URL from viper
+		configuration.Servers = api.ServerConfigurations{
+			{
+				URL: viper.GetString("server"),
+				Description: "Configured Server",
+			},
+		}
+
+		// Set API Key from viper if provided
+		if apiKey := viper.GetString("api_key"); apiKey != "" {
+			configuration.AddDefaultHeader("X-Api-Key", apiKey)
+		}
 		
 		// If overridden by tests, use the mock server
 		if overrideServerURL != "" {
@@ -34,16 +48,16 @@ var statusCmd = &cobra.Command{
 		// Example context
 		ctx := context.Background()
 		
-		fmt.Println("Calling /status endpoint...")
+		cmd.Println("Calling /status endpoint...")
 		
 		// Call a status or public endpoint if one exists
 		// Note: Replace StatusGet with an actual endpoint from your schema
-		res, r, err := apiClient.StatusAPI.StatusGet(ctx).Execute()
+		res, r, err := apiClient.PublicAPI.StatusGet(ctx).Execute()
 		if err != nil {
 			return fmt.Errorf("error when calling StatusGet: %w\nFull HTTP response: %v", err, r)
 		}
 		
-		fmt.Printf("Response from StatusGet: %v\n", res)
+		cmd.Printf("Response from StatusGet: %v\n", res)
 		return nil
 	},
 }

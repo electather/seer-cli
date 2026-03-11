@@ -28,7 +28,7 @@ go get golang.org/x/net/context
 Put the package under your project folder and add the following in import:
 
 ```go
-import api "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+import api "seer-cli/pkg/api"
 ```
 
 To use a proxy, set the environment variable `HTTP_PROXY`:
@@ -257,11 +257,8 @@ Class | Method | HTTP request | Description
 *TvAPI* | [**TvTvIdRecommendationsGet**](docs/TvAPI.md#tvtvidrecommendationsget) | **Get** /tv/{tvId}/recommendations | Get recommended TV series
 *TvAPI* | [**TvTvIdSeasonSeasonNumberGet**](docs/TvAPI.md#tvtvidseasonseasonnumberget) | **Get** /tv/{tvId}/season/{seasonNumber} | Get season details and episode list
 *TvAPI* | [**TvTvIdSimilarGet**](docs/TvAPI.md#tvtvidsimilarget) | **Get** /tv/{tvId}/similar | Get similar TV series
-*UsersAPI* | [**AuthMeGet**](docs/UsersAPI.md#authmeget) | **Get** /auth/me | Get logged-in user
 *UsersAPI* | [**AuthResetPasswordGuidPost**](docs/UsersAPI.md#authresetpasswordguidpost) | **Post** /auth/reset-password/{guid} | Reset the password for a user
 *UsersAPI* | [**AuthResetPasswordPost**](docs/UsersAPI.md#authresetpasswordpost) | **Post** /auth/reset-password | Send a reset password email
-*UsersAPI* | [**SettingsJellyfinUsersGet**](docs/UsersAPI.md#settingsjellyfinusersget) | **Get** /settings/jellyfin/users | Get Jellyfin Users
-*UsersAPI* | [**SettingsPlexUsersGet**](docs/UsersAPI.md#settingsplexusersget) | **Get** /settings/plex/users | Get Plex users
 *UsersAPI* | [**UserGet**](docs/UsersAPI.md#userget) | **Get** /user | Get all users
 *UsersAPI* | [**UserImportFromJellyfinPost**](docs/UsersAPI.md#userimportfromjellyfinpost) | **Post** /user/import-from-jellyfin | Import all users from Jellyfin
 *UsersAPI* | [**UserImportFromPlexPost**](docs/UsersAPI.md#userimportfromplexpost) | **Post** /user/import-from-plex | Import all users from Plex
@@ -290,7 +287,6 @@ Class | Method | HTTP request | Description
 *UsersAPI* | [**UserUserIdSettingsPermissionsPost**](docs/UsersAPI.md#useruseridsettingspermissionspost) | **Post** /user/{userId}/settings/permissions | Update permission settings for a user
 *UsersAPI* | [**UserUserIdWatchDataGet**](docs/UsersAPI.md#useruseridwatchdataget) | **Get** /user/{userId}/watch_data | Get watch data
 *UsersAPI* | [**UserUserIdWatchlistGet**](docs/UsersAPI.md#useruseridwatchlistget) | **Get** /user/{userId}/watchlist | Get the Plex watchlist for a specific user
-*WatchlistAPI* | [**UserUserIdWatchlistGet**](docs/WatchlistAPI.md#useruseridwatchlistget) | **Get** /user/{userId}/watchlist | Get the Plex watchlist for a specific user
 *WatchlistAPI* | [**WatchlistPost**](docs/WatchlistAPI.md#watchlistpost) | **Post** /watchlist | Add media to watchlist
 *WatchlistAPI* | [**WatchlistTmdbIdDelete**](docs/WatchlistAPI.md#watchlisttmdbiddelete) | **Delete** /watchlist/{tmdbId} | Delete watchlist item
 

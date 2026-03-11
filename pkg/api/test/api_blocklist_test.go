@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func Test_api_BlocklistAPIService(t *testing.T) {

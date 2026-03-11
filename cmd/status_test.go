@@ -11,7 +11,8 @@ import (
 func TestStatusCommand(t *testing.T) {
 	// 1. Create a fake HTTP server that mimics the OpenAPI backend
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/api/v1/status" {
+		if r.URL.Path == "/status" {
+			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusOK)
 			w.Write([]byte(`{"version": "1.0.0", "status": "ok"}`))
 			return
@@ -27,12 +28,15 @@ func TestStatusCommand(t *testing.T) {
 	
 	// Create a buffer to capture CLI output
 	b := new(bytes.Buffer)
-	statusCmd.SetOut(b)
-	statusCmd.SetErr(b)
+	rootCmd.SetOut(b)
+	rootCmd.SetErr(b)
+	// We must reset the args so it doesn't use the test flags from 'go test'
+	rootCmd.SetArgs([]string{"status", "--server", server.URL})
+	
 	// Set the package-level override URL to our test server
 	overrideServerURL = server.URL
 	
-	err := statusCmd.Execute()
+	err := rootCmd.Execute()
 	
 	// We expect success now since it connects to the test server
 	if err != nil {

@@ -4,11 +4,8 @@ All URIs are relative to *http://localhost:5055/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AuthMeGet**](UsersAPI.md#AuthMeGet) | **Get** /auth/me | Get logged-in user
 [**AuthResetPasswordGuidPost**](UsersAPI.md#AuthResetPasswordGuidPost) | **Post** /auth/reset-password/{guid} | Reset the password for a user
 [**AuthResetPasswordPost**](UsersAPI.md#AuthResetPasswordPost) | **Post** /auth/reset-password | Send a reset password email
-[**SettingsJellyfinUsersGet**](UsersAPI.md#SettingsJellyfinUsersGet) | **Get** /settings/jellyfin/users | Get Jellyfin Users
-[**SettingsPlexUsersGet**](UsersAPI.md#SettingsPlexUsersGet) | **Get** /settings/plex/users | Get Plex users
 [**UserGet**](UsersAPI.md#UserGet) | **Get** /user | Get all users
 [**UserImportFromJellyfinPost**](UsersAPI.md#UserImportFromJellyfinPost) | **Post** /user/import-from-jellyfin | Import all users from Jellyfin
 [**UserImportFromPlexPost**](UsersAPI.md#UserImportFromPlexPost) | **Post** /user/import-from-plex | Import all users from Plex
@@ -40,67 +37,6 @@ Method | HTTP request | Description
 
 
 
-## AuthMeGet
-
-> User AuthMeGet(ctx).Execute()
-
-Get logged-in user
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
-)
-
-func main() {
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UsersAPI.AuthMeGet(context.Background()).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.AuthMeGet``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `AuthMeGet`: User
-	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.AuthMeGet`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-This endpoint does not need any parameter.
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiAuthMeGetRequest struct via the builder pattern
-
-
-### Return type
-
-[**User**](User.md)
-
-### Authorization
-
-[apiKey](../README.md#apiKey), [cookieAuth](../README.md#cookieAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## AuthResetPasswordGuidPost
 
 > AuthLogoutPost200Response AuthResetPasswordGuidPost(ctx, guid).AuthResetPasswordGuidPostRequest(authResetPasswordGuidPostRequest).Execute()
@@ -118,7 +54,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -190,7 +126,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -239,128 +175,6 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## SettingsJellyfinUsersGet
-
-> []SettingsJellyfinUsersGet200ResponseInner SettingsJellyfinUsersGet(ctx).Execute()
-
-Get Jellyfin Users
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
-)
-
-func main() {
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UsersAPI.SettingsJellyfinUsersGet(context.Background()).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.SettingsJellyfinUsersGet``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `SettingsJellyfinUsersGet`: []SettingsJellyfinUsersGet200ResponseInner
-	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.SettingsJellyfinUsersGet`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-This endpoint does not need any parameter.
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiSettingsJellyfinUsersGetRequest struct via the builder pattern
-
-
-### Return type
-
-[**[]SettingsJellyfinUsersGet200ResponseInner**](SettingsJellyfinUsersGet200ResponseInner.md)
-
-### Authorization
-
-[apiKey](../README.md#apiKey), [cookieAuth](../README.md#cookieAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## SettingsPlexUsersGet
-
-> []SettingsPlexUsersGet200ResponseInner SettingsPlexUsersGet(ctx).Execute()
-
-Get Plex users
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
-)
-
-func main() {
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UsersAPI.SettingsPlexUsersGet(context.Background()).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.SettingsPlexUsersGet``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `SettingsPlexUsersGet`: []SettingsPlexUsersGet200ResponseInner
-	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.SettingsPlexUsersGet`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-This endpoint does not need any parameter.
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiSettingsPlexUsersGetRequest struct via the builder pattern
-
-
-### Return type
-
-[**[]SettingsPlexUsersGet200ResponseInner**](SettingsPlexUsersGet200ResponseInner.md)
-
-### Authorization
-
-[apiKey](../README.md#apiKey), [cookieAuth](../README.md#cookieAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## UserGet
 
 > UserGet200Response UserGet(ctx).Take(take).Skip(skip).Sort(sort).Q(q).IncludeIds(includeIds).Execute()
@@ -378,7 +192,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -452,7 +266,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -518,7 +332,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -584,7 +398,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -650,7 +464,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -716,7 +530,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -780,7 +594,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -850,7 +664,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -920,7 +734,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -991,7 +805,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -1064,7 +878,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -1134,7 +948,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -1206,7 +1020,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -1276,7 +1090,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -1350,7 +1164,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -1418,7 +1232,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -1488,7 +1302,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -1556,7 +1370,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -1626,7 +1440,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -1696,7 +1510,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -1768,7 +1582,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -1838,7 +1652,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -1910,7 +1724,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -1980,7 +1794,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -2050,7 +1864,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -2120,7 +1934,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -2192,7 +2006,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {
@@ -2262,7 +2076,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
+	openapiclient "seer-cli/pkg/api"
 )
 
 func main() {

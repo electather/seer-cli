@@ -236,7 +236,6 @@ paths:
       summary: Get Jellyfin Users
       tags:
       - settings
-      - users
   /settings/jellyfin/sync:
     get:
       description: Returns sync progress in a JSON array.
@@ -400,7 +399,6 @@ paths:
       summary: Get Plex users
       tags:
       - settings
-      - users
   /settings/metadatas:
     get:
       description: Retrieves current Metadata settings.
@@ -1562,7 +1560,6 @@ paths:
       summary: Get logged-in user
       tags:
       - auth
-      - users
   /auth/plex:
     post:
       description: "Takes an `authToken` (Plex token) to log the user in. Generates\
@@ -2353,7 +2350,6 @@ paths:
       summary: Get the Plex watchlist for a specific user
       tags:
       - users
-      - watchlist
   /user/{userId}/settings/main:
     get:
       description: Returns general settings for a specific user. Requires `MANAGE_USERS`

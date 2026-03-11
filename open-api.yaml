@@ -2326,7 +2326,6 @@ paths:
       description: Returns a list of Jellyfin Users in a JSON array.
       tags:
         - settings
-        - users
       responses:
         "200":
           description: Jellyfin users returned
@@ -2568,7 +2567,6 @@ paths:
         Requires the `MANAGE_USERS` permission.
       tags:
         - settings
-        - users
       responses:
         "200":
           description: Plex users
@@ -3917,7 +3915,6 @@ paths:
       description: Returns the currently logged-in user.
       tags:
         - auth
-        - users
       responses:
         "200":
           description: Object containing the logged-in user in JSON
@@ -4800,7 +4797,6 @@ paths:
         Retrieves a user's Plex Watchlist in a JSON object.
       tags:
         - users
-        - watchlist
       parameters:
         - in: path
           name: userId
