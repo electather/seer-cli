@@ -2175,6 +2175,9 @@ components:
         id:
           type: number
           example: 1
+        status:
+          type: number
+          example: 1
         issueType:
           type: number
           example: 1
@@ -2237,7 +2240,47 @@ components:
       type: object
       properties:
         id:
+          type: number
+          example: 1
+        users:
+          type: array
+          nullable: true
+          items:
+            type: number
+        genre:
+          type: number
+          nullable: true
+        language:
           type: string
+          nullable: true
+        keywords:
+          type: array
+          nullable: true
+          items:
+            type: number
+        profileId:
+          type: number
+          nullable: true
+        rootFolder:
+          type: string
+          nullable: true
+        tags:
+          type: array
+          nullable: true
+          items:
+            type: number
+        radarrServiceId:
+          type: number
+          nullable: true
+        sonarrServiceId:
+          type: number
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
     Certification:
       type: object
       properties:
@@ -7996,9 +8039,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/OverrideRule"
+                $ref: "#/components/schemas/OverrideRule"
   /overrideRule/{ruleId}:
     put:
       summary: Update override rule
@@ -8017,9 +8058,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/OverrideRule"
+                $ref: "#/components/schemas/OverrideRule"
     delete:
       summary: Delete override rule by ID
       description: Deletes the override rule with the provided ruleId.

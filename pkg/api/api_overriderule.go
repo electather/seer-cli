@@ -141,7 +141,7 @@ type ApiOverrideRulePostRequest struct {
 	ApiService *OverrideruleAPIService
 }
 
-func (r ApiOverrideRulePostRequest) Execute() ([]OverrideRule, *http.Response, error) {
+func (r ApiOverrideRulePostRequest) Execute() (*OverrideRule, *http.Response, error) {
 	return r.ApiService.OverrideRulePostExecute(r)
 }
 
@@ -161,13 +161,13 @@ func (a *OverrideruleAPIService) OverrideRulePost(ctx context.Context) ApiOverri
 }
 
 // Execute executes the request
-//  @return []OverrideRule
-func (a *OverrideruleAPIService) OverrideRulePostExecute(r ApiOverrideRulePostRequest) ([]OverrideRule, *http.Response, error) {
+//  @return OverrideRule
+func (a *OverrideruleAPIService) OverrideRulePostExecute(r ApiOverrideRulePostRequest) (*OverrideRule, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []OverrideRule
+		localVarReturnValue  *OverrideRule
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OverrideruleAPIService.OverrideRulePost")
@@ -372,7 +372,7 @@ type ApiOverrideRuleRuleIdPutRequest struct {
 	ruleId float32
 }
 
-func (r ApiOverrideRuleRuleIdPutRequest) Execute() ([]OverrideRule, *http.Response, error) {
+func (r ApiOverrideRuleRuleIdPutRequest) Execute() (*OverrideRule, *http.Response, error) {
 	return r.ApiService.OverrideRuleRuleIdPutExecute(r)
 }
 
@@ -394,13 +394,13 @@ func (a *OverrideruleAPIService) OverrideRuleRuleIdPut(ctx context.Context, rule
 }
 
 // Execute executes the request
-//  @return []OverrideRule
-func (a *OverrideruleAPIService) OverrideRuleRuleIdPutExecute(r ApiOverrideRuleRuleIdPutRequest) ([]OverrideRule, *http.Response, error) {
+//  @return OverrideRule
+func (a *OverrideruleAPIService) OverrideRuleRuleIdPutExecute(r ApiOverrideRuleRuleIdPutRequest) (*OverrideRule, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPut
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []OverrideRule
+		localVarReturnValue  *OverrideRule
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OverrideruleAPIService.OverrideRuleRuleIdPut")

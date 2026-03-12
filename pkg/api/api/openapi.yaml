@@ -5190,9 +5190,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: "#/components/schemas/OverrideRule"
-                type: array
+                $ref: "#/components/schemas/OverrideRule"
           description: Values were successfully created
       summary: Create override rule
       tags:
@@ -5233,9 +5231,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: "#/components/schemas/OverrideRule"
-                type: array
+                $ref: "#/components/schemas/OverrideRule"
           description: Values were successfully updated
       summary: Update override rule
       tags:
@@ -9005,8 +9001,12 @@ components:
           jellyfinMediaId4k: jellyfinMediaId4k
           status: 0
           jellyfinMediaId: jellyfinMediaId
+        status: 1
       properties:
         id:
+          example: 1
+          type: number
+        status:
           example: 1
           type: number
         issueType:
@@ -9129,9 +9129,66 @@ components:
       type: object
     OverrideRule:
       example:
-        id: id
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        radarrServiceId: 2.3021358869347655
+        sonarrServiceId: 7.061401241503109
+        keywords:
+        - 1.4658129805029452
+        - 1.4658129805029452
+        profileId: 5.962133916683182
+        rootFolder: rootFolder
+        genre: 6.027456183070403
+        language: language
+        id: 1
+        users:
+        - 0.8008281904610115
+        - 0.8008281904610115
+        tags:
+        - 5.637376656633329
+        - 5.637376656633329
+        updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
         id:
+          example: 1
+          type: number
+        users:
+          items:
+            type: number
+          nullable: true
+          type: array
+        genre:
+          nullable: true
+          type: number
+        language:
+          nullable: true
+          type: string
+        keywords:
+          items:
+            type: number
+          nullable: true
+          type: array
+        profileId:
+          nullable: true
+          type: number
+        rootFolder:
+          nullable: true
+          type: string
+        tags:
+          items:
+            type: number
+          nullable: true
+          type: array
+        radarrServiceId:
+          nullable: true
+          type: number
+        sonarrServiceId:
+          nullable: true
+          type: number
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
           type: string
       type: object
     Certification:
@@ -13015,6 +13072,7 @@ components:
             jellyfinMediaId4k: jellyfinMediaId4k
             status: 0
             jellyfinMediaId: jellyfinMediaId
+          status: 1
         - issueType: 1
           comments:
           - id: 1
@@ -13235,6 +13293,7 @@ components:
             jellyfinMediaId4k: jellyfinMediaId4k
             status: 0
             jellyfinMediaId: jellyfinMediaId
+          status: 1
       properties:
         pageInfo:
           $ref: "#/components/schemas/PageInfo"

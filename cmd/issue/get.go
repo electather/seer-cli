@@ -1,0 +1,27 @@
+package issue
+
+import (
+	"fmt"
+	"strconv"
+
+	"github.com/spf13/cobra"
+)
+
+var getCmd = &cobra.Command{
+	Use:   "get <issueId>",
+	Short: "Get a single issue",
+	Args:  cobra.ExactArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		id, err := strconv.ParseFloat(args[0], 32)
+		if err != nil {
+			return fmt.Errorf("invalid issue ID: %s", args[0])
+		}
+		apiClient, ctx, isVerbose := newAPIClient()
+		res, r, apiErr := apiClient.IssueAPI.IssueIssueIdGet(ctx, float32(id)).Execute()
+		return handleResponse(cmd, r, apiErr, res, isVerbose, "IssueIssueIdGet")
+	},
+}
+
+func init() {
+	Cmd.AddCommand(getCmd)
+}

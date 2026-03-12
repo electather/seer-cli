@@ -74,7 +74,7 @@ Other parameters are passed through a pointer to a apiOverrideRuleGetRequest str
 
 ## OverrideRulePost
 
-> []OverrideRule OverrideRulePost(ctx).Execute()
+> OverrideRule OverrideRulePost(ctx).Execute()
 
 Create override rule
 
@@ -101,7 +101,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `OverrideruleAPI.OverrideRulePost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `OverrideRulePost`: []OverrideRule
+	// response from `OverrideRulePost`: OverrideRule
 	fmt.Fprintf(os.Stdout, "Response from `OverrideruleAPI.OverrideRulePost`: %v\n", resp)
 }
 ```
@@ -117,7 +117,7 @@ Other parameters are passed through a pointer to a apiOverrideRulePostRequest st
 
 ### Return type
 
-[**[]OverrideRule**](OverrideRule.md)
+[**OverrideRule**](OverrideRule.md)
 
 ### Authorization
 
@@ -205,7 +205,7 @@ Name | Type | Description  | Notes
 
 ## OverrideRuleRuleIdPut
 
-> []OverrideRule OverrideRuleRuleIdPut(ctx, ruleId).Execute()
+> OverrideRule OverrideRuleRuleIdPut(ctx, ruleId).Execute()
 
 Update override rule
 
@@ -233,7 +233,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `OverrideruleAPI.OverrideRuleRuleIdPut``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `OverrideRuleRuleIdPut`: []OverrideRule
+	// response from `OverrideRuleRuleIdPut`: OverrideRule
 	fmt.Fprintf(os.Stdout, "Response from `OverrideruleAPI.OverrideRuleRuleIdPut`: %v\n", resp)
 }
 ```
@@ -257,7 +257,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[]OverrideRule**](OverrideRule.md)
+[**OverrideRule**](OverrideRule.md)
 
 ### Authorization
 

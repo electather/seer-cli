@@ -12,6 +12,7 @@ package api
 
 import (
 	"encoding/json"
+	"time"
 )
 
 // checks if the OverrideRule type satisfies the MappedNullable interface at compile time
@@ -19,7 +20,18 @@ var _ MappedNullable = &OverrideRule{}
 
 // OverrideRule struct for OverrideRule
 type OverrideRule struct {
-	Id *string `json:"id,omitempty"`
+	Id *float32 `json:"id,omitempty"`
+	Users []float32 `json:"users,omitempty"`
+	Genre NullableFloat32 `json:"genre,omitempty"`
+	Language NullableString `json:"language,omitempty"`
+	Keywords []float32 `json:"keywords,omitempty"`
+	ProfileId NullableFloat32 `json:"profileId,omitempty"`
+	RootFolder NullableString `json:"rootFolder,omitempty"`
+	Tags []float32 `json:"tags,omitempty"`
+	RadarrServiceId NullableFloat32 `json:"radarrServiceId,omitempty"`
+	SonarrServiceId NullableFloat32 `json:"sonarrServiceId,omitempty"`
+	CreatedAt *time.Time `json:"createdAt,omitempty"`
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 }
 
 // NewOverrideRule instantiates a new OverrideRule object
@@ -40,9 +52,9 @@ func NewOverrideRuleWithDefaults() *OverrideRule {
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *OverrideRule) GetId() string {
+func (o *OverrideRule) GetId() float32 {
 	if o == nil || IsNil(o.Id) {
-		var ret string
+		var ret float32
 		return ret
 	}
 	return *o.Id
@@ -50,7 +62,7 @@ func (o *OverrideRule) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OverrideRule) GetIdOk() (*string, bool) {
+func (o *OverrideRule) GetIdOk() (*float32, bool) {
 	if o == nil || IsNil(o.Id) {
 		return nil, false
 	}
@@ -66,9 +78,424 @@ func (o *OverrideRule) HasId() bool {
 	return false
 }
 
-// SetId gets a reference to the given string and assigns it to the Id field.
-func (o *OverrideRule) SetId(v string) {
+// SetId gets a reference to the given float32 and assigns it to the Id field.
+func (o *OverrideRule) SetId(v float32) {
 	o.Id = &v
+}
+
+// GetUsers returns the Users field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *OverrideRule) GetUsers() []float32 {
+	if o == nil {
+		var ret []float32
+		return ret
+	}
+	return o.Users
+}
+
+// GetUsersOk returns a tuple with the Users field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *OverrideRule) GetUsersOk() ([]float32, bool) {
+	if o == nil || IsNil(o.Users) {
+		return nil, false
+	}
+	return o.Users, true
+}
+
+// HasUsers returns a boolean if a field has been set.
+func (o *OverrideRule) HasUsers() bool {
+	if o != nil && !IsNil(o.Users) {
+		return true
+	}
+
+	return false
+}
+
+// SetUsers gets a reference to the given []float32 and assigns it to the Users field.
+func (o *OverrideRule) SetUsers(v []float32) {
+	o.Users = v
+}
+
+// GetGenre returns the Genre field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *OverrideRule) GetGenre() float32 {
+	if o == nil || IsNil(o.Genre.Get()) {
+		var ret float32
+		return ret
+	}
+	return *o.Genre.Get()
+}
+
+// GetGenreOk returns a tuple with the Genre field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *OverrideRule) GetGenreOk() (*float32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Genre.Get(), o.Genre.IsSet()
+}
+
+// HasGenre returns a boolean if a field has been set.
+func (o *OverrideRule) HasGenre() bool {
+	if o != nil && o.Genre.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetGenre gets a reference to the given NullableFloat32 and assigns it to the Genre field.
+func (o *OverrideRule) SetGenre(v float32) {
+	o.Genre.Set(&v)
+}
+// SetGenreNil sets the value for Genre to be an explicit nil
+func (o *OverrideRule) SetGenreNil() {
+	o.Genre.Set(nil)
+}
+
+// UnsetGenre ensures that no value is present for Genre, not even an explicit nil
+func (o *OverrideRule) UnsetGenre() {
+	o.Genre.Unset()
+}
+
+// GetLanguage returns the Language field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *OverrideRule) GetLanguage() string {
+	if o == nil || IsNil(o.Language.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.Language.Get()
+}
+
+// GetLanguageOk returns a tuple with the Language field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *OverrideRule) GetLanguageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Language.Get(), o.Language.IsSet()
+}
+
+// HasLanguage returns a boolean if a field has been set.
+func (o *OverrideRule) HasLanguage() bool {
+	if o != nil && o.Language.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetLanguage gets a reference to the given NullableString and assigns it to the Language field.
+func (o *OverrideRule) SetLanguage(v string) {
+	o.Language.Set(&v)
+}
+// SetLanguageNil sets the value for Language to be an explicit nil
+func (o *OverrideRule) SetLanguageNil() {
+	o.Language.Set(nil)
+}
+
+// UnsetLanguage ensures that no value is present for Language, not even an explicit nil
+func (o *OverrideRule) UnsetLanguage() {
+	o.Language.Unset()
+}
+
+// GetKeywords returns the Keywords field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *OverrideRule) GetKeywords() []float32 {
+	if o == nil {
+		var ret []float32
+		return ret
+	}
+	return o.Keywords
+}
+
+// GetKeywordsOk returns a tuple with the Keywords field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *OverrideRule) GetKeywordsOk() ([]float32, bool) {
+	if o == nil || IsNil(o.Keywords) {
+		return nil, false
+	}
+	return o.Keywords, true
+}
+
+// HasKeywords returns a boolean if a field has been set.
+func (o *OverrideRule) HasKeywords() bool {
+	if o != nil && !IsNil(o.Keywords) {
+		return true
+	}
+
+	return false
+}
+
+// SetKeywords gets a reference to the given []float32 and assigns it to the Keywords field.
+func (o *OverrideRule) SetKeywords(v []float32) {
+	o.Keywords = v
+}
+
+// GetProfileId returns the ProfileId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *OverrideRule) GetProfileId() float32 {
+	if o == nil || IsNil(o.ProfileId.Get()) {
+		var ret float32
+		return ret
+	}
+	return *o.ProfileId.Get()
+}
+
+// GetProfileIdOk returns a tuple with the ProfileId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *OverrideRule) GetProfileIdOk() (*float32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ProfileId.Get(), o.ProfileId.IsSet()
+}
+
+// HasProfileId returns a boolean if a field has been set.
+func (o *OverrideRule) HasProfileId() bool {
+	if o != nil && o.ProfileId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetProfileId gets a reference to the given NullableFloat32 and assigns it to the ProfileId field.
+func (o *OverrideRule) SetProfileId(v float32) {
+	o.ProfileId.Set(&v)
+}
+// SetProfileIdNil sets the value for ProfileId to be an explicit nil
+func (o *OverrideRule) SetProfileIdNil() {
+	o.ProfileId.Set(nil)
+}
+
+// UnsetProfileId ensures that no value is present for ProfileId, not even an explicit nil
+func (o *OverrideRule) UnsetProfileId() {
+	o.ProfileId.Unset()
+}
+
+// GetRootFolder returns the RootFolder field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *OverrideRule) GetRootFolder() string {
+	if o == nil || IsNil(o.RootFolder.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.RootFolder.Get()
+}
+
+// GetRootFolderOk returns a tuple with the RootFolder field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *OverrideRule) GetRootFolderOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.RootFolder.Get(), o.RootFolder.IsSet()
+}
+
+// HasRootFolder returns a boolean if a field has been set.
+func (o *OverrideRule) HasRootFolder() bool {
+	if o != nil && o.RootFolder.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetRootFolder gets a reference to the given NullableString and assigns it to the RootFolder field.
+func (o *OverrideRule) SetRootFolder(v string) {
+	o.RootFolder.Set(&v)
+}
+// SetRootFolderNil sets the value for RootFolder to be an explicit nil
+func (o *OverrideRule) SetRootFolderNil() {
+	o.RootFolder.Set(nil)
+}
+
+// UnsetRootFolder ensures that no value is present for RootFolder, not even an explicit nil
+func (o *OverrideRule) UnsetRootFolder() {
+	o.RootFolder.Unset()
+}
+
+// GetTags returns the Tags field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *OverrideRule) GetTags() []float32 {
+	if o == nil {
+		var ret []float32
+		return ret
+	}
+	return o.Tags
+}
+
+// GetTagsOk returns a tuple with the Tags field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *OverrideRule) GetTagsOk() ([]float32, bool) {
+	if o == nil || IsNil(o.Tags) {
+		return nil, false
+	}
+	return o.Tags, true
+}
+
+// HasTags returns a boolean if a field has been set.
+func (o *OverrideRule) HasTags() bool {
+	if o != nil && !IsNil(o.Tags) {
+		return true
+	}
+
+	return false
+}
+
+// SetTags gets a reference to the given []float32 and assigns it to the Tags field.
+func (o *OverrideRule) SetTags(v []float32) {
+	o.Tags = v
+}
+
+// GetRadarrServiceId returns the RadarrServiceId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *OverrideRule) GetRadarrServiceId() float32 {
+	if o == nil || IsNil(o.RadarrServiceId.Get()) {
+		var ret float32
+		return ret
+	}
+	return *o.RadarrServiceId.Get()
+}
+
+// GetRadarrServiceIdOk returns a tuple with the RadarrServiceId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *OverrideRule) GetRadarrServiceIdOk() (*float32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.RadarrServiceId.Get(), o.RadarrServiceId.IsSet()
+}
+
+// HasRadarrServiceId returns a boolean if a field has been set.
+func (o *OverrideRule) HasRadarrServiceId() bool {
+	if o != nil && o.RadarrServiceId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetRadarrServiceId gets a reference to the given NullableFloat32 and assigns it to the RadarrServiceId field.
+func (o *OverrideRule) SetRadarrServiceId(v float32) {
+	o.RadarrServiceId.Set(&v)
+}
+// SetRadarrServiceIdNil sets the value for RadarrServiceId to be an explicit nil
+func (o *OverrideRule) SetRadarrServiceIdNil() {
+	o.RadarrServiceId.Set(nil)
+}
+
+// UnsetRadarrServiceId ensures that no value is present for RadarrServiceId, not even an explicit nil
+func (o *OverrideRule) UnsetRadarrServiceId() {
+	o.RadarrServiceId.Unset()
+}
+
+// GetSonarrServiceId returns the SonarrServiceId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *OverrideRule) GetSonarrServiceId() float32 {
+	if o == nil || IsNil(o.SonarrServiceId.Get()) {
+		var ret float32
+		return ret
+	}
+	return *o.SonarrServiceId.Get()
+}
+
+// GetSonarrServiceIdOk returns a tuple with the SonarrServiceId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *OverrideRule) GetSonarrServiceIdOk() (*float32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SonarrServiceId.Get(), o.SonarrServiceId.IsSet()
+}
+
+// HasSonarrServiceId returns a boolean if a field has been set.
+func (o *OverrideRule) HasSonarrServiceId() bool {
+	if o != nil && o.SonarrServiceId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetSonarrServiceId gets a reference to the given NullableFloat32 and assigns it to the SonarrServiceId field.
+func (o *OverrideRule) SetSonarrServiceId(v float32) {
+	o.SonarrServiceId.Set(&v)
+}
+// SetSonarrServiceIdNil sets the value for SonarrServiceId to be an explicit nil
+func (o *OverrideRule) SetSonarrServiceIdNil() {
+	o.SonarrServiceId.Set(nil)
+}
+
+// UnsetSonarrServiceId ensures that no value is present for SonarrServiceId, not even an explicit nil
+func (o *OverrideRule) UnsetSonarrServiceId() {
+	o.SonarrServiceId.Unset()
+}
+
+// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
+func (o *OverrideRule) GetCreatedAt() time.Time {
+	if o == nil || IsNil(o.CreatedAt) {
+		var ret time.Time
+		return ret
+	}
+	return *o.CreatedAt
+}
+
+// GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OverrideRule) GetCreatedAtOk() (*time.Time, bool) {
+	if o == nil || IsNil(o.CreatedAt) {
+		return nil, false
+	}
+	return o.CreatedAt, true
+}
+
+// HasCreatedAt returns a boolean if a field has been set.
+func (o *OverrideRule) HasCreatedAt() bool {
+	if o != nil && !IsNil(o.CreatedAt) {
+		return true
+	}
+
+	return false
+}
+
+// SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
+func (o *OverrideRule) SetCreatedAt(v time.Time) {
+	o.CreatedAt = &v
+}
+
+// GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
+func (o *OverrideRule) GetUpdatedAt() time.Time {
+	if o == nil || IsNil(o.UpdatedAt) {
+		var ret time.Time
+		return ret
+	}
+	return *o.UpdatedAt
+}
+
+// GetUpdatedAtOk returns a tuple with the UpdatedAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OverrideRule) GetUpdatedAtOk() (*time.Time, bool) {
+	if o == nil || IsNil(o.UpdatedAt) {
+		return nil, false
+	}
+	return o.UpdatedAt, true
+}
+
+// HasUpdatedAt returns a boolean if a field has been set.
+func (o *OverrideRule) HasUpdatedAt() bool {
+	if o != nil && !IsNil(o.UpdatedAt) {
+		return true
+	}
+
+	return false
+}
+
+// SetUpdatedAt gets a reference to the given time.Time and assigns it to the UpdatedAt field.
+func (o *OverrideRule) SetUpdatedAt(v time.Time) {
+	o.UpdatedAt = &v
 }
 
 func (o OverrideRule) MarshalJSON() ([]byte, error) {
@@ -83,6 +510,39 @@ func (o OverrideRule) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
+	}
+	if o.Users != nil {
+		toSerialize["users"] = o.Users
+	}
+	if o.Genre.IsSet() {
+		toSerialize["genre"] = o.Genre.Get()
+	}
+	if o.Language.IsSet() {
+		toSerialize["language"] = o.Language.Get()
+	}
+	if o.Keywords != nil {
+		toSerialize["keywords"] = o.Keywords
+	}
+	if o.ProfileId.IsSet() {
+		toSerialize["profileId"] = o.ProfileId.Get()
+	}
+	if o.RootFolder.IsSet() {
+		toSerialize["rootFolder"] = o.RootFolder.Get()
+	}
+	if o.Tags != nil {
+		toSerialize["tags"] = o.Tags
+	}
+	if o.RadarrServiceId.IsSet() {
+		toSerialize["radarrServiceId"] = o.RadarrServiceId.Get()
+	}
+	if o.SonarrServiceId.IsSet() {
+		toSerialize["sonarrServiceId"] = o.SonarrServiceId.Get()
+	}
+	if !IsNil(o.CreatedAt) {
+		toSerialize["createdAt"] = o.CreatedAt
+	}
+	if !IsNil(o.UpdatedAt) {
+		toSerialize["updatedAt"] = o.UpdatedAt
 	}
 	return toSerialize, nil
 }

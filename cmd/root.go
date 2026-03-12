@@ -11,14 +11,17 @@ import (
 	"seer-cli/cmd/blocklist"
 	"seer-cli/cmd/collection"
 	"seer-cli/cmd/config"
+	"seer-cli/cmd/issue"
 	"seer-cli/cmd/media"
 	"seer-cli/cmd/movies"
 	"seer-cli/cmd/other"
+	"seer-cli/cmd/overriderule"
 	"seer-cli/cmd/person"
 	"seer-cli/cmd/request"
 	"seer-cli/cmd/search"
 	"seer-cli/cmd/service"
 	"seer-cli/cmd/status"
+	"seer-cli/cmd/tmdb"
 	"seer-cli/cmd/tv"
 	"seer-cli/cmd/users"
 	"seer-cli/cmd/watchlist"
@@ -82,6 +85,9 @@ func init() {
 	RootCmd.AddCommand(watchlist.Cmd)
 	RootCmd.AddCommand(collection.Cmd)
 	RootCmd.AddCommand(service.Cmd)
+	RootCmd.AddCommand(tmdb.Cmd)
+	RootCmd.AddCommand(issue.Cmd)
+	RootCmd.AddCommand(overriderule.Cmd)
 }
 
 func initConfig() {

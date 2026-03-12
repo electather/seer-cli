@@ -20,6 +20,7 @@ var _ MappedNullable = &Issue{}
 // Issue struct for Issue
 type Issue struct {
 	Id *float32 `json:"id,omitempty"`
+	Status *float32 `json:"status,omitempty"`
 	IssueType *float32 `json:"issueType,omitempty"`
 	Media *MediaInfo `json:"media,omitempty"`
 	CreatedBy *User `json:"createdBy,omitempty"`
@@ -74,6 +75,38 @@ func (o *Issue) HasId() bool {
 // SetId gets a reference to the given float32 and assigns it to the Id field.
 func (o *Issue) SetId(v float32) {
 	o.Id = &v
+}
+
+// GetStatus returns the Status field value if set, zero value otherwise.
+func (o *Issue) GetStatus() float32 {
+	if o == nil || IsNil(o.Status) {
+		var ret float32
+		return ret
+	}
+	return *o.Status
+}
+
+// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Issue) GetStatusOk() (*float32, bool) {
+	if o == nil || IsNil(o.Status) {
+		return nil, false
+	}
+	return o.Status, true
+}
+
+// HasStatus returns a boolean if a field has been set.
+func (o *Issue) HasStatus() bool {
+	if o != nil && !IsNil(o.Status) {
+		return true
+	}
+
+	return false
+}
+
+// SetStatus gets a reference to the given float32 and assigns it to the Status field.
+func (o *Issue) SetStatus(v float32) {
+	o.Status = &v
 }
 
 // GetIssueType returns the IssueType field value if set, zero value otherwise.
@@ -248,6 +281,9 @@ func (o Issue) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
+	}
+	if !IsNil(o.Status) {
+		toSerialize["status"] = o.Status
 	}
 	if !IsNil(o.IssueType) {
 		toSerialize["issueType"] = o.IssueType

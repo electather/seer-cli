@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **float32** |  | [optional] 
+**Status** | Pointer to **float32** |  | [optional] 
 **IssueType** | Pointer to **float32** |  | [optional] 
 **Media** | Pointer to [**MediaInfo**](MediaInfo.md) |  | [optional] 
 **CreatedBy** | Pointer to [**User**](User.md) |  | [optional] 
@@ -54,6 +55,31 @@ SetId sets Id field to given value.
 `func (o *Issue) HasId() bool`
 
 HasId returns a boolean if a field has been set.
+
+### GetStatus
+
+`func (o *Issue) GetStatus() float32`
+
+GetStatus returns the Status field if non-nil, zero value otherwise.
+
+### GetStatusOk
+
+`func (o *Issue) GetStatusOk() (*float32, bool)`
+
+GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStatus
+
+`func (o *Issue) SetStatus(v float32)`
+
+SetStatus sets Status field to given value.
+
+### HasStatus
+
+`func (o *Issue) HasStatus() bool`
+
+HasStatus returns a boolean if a field has been set.
 
 ### GetIssueType
 
