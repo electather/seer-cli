@@ -13,6 +13,7 @@ import (
 	"seer-cli/cmd/request"
 	"seer-cli/cmd/search"
 	"seer-cli/cmd/status"
+	"seer-cli/cmd/tv"
 	"seer-cli/cmd/users"
 )
 
@@ -65,6 +66,7 @@ func init() {
 	RootCmd.AddCommand(users.Cmd)
 	RootCmd.AddCommand(search.Cmd)
 	RootCmd.AddCommand(movies.Cmd)
+	RootCmd.AddCommand(tv.Cmd)
 	RootCmd.AddCommand(request.Cmd)
 }
 
