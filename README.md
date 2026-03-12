@@ -1,6 +1,38 @@
-# Seer CLI - Search & Discovery Examples
+# seer-cli
 
-This document provides examples for using the search and discovery commands in the Seer CLI.
+A command-line interface for the [Seer](https://github.com/seerr/app) media request management API.
+
+## Installation
+
+### Linux / macOS
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/electather/seer-cli/main/install.sh | sh
+```
+
+Installs the latest stable release to `/usr/local/bin` (uses `sudo` if needed, falls back to `~/.local/bin`). Supports `amd64` and `arm64`.
+
+### Manual
+
+Download the archive for your platform from the [Releases](https://github.com/electather/seer-cli/releases) page, extract it, and move the binary to your `PATH`.
+
+---
+
+## Configuration
+
+Set your server URL and API key once:
+
+```sh
+seer-cli config set --server https://your-seer-instance.com --api-key YOUR_KEY
+```
+
+Or pass them as flags on every command:
+
+```sh
+seer-cli --server https://your-seer-instance.com --api-key YOUR_KEY <command>
+```
+
+---
 
 ## Global Flags
 All commands support the following global flags:
