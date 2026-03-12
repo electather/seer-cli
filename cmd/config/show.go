@@ -1,4 +1,4 @@
-package cmd
+package config
 
 import (
 	"github.com/spf13/cobra"
@@ -12,10 +12,9 @@ var configShowCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Printf("Config File: %s\n", viper.ConfigFileUsed())
 		cmd.Printf("Server:      %s\n", viper.GetString("server"))
-		
+
 		apiKey := viper.GetString("api_key")
 		if apiKey != "" {
-			// Mask API key for security
 			masked := apiKey
 			if len(apiKey) > 4 {
 				masked = apiKey[:4] + "****" + apiKey[len(apiKey)-4:]
@@ -30,5 +29,5 @@ var configShowCmd = &cobra.Command{
 }
 
 func init() {
-	ConfigCmd.AddCommand(configShowCmd)
+	Cmd.AddCommand(configShowCmd)
 }

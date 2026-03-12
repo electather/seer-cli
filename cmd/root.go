@@ -7,6 +7,9 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+
+	"seer-cli/cmd/config"
+	"seer-cli/cmd/status"
 )
 
 var (
@@ -21,18 +24,15 @@ var RootCmd = &cobra.Command{
 	Short: "A CLI to interact with the Seer API",
 	Long:  `A command line interface to call endpoints defined in the Seer OpenAPI specification.`,
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
-		// Skip server requirement for config command
 		if cmd.Root() != cmd && (cmd.Name() == "config" || cmd.Parent().Name() == "config" || cmd.Name() == "help" || cmd.Name() == "completion") {
 			return nil
 		}
-		// Ensure server is set
 		if viper.GetString("server") == "" {
 			return fmt.Errorf("server URL is required. Set it via --server flag, SEER_SERVER env var, or in the config file")
 		}
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		// Default behavior when no subcommands are provided
 		cmd.Help()
 	},
 }
@@ -55,18 +55,18 @@ func init() {
 	viper.BindPFlag("server", RootCmd.PersistentFlags().Lookup("server"))
 	viper.BindPFlag("api_key", RootCmd.PersistentFlags().Lookup("api-key"))
 	viper.BindPFlag("verbose", RootCmd.PersistentFlags().Lookup("verbose"))
+
+	RootCmd.AddCommand(config.Cmd)
+	RootCmd.AddCommand(status.Cmd)
 }
 
 func initConfig() {
 	if cfgFile != "" {
-		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
 	} else {
-		// Find home directory.
 		home, err := os.UserHomeDir()
 		cobra.CheckErr(err)
 
-		// Search config in home directory with name ".seer-cli" (without extension).
 		viper.AddConfigPath(home)
 		viper.SetConfigType("yaml")
 		viper.SetConfigName(".seer-cli")
@@ -74,9 +74,8 @@ func initConfig() {
 
 	viper.SetEnvPrefix("SEER")
 	viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_"))
-	viper.AutomaticEnv() // read in environment variables that match
+	viper.AutomaticEnv()
 
-	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
 		if viper.GetBool("verbose") {
 			fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())

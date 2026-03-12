@@ -1,4 +1,4 @@
-package cmd
+package status
 
 import (
 	"context"
@@ -11,56 +11,48 @@ import (
 	api "seer-cli/pkg/api"
 )
 
-var statusAppdataCmd = &cobra.Command{
-	Use:   "appdata",
-	Short: "Get application data volume status",
-	Long:  `For Docker installs, returns whether or not the volume mount was configured properly. Always returns true for non-Docker installs.`,
+var statusSystemCmd = &cobra.Command{
+	Use:   "system",
+	Short: "Get the system status of the Seer API",
+	Long:  `Call the status endpoint defined in the OpenAPI specification to get the service version and commit details.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		// Initialize the API configuration
 		configuration := api.NewConfiguration()
-		
+
 		serverURL := viper.GetString("server")
-		// Ensure server URL has /api/v1 suffix if not present
 		if !strings.HasSuffix(serverURL, "/api/v1") && !strings.HasSuffix(serverURL, "/api/v1/") {
 			serverURL = strings.TrimSuffix(serverURL, "/") + "/api/v1"
 		}
 
 		configuration.Servers = api.ServerConfigurations{
-			{
-				URL: serverURL,
-				Description: "Configured Server",
-			},
+			{URL: serverURL, Description: "Configured Server"},
 		}
 
 		if apiKey := viper.GetString("api_key"); apiKey != "" {
 			configuration.AddDefaultHeader("X-Api-Key", apiKey)
 		}
-		
+
 		if OverrideServerURL != "" {
 			configuration.Servers = api.ServerConfigurations{
-				{
-					URL: OverrideServerURL,
-					Description: "Mock Server",
-				},
+				{URL: OverrideServerURL, Description: "Mock Server"},
 			}
 		}
-		
+
 		apiClient := api.NewAPIClient(configuration)
 		ctx := context.Background()
-		
+
 		isVerbose := viper.GetBool("verbose")
 		if isVerbose {
-			cmd.Printf("Calling /status/appdata endpoint on %s...\n", serverURL)
+			cmd.Printf("Calling /status endpoint on %s...\n", serverURL)
 		}
-		
-		res, r, err := apiClient.PublicAPI.StatusAppdataGet(ctx).Execute()
+
+		res, r, err := apiClient.PublicAPI.StatusGet(ctx).Execute()
 		if err != nil {
 			if isVerbose && r != nil {
-				return fmt.Errorf("error when calling StatusAppdataGet: %w\nFull HTTP response: %v", err, r)
+				return fmt.Errorf("error when calling StatusGet: %w\nFull HTTP response: %v", err, r)
 			}
-			return fmt.Errorf("error when calling StatusAppdataGet: %w", err)
+			return fmt.Errorf("error when calling StatusGet: %w", err)
 		}
-		
+
 		jsonRes, err := json.MarshalIndent(res, "", "  ")
 		if err != nil {
 			return fmt.Errorf("failed to marshal response: %w", err)
@@ -68,7 +60,7 @@ var statusAppdataCmd = &cobra.Command{
 
 		if isVerbose {
 			cmd.Printf("HTTP Status: %s\n", r.Status)
-			cmd.Printf("Response from StatusAppdataGet:\n%s\n", string(jsonRes))
+			cmd.Printf("Response from StatusGet:\n%s\n", string(jsonRes))
 		} else {
 			cmd.Println(string(jsonRes))
 		}
@@ -77,5 +69,5 @@ var statusAppdataCmd = &cobra.Command{
 }
 
 func init() {
-	StatusCmd.AddCommand(statusAppdataCmd)
+	Cmd.AddCommand(statusSystemCmd)
 }

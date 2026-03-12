@@ -9,10 +9,10 @@ import (
 	"testing"
 
 	"seer-cli/cmd"
+	"seer-cli/cmd/status"
 )
 
 func TestStatusAppdataCommand(t *testing.T) {
-	// 1. Create a fake HTTP server that mimics the OpenAPI backend
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/status/appdata" {
 			w.Header().Set("Content-Type", "application/json")
@@ -20,22 +20,21 @@ func TestStatusAppdataCommand(t *testing.T) {
 			w.Write([]byte(`{"appData": true, "appDataPath": "/app/config", "appDataPermissions": true}`))
 			return
 		}
-		
+
 		w.WriteHeader(http.StatusNotFound)
 	}))
 	defer server.Close()
 
-	// 2. Set the overridden URL flag or env so the client hits the test server
-	cmd.OverrideServerURL = server.URL
+	status.OverrideServerURL = server.URL
 	os.Setenv("SEER_SERVER", server.URL)
 	defer os.Unsetenv("SEER_SERVER")
-	
+
 	t.Run("Appdata Command Execution", func(t *testing.T) {
 		b := new(bytes.Buffer)
 		cmd.RootCmd.SetOut(b)
 		cmd.RootCmd.SetErr(b)
 		cmd.RootCmd.SetArgs([]string{"status", "appdata"})
-		
+
 		err := cmd.RootCmd.Execute()
 		if err != nil {
 			t.Fatalf("Expected command to execute cleanly, got error: %v", err)
