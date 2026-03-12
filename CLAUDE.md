@@ -88,3 +88,7 @@ Global flags (`--server`, `--api-key`, `--verbose`) are bound to Viper keys `ser
 
 - **Normal mode**: Raw pretty-printed JSON only (piping to `jq` must work).
 - **Verbose mode**: Include progress messages, target URL, HTTP status code before the JSON.
+
+### Claude Usage Rules
+
+- Never add `Co-Authored-By`, `Generated with`, or any mention of Claude or Anthropic in commit messages or PR descriptions.
