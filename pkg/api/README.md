@@ -460,6 +460,7 @@ Class | Method | HTTP request | Description
  - [UserRegisterPushSubscriptionPostRequest](docs/UserRegisterPushSubscriptionPostRequest.md)
  - [UserSettings](docs/UserSettings.md)
  - [UserSettingsNotifications](docs/UserSettingsNotifications.md)
+ - [UserUpdatePayload](docs/UserUpdatePayload.md)
  - [UserUserIdPushSubscriptionsGet200Response](docs/UserUserIdPushSubscriptionsGet200Response.md)
  - [UserUserIdQuotaGet200Response](docs/UserUserIdQuotaGet200Response.md)
  - [UserUserIdQuotaGet200ResponseMovie](docs/UserUserIdQuotaGet200ResponseMovie.md)

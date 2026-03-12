@@ -1611,11 +1611,11 @@ type ApiUserUserIdPutRequest struct {
 	ctx context.Context
 	ApiService *UsersAPIService
 	userId float32
-	user *User
+	userUpdatePayload *UserUpdatePayload
 }
 
-func (r ApiUserUserIdPutRequest) User(user User) ApiUserUserIdPutRequest {
-	r.user = &user
+func (r ApiUserUserIdPutRequest) UserUpdatePayload(userUpdatePayload UserUpdatePayload) ApiUserUserIdPutRequest {
+	r.userUpdatePayload = &userUpdatePayload
 	return r
 }
 
@@ -1664,8 +1664,8 @@ func (a *UsersAPIService) UserUserIdPutExecute(r ApiUserUserIdPutRequest) (*User
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.user == nil {
-		return localVarReturnValue, nil, reportError("user is required and must be specified")
+	if r.userUpdatePayload == nil {
+		return localVarReturnValue, nil, reportError("userUpdatePayload is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -1686,7 +1686,7 @@ func (a *UsersAPIService) UserUserIdPutExecute(r ApiUserUserIdPutRequest) (*User
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.user
+	localVarPostBody = r.userUpdatePayload
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {

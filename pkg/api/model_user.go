@@ -22,7 +22,7 @@ var _ MappedNullable = &User{}
 // User struct for User
 type User struct {
 	Id int32 `json:"id"`
-	Email string `json:"email"`
+	Email *string `json:"email,omitempty"`
 	Username *string `json:"username,omitempty"`
 	PlexUsername *string `json:"plexUsername,omitempty"`
 	PlexToken *string `json:"plexToken,omitempty"`
@@ -30,8 +30,8 @@ type User struct {
 	UserType *int32 `json:"userType,omitempty"`
 	Permissions *float32 `json:"permissions,omitempty"`
 	Avatar *string `json:"avatar,omitempty"`
-	CreatedAt string `json:"createdAt"`
-	UpdatedAt string `json:"updatedAt"`
+	CreatedAt *string `json:"createdAt,omitempty"`
+	UpdatedAt *string `json:"updatedAt,omitempty"`
 	Settings *UserSettings `json:"settings,omitempty"`
 	RequestCount *float32 `json:"requestCount,omitempty"`
 	DisplayName *string `json:"displayName,omitempty"`
@@ -54,12 +54,9 @@ type _User User
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUser(id int32, email string, createdAt string, updatedAt string) *User {
+func NewUser(id int32) *User {
 	this := User{}
 	this.Id = id
-	this.Email = email
-	this.CreatedAt = createdAt
-	this.UpdatedAt = updatedAt
 	return &this
 }
 
@@ -95,28 +92,36 @@ func (o *User) SetId(v int32) {
 	o.Id = v
 }
 
-// GetEmail returns the Email field value
+// GetEmail returns the Email field value if set, zero value otherwise.
 func (o *User) GetEmail() string {
-	if o == nil {
+	if o == nil || IsNil(o.Email) {
 		var ret string
 		return ret
 	}
-
-	return o.Email
+	return *o.Email
 }
 
-// GetEmailOk returns a tuple with the Email field value
+// GetEmailOk returns a tuple with the Email field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *User) GetEmailOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.Email) {
 		return nil, false
 	}
-	return &o.Email, true
+	return o.Email, true
 }
 
-// SetEmail sets field value
+// HasEmail returns a boolean if a field has been set.
+func (o *User) HasEmail() bool {
+	if o != nil && !IsNil(o.Email) {
+		return true
+	}
+
+	return false
+}
+
+// SetEmail gets a reference to the given string and assigns it to the Email field.
 func (o *User) SetEmail(v string) {
-	o.Email = v
+	o.Email = &v
 }
 
 // GetUsername returns the Username field value if set, zero value otherwise.
@@ -343,52 +348,68 @@ func (o *User) SetAvatar(v string) {
 	o.Avatar = &v
 }
 
-// GetCreatedAt returns the CreatedAt field value
+// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *User) GetCreatedAt() string {
-	if o == nil {
+	if o == nil || IsNil(o.CreatedAt) {
 		var ret string
 		return ret
 	}
-
-	return o.CreatedAt
+	return *o.CreatedAt
 }
 
-// GetCreatedAtOk returns a tuple with the CreatedAt field value
+// GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *User) GetCreatedAtOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.CreatedAt) {
 		return nil, false
 	}
-	return &o.CreatedAt, true
+	return o.CreatedAt, true
 }
 
-// SetCreatedAt sets field value
+// HasCreatedAt returns a boolean if a field has been set.
+func (o *User) HasCreatedAt() bool {
+	if o != nil && !IsNil(o.CreatedAt) {
+		return true
+	}
+
+	return false
+}
+
+// SetCreatedAt gets a reference to the given string and assigns it to the CreatedAt field.
 func (o *User) SetCreatedAt(v string) {
-	o.CreatedAt = v
+	o.CreatedAt = &v
 }
 
-// GetUpdatedAt returns the UpdatedAt field value
+// GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *User) GetUpdatedAt() string {
-	if o == nil {
+	if o == nil || IsNil(o.UpdatedAt) {
 		var ret string
 		return ret
 	}
-
-	return o.UpdatedAt
+	return *o.UpdatedAt
 }
 
-// GetUpdatedAtOk returns a tuple with the UpdatedAt field value
+// GetUpdatedAtOk returns a tuple with the UpdatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *User) GetUpdatedAtOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.UpdatedAt) {
 		return nil, false
 	}
-	return &o.UpdatedAt, true
+	return o.UpdatedAt, true
 }
 
-// SetUpdatedAt sets field value
+// HasUpdatedAt returns a boolean if a field has been set.
+func (o *User) HasUpdatedAt() bool {
+	if o != nil && !IsNil(o.UpdatedAt) {
+		return true
+	}
+
+	return false
+}
+
+// SetUpdatedAt gets a reference to the given string and assigns it to the UpdatedAt field.
 func (o *User) SetUpdatedAt(v string) {
-	o.UpdatedAt = v
+	o.UpdatedAt = &v
 }
 
 // GetSettings returns the Settings field value if set, zero value otherwise.
@@ -950,7 +971,9 @@ func (o User) MarshalJSON() ([]byte, error) {
 func (o User) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["id"] = o.Id
-	toSerialize["email"] = o.Email
+	if !IsNil(o.Email) {
+		toSerialize["email"] = o.Email
+	}
 	if !IsNil(o.Username) {
 		toSerialize["username"] = o.Username
 	}
@@ -972,8 +995,12 @@ func (o User) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Avatar) {
 		toSerialize["avatar"] = o.Avatar
 	}
-	toSerialize["createdAt"] = o.CreatedAt
-	toSerialize["updatedAt"] = o.UpdatedAt
+	if !IsNil(o.CreatedAt) {
+		toSerialize["createdAt"] = o.CreatedAt
+	}
+	if !IsNil(o.UpdatedAt) {
+		toSerialize["updatedAt"] = o.UpdatedAt
+	}
 	if !IsNil(o.Settings) {
 		toSerialize["settings"] = o.Settings
 	}
@@ -1025,9 +1052,6 @@ func (o *User) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"id",
-		"email",
-		"createdAt",
-		"updatedAt",
 	}
 
 	allProperties := make(map[string]interface{})

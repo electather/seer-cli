@@ -1,97 +1,101 @@
 # \SettingsAPI
 
-All URIs are relative to _http://localhost:5055/api/v1_
+All URIs are relative to *http://localhost:5055/api/v1*
 
-| Method                                                                                                | HTTP request                                     | Description                                    |
-| ----------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ---------------------------------------------- |
-| [**SettingsAboutGet**](SettingsAPI.md#SettingsAboutGet)                                               | **Get** /settings/about                          | Get server stats                               |
-| [**SettingsCacheCacheIdFlushPost**](SettingsAPI.md#SettingsCacheCacheIdFlushPost)                     | **Post** /settings/cache/{cacheId}/flush         | Flush a specific cache                         |
-| [**SettingsCacheDnsDnsEntryFlushPost**](SettingsAPI.md#SettingsCacheDnsDnsEntryFlushPost)             | **Post** /settings/cache/dns/{dnsEntry}/flush    | Flush a specific DNS cache entry               |
-| [**SettingsCacheGet**](SettingsAPI.md#SettingsCacheGet)                                               | **Get** /settings/cache                          | Get a list of active caches                    |
-| [**SettingsDiscoverAddPost**](SettingsAPI.md#SettingsDiscoverAddPost)                                 | **Post** /settings/discover/add                  | Add a new slider                               |
-| [**SettingsDiscoverGet**](SettingsAPI.md#SettingsDiscoverGet)                                         | **Get** /settings/discover                       | Get all discover sliders                       |
-| [**SettingsDiscoverPost**](SettingsAPI.md#SettingsDiscoverPost)                                       | **Post** /settings/discover                      | Batch update all sliders.                      |
-| [**SettingsDiscoverResetGet**](SettingsAPI.md#SettingsDiscoverResetGet)                               | **Get** /settings/discover/reset                 | Reset all discover sliders                     |
-| [**SettingsDiscoverSliderIdDelete**](SettingsAPI.md#SettingsDiscoverSliderIdDelete)                   | **Delete** /settings/discover/{sliderId}         | Delete slider by ID                            |
-| [**SettingsDiscoverSliderIdPut**](SettingsAPI.md#SettingsDiscoverSliderIdPut)                         | **Put** /settings/discover/{sliderId}            | Update a single slider                         |
-| [**SettingsInitializePost**](SettingsAPI.md#SettingsInitializePost)                                   | **Post** /settings/initialize                    | Initialize application                         |
-| [**SettingsJellyfinGet**](SettingsAPI.md#SettingsJellyfinGet)                                         | **Get** /settings/jellyfin                       | Get Jellyfin settings                          |
-| [**SettingsJellyfinLibraryGet**](SettingsAPI.md#SettingsJellyfinLibraryGet)                           | **Get** /settings/jellyfin/library               | Get Jellyfin libraries                         |
-| [**SettingsJellyfinPost**](SettingsAPI.md#SettingsJellyfinPost)                                       | **Post** /settings/jellyfin                      | Update Jellyfin settings                       |
-| [**SettingsJellyfinSyncGet**](SettingsAPI.md#SettingsJellyfinSyncGet)                                 | **Get** /settings/jellyfin/sync                  | Get status of full Jellyfin library sync       |
-| [**SettingsJellyfinSyncPost**](SettingsAPI.md#SettingsJellyfinSyncPost)                               | **Post** /settings/jellyfin/sync                 | Start full Jellyfin library sync               |
-| [**SettingsJellyfinUsersGet**](SettingsAPI.md#SettingsJellyfinUsersGet)                               | **Get** /settings/jellyfin/users                 | Get Jellyfin Users                             |
-| [**SettingsJobsGet**](SettingsAPI.md#SettingsJobsGet)                                                 | **Get** /settings/jobs                           | Get scheduled jobs                             |
-| [**SettingsJobsJobIdCancelPost**](SettingsAPI.md#SettingsJobsJobIdCancelPost)                         | **Post** /settings/jobs/{jobId}/cancel           | Cancel a specific job                          |
-| [**SettingsJobsJobIdRunPost**](SettingsAPI.md#SettingsJobsJobIdRunPost)                               | **Post** /settings/jobs/{jobId}/run              | Invoke a specific job                          |
-| [**SettingsJobsJobIdSchedulePost**](SettingsAPI.md#SettingsJobsJobIdSchedulePost)                     | **Post** /settings/jobs/{jobId}/schedule         | Modify job schedule                            |
-| [**SettingsLogsGet**](SettingsAPI.md#SettingsLogsGet)                                                 | **Get** /settings/logs                           | Returns logs                                   |
-| [**SettingsMainGet**](SettingsAPI.md#SettingsMainGet)                                                 | **Get** /settings/main                           | Get main settings                              |
-| [**SettingsMainPost**](SettingsAPI.md#SettingsMainPost)                                               | **Post** /settings/main                          | Update main settings                           |
-| [**SettingsMainRegeneratePost**](SettingsAPI.md#SettingsMainRegeneratePost)                           | **Post** /settings/main/regenerate               | Get main settings with newly-generated API key |
-| [**SettingsMetadatasGet**](SettingsAPI.md#SettingsMetadatasGet)                                       | **Get** /settings/metadatas                      | Get Metadata settings                          |
-| [**SettingsMetadatasPut**](SettingsAPI.md#SettingsMetadatasPut)                                       | **Put** /settings/metadatas                      | Update Metadata settings                       |
-| [**SettingsMetadatasTestPost**](SettingsAPI.md#SettingsMetadatasTestPost)                             | **Post** /settings/metadatas/test                | Test Provider configuration                    |
-| [**SettingsNetworkGet**](SettingsAPI.md#SettingsNetworkGet)                                           | **Get** /settings/network                        | Get network settings                           |
-| [**SettingsNetworkPost**](SettingsAPI.md#SettingsNetworkPost)                                         | **Post** /settings/network                       | Update network settings                        |
-| [**SettingsNotificationsDiscordGet**](SettingsAPI.md#SettingsNotificationsDiscordGet)                 | **Get** /settings/notifications/discord          | Get Discord notification settings              |
-| [**SettingsNotificationsDiscordPost**](SettingsAPI.md#SettingsNotificationsDiscordPost)               | **Post** /settings/notifications/discord         | Update Discord notification settings           |
-| [**SettingsNotificationsDiscordTestPost**](SettingsAPI.md#SettingsNotificationsDiscordTestPost)       | **Post** /settings/notifications/discord/test    | Test Discord settings                          |
-| [**SettingsNotificationsEmailGet**](SettingsAPI.md#SettingsNotificationsEmailGet)                     | **Get** /settings/notifications/email            | Get email notification settings                |
-| [**SettingsNotificationsEmailPost**](SettingsAPI.md#SettingsNotificationsEmailPost)                   | **Post** /settings/notifications/email           | Update email notification settings             |
-| [**SettingsNotificationsEmailTestPost**](SettingsAPI.md#SettingsNotificationsEmailTestPost)           | **Post** /settings/notifications/email/test      | Test email settings                            |
-| [**SettingsNotificationsGotifyGet**](SettingsAPI.md#SettingsNotificationsGotifyGet)                   | **Get** /settings/notifications/gotify           | Get Gotify notification settings               |
-| [**SettingsNotificationsGotifyPost**](SettingsAPI.md#SettingsNotificationsGotifyPost)                 | **Post** /settings/notifications/gotify          | Update Gotify notification settings            |
-| [**SettingsNotificationsGotifyTestPost**](SettingsAPI.md#SettingsNotificationsGotifyTestPost)         | **Post** /settings/notifications/gotify/test     | Test Gotify settings                           |
-| [**SettingsNotificationsNtfyGet**](SettingsAPI.md#SettingsNotificationsNtfyGet)                       | **Get** /settings/notifications/ntfy             | Get ntfy.sh notification settings              |
-| [**SettingsNotificationsNtfyPost**](SettingsAPI.md#SettingsNotificationsNtfyPost)                     | **Post** /settings/notifications/ntfy            | Update ntfy.sh notification settings           |
-| [**SettingsNotificationsNtfyTestPost**](SettingsAPI.md#SettingsNotificationsNtfyTestPost)             | **Post** /settings/notifications/ntfy/test       | Test ntfy.sh settings                          |
-| [**SettingsNotificationsPushbulletGet**](SettingsAPI.md#SettingsNotificationsPushbulletGet)           | **Get** /settings/notifications/pushbullet       | Get Pushbullet notification settings           |
-| [**SettingsNotificationsPushbulletPost**](SettingsAPI.md#SettingsNotificationsPushbulletPost)         | **Post** /settings/notifications/pushbullet      | Update Pushbullet notification settings        |
-| [**SettingsNotificationsPushbulletTestPost**](SettingsAPI.md#SettingsNotificationsPushbulletTestPost) | **Post** /settings/notifications/pushbullet/test | Test Pushbullet settings                       |
-| [**SettingsNotificationsPushoverGet**](SettingsAPI.md#SettingsNotificationsPushoverGet)               | **Get** /settings/notifications/pushover         | Get Pushover notification settings             |
-| [**SettingsNotificationsPushoverPost**](SettingsAPI.md#SettingsNotificationsPushoverPost)             | **Post** /settings/notifications/pushover        | Update Pushover notification settings          |
-| [**SettingsNotificationsPushoverSoundsGet**](SettingsAPI.md#SettingsNotificationsPushoverSoundsGet)   | **Get** /settings/notifications/pushover/sounds  | Get Pushover sounds                            |
-| [**SettingsNotificationsPushoverTestPost**](SettingsAPI.md#SettingsNotificationsPushoverTestPost)     | **Post** /settings/notifications/pushover/test   | Test Pushover settings                         |
-| [**SettingsNotificationsSlackGet**](SettingsAPI.md#SettingsNotificationsSlackGet)                     | **Get** /settings/notifications/slack            | Get Slack notification settings                |
-| [**SettingsNotificationsSlackPost**](SettingsAPI.md#SettingsNotificationsSlackPost)                   | **Post** /settings/notifications/slack           | Update Slack notification settings             |
-| [**SettingsNotificationsSlackTestPost**](SettingsAPI.md#SettingsNotificationsSlackTestPost)           | **Post** /settings/notifications/slack/test      | Test Slack settings                            |
-| [**SettingsNotificationsTelegramGet**](SettingsAPI.md#SettingsNotificationsTelegramGet)               | **Get** /settings/notifications/telegram         | Get Telegram notification settings             |
-| [**SettingsNotificationsTelegramPost**](SettingsAPI.md#SettingsNotificationsTelegramPost)             | **Post** /settings/notifications/telegram        | Update Telegram notification settings          |
-| [**SettingsNotificationsTelegramTestPost**](SettingsAPI.md#SettingsNotificationsTelegramTestPost)     | **Post** /settings/notifications/telegram/test   | Test Telegram settings                         |
-| [**SettingsNotificationsWebhookGet**](SettingsAPI.md#SettingsNotificationsWebhookGet)                 | **Get** /settings/notifications/webhook          | Get webhook notification settings              |
-| [**SettingsNotificationsWebhookPost**](SettingsAPI.md#SettingsNotificationsWebhookPost)               | **Post** /settings/notifications/webhook         | Update webhook notification settings           |
-| [**SettingsNotificationsWebhookTestPost**](SettingsAPI.md#SettingsNotificationsWebhookTestPost)       | **Post** /settings/notifications/webhook/test    | Test webhook settings                          |
-| [**SettingsNotificationsWebpushGet**](SettingsAPI.md#SettingsNotificationsWebpushGet)                 | **Get** /settings/notifications/webpush          | Get Web Push notification settings             |
-| [**SettingsNotificationsWebpushPost**](SettingsAPI.md#SettingsNotificationsWebpushPost)               | **Post** /settings/notifications/webpush         | Update Web Push notification settings          |
-| [**SettingsNotificationsWebpushTestPost**](SettingsAPI.md#SettingsNotificationsWebpushTestPost)       | **Post** /settings/notifications/webpush/test    | Test Web Push settings                         |
-| [**SettingsPlexDevicesServersGet**](SettingsAPI.md#SettingsPlexDevicesServersGet)                     | **Get** /settings/plex/devices/servers           | Gets the user&#39;s available Plex servers     |
-| [**SettingsPlexGet**](SettingsAPI.md#SettingsPlexGet)                                                 | **Get** /settings/plex                           | Get Plex settings                              |
-| [**SettingsPlexLibraryGet**](SettingsAPI.md#SettingsPlexLibraryGet)                                   | **Get** /settings/plex/library                   | Get Plex libraries                             |
-| [**SettingsPlexPost**](SettingsAPI.md#SettingsPlexPost)                                               | **Post** /settings/plex                          | Update Plex settings                           |
-| [**SettingsPlexSyncGet**](SettingsAPI.md#SettingsPlexSyncGet)                                         | **Get** /settings/plex/sync                      | Get status of full Plex library scan           |
-| [**SettingsPlexSyncPost**](SettingsAPI.md#SettingsPlexSyncPost)                                       | **Post** /settings/plex/sync                     | Start full Plex library scan                   |
-| [**SettingsPlexUsersGet**](SettingsAPI.md#SettingsPlexUsersGet)                                       | **Get** /settings/plex/users                     | Get Plex users                                 |
-| [**SettingsPublicGet**](SettingsAPI.md#SettingsPublicGet)                                             | **Get** /settings/public                         | Get public settings                            |
-| [**SettingsRadarrGet**](SettingsAPI.md#SettingsRadarrGet)                                             | **Get** /settings/radarr                         | Get Radarr settings                            |
-| [**SettingsRadarrPost**](SettingsAPI.md#SettingsRadarrPost)                                           | **Post** /settings/radarr                        | Create Radarr instance                         |
-| [**SettingsRadarrRadarrIdDelete**](SettingsAPI.md#SettingsRadarrRadarrIdDelete)                       | **Delete** /settings/radarr/{radarrId}           | Delete Radarr instance                         |
-| [**SettingsRadarrRadarrIdProfilesGet**](SettingsAPI.md#SettingsRadarrRadarrIdProfilesGet)             | **Get** /settings/radarr/{radarrId}/profiles     | Get available Radarr profiles                  |
-| [**SettingsRadarrRadarrIdPut**](SettingsAPI.md#SettingsRadarrRadarrIdPut)                             | **Put** /settings/radarr/{radarrId}              | Update Radarr instance                         |
-| [**SettingsRadarrTestPost**](SettingsAPI.md#SettingsRadarrTestPost)                                   | **Post** /settings/radarr/test                   | Test Radarr configuration                      |
-| [**SettingsSonarrGet**](SettingsAPI.md#SettingsSonarrGet)                                             | **Get** /settings/sonarr                         | Get Sonarr settings                            |
-| [**SettingsSonarrPost**](SettingsAPI.md#SettingsSonarrPost)                                           | **Post** /settings/sonarr                        | Create Sonarr instance                         |
-| [**SettingsSonarrSonarrIdDelete**](SettingsAPI.md#SettingsSonarrSonarrIdDelete)                       | **Delete** /settings/sonarr/{sonarrId}           | Delete Sonarr instance                         |
-| [**SettingsSonarrSonarrIdPut**](SettingsAPI.md#SettingsSonarrSonarrIdPut)                             | **Put** /settings/sonarr/{sonarrId}              | Update Sonarr instance                         |
-| [**SettingsSonarrTestPost**](SettingsAPI.md#SettingsSonarrTestPost)                                   | **Post** /settings/sonarr/test                   | Test Sonarr configuration                      |
-| [**SettingsTautulliGet**](SettingsAPI.md#SettingsTautulliGet)                                         | **Get** /settings/tautulli                       | Get Tautulli settings                          |
-| [**SettingsTautulliPost**](SettingsAPI.md#SettingsTautulliPost)                                       | **Post** /settings/tautulli                      | Update Tautulli settings                       |
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**SettingsAboutGet**](SettingsAPI.md#SettingsAboutGet) | **Get** /settings/about | Get server stats
+[**SettingsCacheCacheIdFlushPost**](SettingsAPI.md#SettingsCacheCacheIdFlushPost) | **Post** /settings/cache/{cacheId}/flush | Flush a specific cache
+[**SettingsCacheDnsDnsEntryFlushPost**](SettingsAPI.md#SettingsCacheDnsDnsEntryFlushPost) | **Post** /settings/cache/dns/{dnsEntry}/flush | Flush a specific DNS cache entry
+[**SettingsCacheGet**](SettingsAPI.md#SettingsCacheGet) | **Get** /settings/cache | Get a list of active caches
+[**SettingsDiscoverAddPost**](SettingsAPI.md#SettingsDiscoverAddPost) | **Post** /settings/discover/add | Add a new slider
+[**SettingsDiscoverGet**](SettingsAPI.md#SettingsDiscoverGet) | **Get** /settings/discover | Get all discover sliders
+[**SettingsDiscoverPost**](SettingsAPI.md#SettingsDiscoverPost) | **Post** /settings/discover | Batch update all sliders.
+[**SettingsDiscoverResetGet**](SettingsAPI.md#SettingsDiscoverResetGet) | **Get** /settings/discover/reset | Reset all discover sliders
+[**SettingsDiscoverSliderIdDelete**](SettingsAPI.md#SettingsDiscoverSliderIdDelete) | **Delete** /settings/discover/{sliderId} | Delete slider by ID
+[**SettingsDiscoverSliderIdPut**](SettingsAPI.md#SettingsDiscoverSliderIdPut) | **Put** /settings/discover/{sliderId} | Update a single slider
+[**SettingsInitializePost**](SettingsAPI.md#SettingsInitializePost) | **Post** /settings/initialize | Initialize application
+[**SettingsJellyfinGet**](SettingsAPI.md#SettingsJellyfinGet) | **Get** /settings/jellyfin | Get Jellyfin settings
+[**SettingsJellyfinLibraryGet**](SettingsAPI.md#SettingsJellyfinLibraryGet) | **Get** /settings/jellyfin/library | Get Jellyfin libraries
+[**SettingsJellyfinPost**](SettingsAPI.md#SettingsJellyfinPost) | **Post** /settings/jellyfin | Update Jellyfin settings
+[**SettingsJellyfinSyncGet**](SettingsAPI.md#SettingsJellyfinSyncGet) | **Get** /settings/jellyfin/sync | Get status of full Jellyfin library sync
+[**SettingsJellyfinSyncPost**](SettingsAPI.md#SettingsJellyfinSyncPost) | **Post** /settings/jellyfin/sync | Start full Jellyfin library sync
+[**SettingsJellyfinUsersGet**](SettingsAPI.md#SettingsJellyfinUsersGet) | **Get** /settings/jellyfin/users | Get Jellyfin Users
+[**SettingsJobsGet**](SettingsAPI.md#SettingsJobsGet) | **Get** /settings/jobs | Get scheduled jobs
+[**SettingsJobsJobIdCancelPost**](SettingsAPI.md#SettingsJobsJobIdCancelPost) | **Post** /settings/jobs/{jobId}/cancel | Cancel a specific job
+[**SettingsJobsJobIdRunPost**](SettingsAPI.md#SettingsJobsJobIdRunPost) | **Post** /settings/jobs/{jobId}/run | Invoke a specific job
+[**SettingsJobsJobIdSchedulePost**](SettingsAPI.md#SettingsJobsJobIdSchedulePost) | **Post** /settings/jobs/{jobId}/schedule | Modify job schedule
+[**SettingsLogsGet**](SettingsAPI.md#SettingsLogsGet) | **Get** /settings/logs | Returns logs
+[**SettingsMainGet**](SettingsAPI.md#SettingsMainGet) | **Get** /settings/main | Get main settings
+[**SettingsMainPost**](SettingsAPI.md#SettingsMainPost) | **Post** /settings/main | Update main settings
+[**SettingsMainRegeneratePost**](SettingsAPI.md#SettingsMainRegeneratePost) | **Post** /settings/main/regenerate | Get main settings with newly-generated API key
+[**SettingsMetadatasGet**](SettingsAPI.md#SettingsMetadatasGet) | **Get** /settings/metadatas | Get Metadata settings
+[**SettingsMetadatasPut**](SettingsAPI.md#SettingsMetadatasPut) | **Put** /settings/metadatas | Update Metadata settings
+[**SettingsMetadatasTestPost**](SettingsAPI.md#SettingsMetadatasTestPost) | **Post** /settings/metadatas/test | Test Provider configuration
+[**SettingsNetworkGet**](SettingsAPI.md#SettingsNetworkGet) | **Get** /settings/network | Get network settings
+[**SettingsNetworkPost**](SettingsAPI.md#SettingsNetworkPost) | **Post** /settings/network | Update network settings
+[**SettingsNotificationsDiscordGet**](SettingsAPI.md#SettingsNotificationsDiscordGet) | **Get** /settings/notifications/discord | Get Discord notification settings
+[**SettingsNotificationsDiscordPost**](SettingsAPI.md#SettingsNotificationsDiscordPost) | **Post** /settings/notifications/discord | Update Discord notification settings
+[**SettingsNotificationsDiscordTestPost**](SettingsAPI.md#SettingsNotificationsDiscordTestPost) | **Post** /settings/notifications/discord/test | Test Discord settings
+[**SettingsNotificationsEmailGet**](SettingsAPI.md#SettingsNotificationsEmailGet) | **Get** /settings/notifications/email | Get email notification settings
+[**SettingsNotificationsEmailPost**](SettingsAPI.md#SettingsNotificationsEmailPost) | **Post** /settings/notifications/email | Update email notification settings
+[**SettingsNotificationsEmailTestPost**](SettingsAPI.md#SettingsNotificationsEmailTestPost) | **Post** /settings/notifications/email/test | Test email settings
+[**SettingsNotificationsGotifyGet**](SettingsAPI.md#SettingsNotificationsGotifyGet) | **Get** /settings/notifications/gotify | Get Gotify notification settings
+[**SettingsNotificationsGotifyPost**](SettingsAPI.md#SettingsNotificationsGotifyPost) | **Post** /settings/notifications/gotify | Update Gotify notification settings
+[**SettingsNotificationsGotifyTestPost**](SettingsAPI.md#SettingsNotificationsGotifyTestPost) | **Post** /settings/notifications/gotify/test | Test Gotify settings
+[**SettingsNotificationsNtfyGet**](SettingsAPI.md#SettingsNotificationsNtfyGet) | **Get** /settings/notifications/ntfy | Get ntfy.sh notification settings
+[**SettingsNotificationsNtfyPost**](SettingsAPI.md#SettingsNotificationsNtfyPost) | **Post** /settings/notifications/ntfy | Update ntfy.sh notification settings
+[**SettingsNotificationsNtfyTestPost**](SettingsAPI.md#SettingsNotificationsNtfyTestPost) | **Post** /settings/notifications/ntfy/test | Test ntfy.sh settings
+[**SettingsNotificationsPushbulletGet**](SettingsAPI.md#SettingsNotificationsPushbulletGet) | **Get** /settings/notifications/pushbullet | Get Pushbullet notification settings
+[**SettingsNotificationsPushbulletPost**](SettingsAPI.md#SettingsNotificationsPushbulletPost) | **Post** /settings/notifications/pushbullet | Update Pushbullet notification settings
+[**SettingsNotificationsPushbulletTestPost**](SettingsAPI.md#SettingsNotificationsPushbulletTestPost) | **Post** /settings/notifications/pushbullet/test | Test Pushbullet settings
+[**SettingsNotificationsPushoverGet**](SettingsAPI.md#SettingsNotificationsPushoverGet) | **Get** /settings/notifications/pushover | Get Pushover notification settings
+[**SettingsNotificationsPushoverPost**](SettingsAPI.md#SettingsNotificationsPushoverPost) | **Post** /settings/notifications/pushover | Update Pushover notification settings
+[**SettingsNotificationsPushoverSoundsGet**](SettingsAPI.md#SettingsNotificationsPushoverSoundsGet) | **Get** /settings/notifications/pushover/sounds | Get Pushover sounds
+[**SettingsNotificationsPushoverTestPost**](SettingsAPI.md#SettingsNotificationsPushoverTestPost) | **Post** /settings/notifications/pushover/test | Test Pushover settings
+[**SettingsNotificationsSlackGet**](SettingsAPI.md#SettingsNotificationsSlackGet) | **Get** /settings/notifications/slack | Get Slack notification settings
+[**SettingsNotificationsSlackPost**](SettingsAPI.md#SettingsNotificationsSlackPost) | **Post** /settings/notifications/slack | Update Slack notification settings
+[**SettingsNotificationsSlackTestPost**](SettingsAPI.md#SettingsNotificationsSlackTestPost) | **Post** /settings/notifications/slack/test | Test Slack settings
+[**SettingsNotificationsTelegramGet**](SettingsAPI.md#SettingsNotificationsTelegramGet) | **Get** /settings/notifications/telegram | Get Telegram notification settings
+[**SettingsNotificationsTelegramPost**](SettingsAPI.md#SettingsNotificationsTelegramPost) | **Post** /settings/notifications/telegram | Update Telegram notification settings
+[**SettingsNotificationsTelegramTestPost**](SettingsAPI.md#SettingsNotificationsTelegramTestPost) | **Post** /settings/notifications/telegram/test | Test Telegram settings
+[**SettingsNotificationsWebhookGet**](SettingsAPI.md#SettingsNotificationsWebhookGet) | **Get** /settings/notifications/webhook | Get webhook notification settings
+[**SettingsNotificationsWebhookPost**](SettingsAPI.md#SettingsNotificationsWebhookPost) | **Post** /settings/notifications/webhook | Update webhook notification settings
+[**SettingsNotificationsWebhookTestPost**](SettingsAPI.md#SettingsNotificationsWebhookTestPost) | **Post** /settings/notifications/webhook/test | Test webhook settings
+[**SettingsNotificationsWebpushGet**](SettingsAPI.md#SettingsNotificationsWebpushGet) | **Get** /settings/notifications/webpush | Get Web Push notification settings
+[**SettingsNotificationsWebpushPost**](SettingsAPI.md#SettingsNotificationsWebpushPost) | **Post** /settings/notifications/webpush | Update Web Push notification settings
+[**SettingsNotificationsWebpushTestPost**](SettingsAPI.md#SettingsNotificationsWebpushTestPost) | **Post** /settings/notifications/webpush/test | Test Web Push settings
+[**SettingsPlexDevicesServersGet**](SettingsAPI.md#SettingsPlexDevicesServersGet) | **Get** /settings/plex/devices/servers | Gets the user&#39;s available Plex servers
+[**SettingsPlexGet**](SettingsAPI.md#SettingsPlexGet) | **Get** /settings/plex | Get Plex settings
+[**SettingsPlexLibraryGet**](SettingsAPI.md#SettingsPlexLibraryGet) | **Get** /settings/plex/library | Get Plex libraries
+[**SettingsPlexPost**](SettingsAPI.md#SettingsPlexPost) | **Post** /settings/plex | Update Plex settings
+[**SettingsPlexSyncGet**](SettingsAPI.md#SettingsPlexSyncGet) | **Get** /settings/plex/sync | Get status of full Plex library scan
+[**SettingsPlexSyncPost**](SettingsAPI.md#SettingsPlexSyncPost) | **Post** /settings/plex/sync | Start full Plex library scan
+[**SettingsPlexUsersGet**](SettingsAPI.md#SettingsPlexUsersGet) | **Get** /settings/plex/users | Get Plex users
+[**SettingsPublicGet**](SettingsAPI.md#SettingsPublicGet) | **Get** /settings/public | Get public settings
+[**SettingsRadarrGet**](SettingsAPI.md#SettingsRadarrGet) | **Get** /settings/radarr | Get Radarr settings
+[**SettingsRadarrPost**](SettingsAPI.md#SettingsRadarrPost) | **Post** /settings/radarr | Create Radarr instance
+[**SettingsRadarrRadarrIdDelete**](SettingsAPI.md#SettingsRadarrRadarrIdDelete) | **Delete** /settings/radarr/{radarrId} | Delete Radarr instance
+[**SettingsRadarrRadarrIdProfilesGet**](SettingsAPI.md#SettingsRadarrRadarrIdProfilesGet) | **Get** /settings/radarr/{radarrId}/profiles | Get available Radarr profiles
+[**SettingsRadarrRadarrIdPut**](SettingsAPI.md#SettingsRadarrRadarrIdPut) | **Put** /settings/radarr/{radarrId} | Update Radarr instance
+[**SettingsRadarrTestPost**](SettingsAPI.md#SettingsRadarrTestPost) | **Post** /settings/radarr/test | Test Radarr configuration
+[**SettingsSonarrGet**](SettingsAPI.md#SettingsSonarrGet) | **Get** /settings/sonarr | Get Sonarr settings
+[**SettingsSonarrPost**](SettingsAPI.md#SettingsSonarrPost) | **Post** /settings/sonarr | Create Sonarr instance
+[**SettingsSonarrSonarrIdDelete**](SettingsAPI.md#SettingsSonarrSonarrIdDelete) | **Delete** /settings/sonarr/{sonarrId} | Delete Sonarr instance
+[**SettingsSonarrSonarrIdPut**](SettingsAPI.md#SettingsSonarrSonarrIdPut) | **Put** /settings/sonarr/{sonarrId} | Update Sonarr instance
+[**SettingsSonarrTestPost**](SettingsAPI.md#SettingsSonarrTestPost) | **Post** /settings/sonarr/test | Test Sonarr configuration
+[**SettingsTautulliGet**](SettingsAPI.md#SettingsTautulliGet) | **Get** /settings/tautulli | Get Tautulli settings
+[**SettingsTautulliPost**](SettingsAPI.md#SettingsTautulliPost) | **Post** /settings/tautulli | Update Tautulli settings
+
+
 
 ## SettingsAboutGet
 
 > SettingsAboutGet200Response SettingsAboutGet(ctx).Execute()
 
 Get server stats
+
+
 
 ### Example
 
@@ -102,7 +106,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "seer-cli/pkg/api"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
 )
 
 func main() {
@@ -127,6 +131,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsAboutGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**SettingsAboutGet200Response**](SettingsAboutGet200Response.md)
@@ -144,11 +149,14 @@ Other parameters are passed through a pointer to a apiSettingsAboutGetRequest st
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsCacheCacheIdFlushPost
 
 > SettingsCacheCacheIdFlushPost(ctx, cacheId).Execute()
 
 Flush a specific cache
+
+
 
 ### Example
 
@@ -163,7 +171,7 @@ import (
 )
 
 func main() {
-	cacheId := "cacheId_example" // string |
+	cacheId := "cacheId_example" // string | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -177,21 +185,24 @@ func main() {
 
 ### Path Parameters
 
-| Name        | Type                | Description                                                                 | Notes |
-| ----------- | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**     | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **cacheId** | **string**          |                                                                             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**cacheId** | **string** |  | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsCacheCacheIdFlushPostRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
-(empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -206,11 +217,14 @@ Other parameters are passed through a pointer to a apiSettingsCacheCacheIdFlushP
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsCacheDnsDnsEntryFlushPost
 
 > SettingsCacheDnsDnsEntryFlushPost(ctx, dnsEntry).Execute()
 
 Flush a specific DNS cache entry
+
+
 
 ### Example
 
@@ -225,7 +239,7 @@ import (
 )
 
 func main() {
-	dnsEntry := "dnsEntry_example" // string |
+	dnsEntry := "dnsEntry_example" // string | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -239,21 +253,24 @@ func main() {
 
 ### Path Parameters
 
-| Name         | Type                | Description                                                                 | Notes |
-| ------------ | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**      | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **dnsEntry** | **string**          |                                                                             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**dnsEntry** | **string** |  | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsCacheDnsDnsEntryFlushPostRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
-(empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -268,11 +285,14 @@ Other parameters are passed through a pointer to a apiSettingsCacheDnsDnsEntryFl
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsCacheGet
 
 > SettingsCacheGet200Response SettingsCacheGet(ctx).Execute()
 
 Get a list of active caches
+
+
 
 ### Example
 
@@ -308,6 +328,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsCacheGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**SettingsCacheGet200Response**](SettingsCacheGet200Response.md)
@@ -325,11 +346,14 @@ Other parameters are passed through a pointer to a apiSettingsCacheGetRequest st
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsDiscoverAddPost
 
 > DiscoverSlider SettingsDiscoverAddPost(ctx).SettingsDiscoverAddPostRequest(settingsDiscoverAddPostRequest).Execute()
 
 Add a new slider
+
+
 
 ### Example
 
@@ -344,7 +368,7 @@ import (
 )
 
 func main() {
-	settingsDiscoverAddPostRequest := *openapiclient.NewSettingsDiscoverAddPostRequest() // SettingsDiscoverAddPostRequest |
+	settingsDiscoverAddPostRequest := *openapiclient.NewSettingsDiscoverAddPostRequest() // SettingsDiscoverAddPostRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -360,13 +384,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsDiscoverAddPostRequest struct via the builder pattern
 
-| Name                               | Type                                                                    | Description | Notes |
-| ---------------------------------- | ----------------------------------------------------------------------- | ----------- | ----- |
-| **settingsDiscoverAddPostRequest** | [**SettingsDiscoverAddPostRequest**](SettingsDiscoverAddPostRequest.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **settingsDiscoverAddPostRequest** | [**SettingsDiscoverAddPostRequest**](SettingsDiscoverAddPostRequest.md) |  | 
 
 ### Return type
 
@@ -385,11 +412,14 @@ Other parameters are passed through a pointer to a apiSettingsDiscoverAddPostReq
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsDiscoverGet
 
 > []DiscoverSlider SettingsDiscoverGet(ctx).Execute()
 
 Get all discover sliders
+
+
 
 ### Example
 
@@ -425,6 +455,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsDiscoverGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**[]DiscoverSlider**](DiscoverSlider.md)
@@ -442,11 +473,14 @@ Other parameters are passed through a pointer to a apiSettingsDiscoverGetRequest
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsDiscoverPost
 
 > []DiscoverSlider SettingsDiscoverPost(ctx).DiscoverSlider(discoverSlider).Execute()
 
 Batch update all sliders.
+
+
 
 ### Example
 
@@ -461,7 +495,7 @@ import (
 )
 
 func main() {
-	discoverSlider := []openapiclient.DiscoverSlider{*openapiclient.NewDiscoverSlider(float32(1), "Title_example", false, "1234")} // []DiscoverSlider |
+	discoverSlider := []openapiclient.DiscoverSlider{*openapiclient.NewDiscoverSlider(float32(1), "Title_example", false, "1234")} // []DiscoverSlider | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -477,13 +511,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsDiscoverPostRequest struct via the builder pattern
 
-| Name               | Type                                      | Description | Notes |
-| ------------------ | ----------------------------------------- | ----------- | ----- |
-| **discoverSlider** | [**[]DiscoverSlider**](DiscoverSlider.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **discoverSlider** | [**[]DiscoverSlider**](DiscoverSlider.md) |  | 
 
 ### Return type
 
@@ -502,11 +539,14 @@ Other parameters are passed through a pointer to a apiSettingsDiscoverPostReques
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsDiscoverResetGet
 
 > SettingsDiscoverResetGet(ctx).Execute()
 
 Reset all discover sliders
+
+
 
 ### Example
 
@@ -540,9 +580,10 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsDiscoverResetGetRequest struct via the builder pattern
 
+
 ### Return type
 
-(empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -557,11 +598,14 @@ Other parameters are passed through a pointer to a apiSettingsDiscoverResetGetRe
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsDiscoverSliderIdDelete
 
 > DiscoverSlider SettingsDiscoverSliderIdDelete(ctx, sliderId).Execute()
 
 Delete slider by ID
+
+
 
 ### Example
 
@@ -576,7 +620,7 @@ import (
 )
 
 func main() {
-	sliderId := float32(8.14) // float32 |
+	sliderId := float32(8.14) // float32 | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -592,17 +636,20 @@ func main() {
 
 ### Path Parameters
 
-| Name         | Type                | Description                                                                 | Notes |
-| ------------ | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**      | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **sliderId** | **float32**         |                                                                             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**sliderId** | **float32** |  | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsDiscoverSliderIdDeleteRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -621,11 +668,14 @@ Other parameters are passed through a pointer to a apiSettingsDiscoverSliderIdDe
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsDiscoverSliderIdPut
 
 > DiscoverSlider SettingsDiscoverSliderIdPut(ctx, sliderId).SettingsDiscoverSliderIdPutRequest(settingsDiscoverSliderIdPutRequest).Execute()
 
 Update a single slider
+
+
 
 ### Example
 
@@ -640,8 +690,8 @@ import (
 )
 
 func main() {
-	sliderId := float32(8.14) // float32 |
-	settingsDiscoverSliderIdPutRequest := *openapiclient.NewSettingsDiscoverSliderIdPutRequest() // SettingsDiscoverSliderIdPutRequest |
+	sliderId := float32(8.14) // float32 | 
+	settingsDiscoverSliderIdPutRequest := *openapiclient.NewSettingsDiscoverSliderIdPutRequest() // SettingsDiscoverSliderIdPutRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -657,19 +707,21 @@ func main() {
 
 ### Path Parameters
 
-| Name         | Type                | Description                                                                 | Notes |
-| ------------ | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**      | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **sliderId** | **float32**         |                                                                             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**sliderId** | **float32** |  | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsDiscoverSliderIdPutRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
 
-**settingsDiscoverSliderIdPutRequest** | [**SettingsDiscoverSliderIdPutRequest**](SettingsDiscoverSliderIdPutRequest.md) | |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **settingsDiscoverSliderIdPutRequest** | [**SettingsDiscoverSliderIdPutRequest**](SettingsDiscoverSliderIdPutRequest.md) |  | 
 
 ### Return type
 
@@ -688,11 +740,14 @@ Other parameters are passed through a pointer to a apiSettingsDiscoverSliderIdPu
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsInitializePost
 
 > PublicSettings SettingsInitializePost(ctx).Execute()
 
 Initialize application
+
+
 
 ### Example
 
@@ -728,6 +783,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsInitializePostRequest struct via the builder pattern
 
+
 ### Return type
 
 [**PublicSettings**](PublicSettings.md)
@@ -745,11 +801,14 @@ Other parameters are passed through a pointer to a apiSettingsInitializePostRequ
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsJellyfinGet
 
 > JellyfinSettings SettingsJellyfinGet(ctx).Execute()
 
 Get Jellyfin settings
+
+
 
 ### Example
 
@@ -785,6 +844,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsJellyfinGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**JellyfinSettings**](JellyfinSettings.md)
@@ -802,11 +862,14 @@ Other parameters are passed through a pointer to a apiSettingsJellyfinGetRequest
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsJellyfinLibraryGet
 
 > []JellyfinLibrary SettingsJellyfinLibraryGet(ctx).Sync(sync).Enable(enable).Execute()
 
 Get Jellyfin libraries
+
+
 
 ### Example
 
@@ -838,14 +901,17 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsJellyfinLibraryGetRequest struct via the builder pattern
 
-| Name       | Type       | Description                                                                             | Notes |
-| ---------- | ---------- | --------------------------------------------------------------------------------------- | ----- |
-| **sync**   | **string** | Syncs the current libraries with the current Jellyfin server                            |
-| **enable** | **string** | Comma separated list of libraries to enable. Any libraries not passed will be disabled! |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **sync** | **string** | Syncs the current libraries with the current Jellyfin server | 
+ **enable** | **string** | Comma separated list of libraries to enable. Any libraries not passed will be disabled! | 
 
 ### Return type
 
@@ -864,11 +930,14 @@ Other parameters are passed through a pointer to a apiSettingsJellyfinLibraryGet
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsJellyfinPost
 
 > JellyfinSettings SettingsJellyfinPost(ctx).JellyfinSettings(jellyfinSettings).Execute()
 
 Update Jellyfin settings
+
+
 
 ### Example
 
@@ -883,7 +952,7 @@ import (
 )
 
 func main() {
-	jellyfinSettings := *openapiclient.NewJellyfinSettings() // JellyfinSettings |
+	jellyfinSettings := *openapiclient.NewJellyfinSettings() // JellyfinSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -899,13 +968,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsJellyfinPostRequest struct via the builder pattern
 
-| Name                 | Type                                        | Description | Notes |
-| -------------------- | ------------------------------------------- | ----------- | ----- |
-| **jellyfinSettings** | [**JellyfinSettings**](JellyfinSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **jellyfinSettings** | [**JellyfinSettings**](JellyfinSettings.md) |  | 
 
 ### Return type
 
@@ -924,11 +996,14 @@ Other parameters are passed through a pointer to a apiSettingsJellyfinPostReques
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsJellyfinSyncGet
 
 > SettingsJellyfinSyncGet200Response SettingsJellyfinSyncGet(ctx).Execute()
 
 Get status of full Jellyfin library sync
+
+
 
 ### Example
 
@@ -964,6 +1039,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsJellyfinSyncGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**SettingsJellyfinSyncGet200Response**](SettingsJellyfinSyncGet200Response.md)
@@ -981,11 +1057,14 @@ Other parameters are passed through a pointer to a apiSettingsJellyfinSyncGetReq
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsJellyfinSyncPost
 
 > SettingsJellyfinSyncGet200Response SettingsJellyfinSyncPost(ctx).SettingsJellyfinSyncPostRequest(settingsJellyfinSyncPostRequest).Execute()
 
 Start full Jellyfin library sync
+
+
 
 ### Example
 
@@ -1016,13 +1095,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsJellyfinSyncPostRequest struct via the builder pattern
 
-| Name                                | Type                                                                      | Description | Notes |
-| ----------------------------------- | ------------------------------------------------------------------------- | ----------- | ----- |
-| **settingsJellyfinSyncPostRequest** | [**SettingsJellyfinSyncPostRequest**](SettingsJellyfinSyncPostRequest.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **settingsJellyfinSyncPostRequest** | [**SettingsJellyfinSyncPostRequest**](SettingsJellyfinSyncPostRequest.md) |  | 
 
 ### Return type
 
@@ -1041,11 +1123,14 @@ Other parameters are passed through a pointer to a apiSettingsJellyfinSyncPostRe
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsJellyfinUsersGet
 
 > []SettingsJellyfinUsersGet200ResponseInner SettingsJellyfinUsersGet(ctx).Execute()
 
 Get Jellyfin Users
+
+
 
 ### Example
 
@@ -1081,6 +1166,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsJellyfinUsersGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**[]SettingsJellyfinUsersGet200ResponseInner**](SettingsJellyfinUsersGet200ResponseInner.md)
@@ -1098,11 +1184,14 @@ Other parameters are passed through a pointer to a apiSettingsJellyfinUsersGetRe
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsJobsGet
 
 > []Job SettingsJobsGet(ctx).Execute()
 
 Get scheduled jobs
+
+
 
 ### Example
 
@@ -1138,6 +1227,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsJobsGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**[]Job**](Job.md)
@@ -1155,11 +1245,14 @@ Other parameters are passed through a pointer to a apiSettingsJobsGetRequest str
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsJobsJobIdCancelPost
 
 > Job SettingsJobsJobIdCancelPost(ctx, jobId).Execute()
 
 Cancel a specific job
+
+
 
 ### Example
 
@@ -1174,7 +1267,7 @@ import (
 )
 
 func main() {
-	jobId := "jobId_example" // string |
+	jobId := "jobId_example" // string | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -1190,17 +1283,20 @@ func main() {
 
 ### Path Parameters
 
-| Name      | Type                | Description                                                                 | Notes |
-| --------- | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**   | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **jobId** | **string**          |                                                                             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**jobId** | **string** |  | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsJobsJobIdCancelPostRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -1219,11 +1315,14 @@ Other parameters are passed through a pointer to a apiSettingsJobsJobIdCancelPos
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsJobsJobIdRunPost
 
 > Job SettingsJobsJobIdRunPost(ctx, jobId).Execute()
 
 Invoke a specific job
+
+
 
 ### Example
 
@@ -1238,7 +1337,7 @@ import (
 )
 
 func main() {
-	jobId := "jobId_example" // string |
+	jobId := "jobId_example" // string | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -1254,17 +1353,20 @@ func main() {
 
 ### Path Parameters
 
-| Name      | Type                | Description                                                                 | Notes |
-| --------- | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**   | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **jobId** | **string**          |                                                                             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**jobId** | **string** |  | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsJobsJobIdRunPostRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -1283,11 +1385,14 @@ Other parameters are passed through a pointer to a apiSettingsJobsJobIdRunPostRe
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsJobsJobIdSchedulePost
 
 > Job SettingsJobsJobIdSchedulePost(ctx, jobId).SettingsJobsJobIdSchedulePostRequest(settingsJobsJobIdSchedulePostRequest).Execute()
 
 Modify job schedule
+
+
 
 ### Example
 
@@ -1302,8 +1407,8 @@ import (
 )
 
 func main() {
-	jobId := "jobId_example" // string |
-	settingsJobsJobIdSchedulePostRequest := *openapiclient.NewSettingsJobsJobIdSchedulePostRequest() // SettingsJobsJobIdSchedulePostRequest |
+	jobId := "jobId_example" // string | 
+	settingsJobsJobIdSchedulePostRequest := *openapiclient.NewSettingsJobsJobIdSchedulePostRequest() // SettingsJobsJobIdSchedulePostRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -1319,19 +1424,21 @@ func main() {
 
 ### Path Parameters
 
-| Name      | Type                | Description                                                                 | Notes |
-| --------- | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**   | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **jobId** | **string**          |                                                                             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**jobId** | **string** |  | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsJobsJobIdSchedulePostRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
 
-**settingsJobsJobIdSchedulePostRequest** | [**SettingsJobsJobIdSchedulePostRequest**](SettingsJobsJobIdSchedulePostRequest.md) | |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **settingsJobsJobIdSchedulePostRequest** | [**SettingsJobsJobIdSchedulePostRequest**](SettingsJobsJobIdSchedulePostRequest.md) |  | 
 
 ### Return type
 
@@ -1350,11 +1457,14 @@ Other parameters are passed through a pointer to a apiSettingsJobsJobIdScheduleP
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsLogsGet
 
 > []SettingsLogsGet200ResponseInner SettingsLogsGet(ctx).Take(take).Skip(skip).Filter(filter).Search(search).Execute()
 
 Returns logs
+
+
 
 ### Example
 
@@ -1388,16 +1498,19 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsLogsGetRequest struct via the builder pattern
 
-| Name       | Type        | Description | Notes                          |
-| ---------- | ----------- | ----------- | ------------------------------ |
-| **take**   | **float32** |             |
-| **skip**   | **float32** |             |
-| **filter** | **string**  |             | [default to &quot;debug&quot;] |
-| **search** | **string**  |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **take** | **float32** |  | 
+ **skip** | **float32** |  | 
+ **filter** | **string** |  | [default to &quot;debug&quot;]
+ **search** | **string** |  | 
 
 ### Return type
 
@@ -1416,11 +1529,14 @@ Other parameters are passed through a pointer to a apiSettingsLogsGetRequest str
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsMainGet
 
 > MainSettings SettingsMainGet(ctx).Execute()
 
 Get main settings
+
+
 
 ### Example
 
@@ -1456,6 +1572,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsMainGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**MainSettings**](MainSettings.md)
@@ -1473,11 +1590,14 @@ Other parameters are passed through a pointer to a apiSettingsMainGetRequest str
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsMainPost
 
 > MainSettings SettingsMainPost(ctx).MainSettings(mainSettings).Execute()
 
 Update main settings
+
+
 
 ### Example
 
@@ -1492,7 +1612,7 @@ import (
 )
 
 func main() {
-	mainSettings := *openapiclient.NewMainSettings() // MainSettings |
+	mainSettings := *openapiclient.NewMainSettings() // MainSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -1508,13 +1628,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsMainPostRequest struct via the builder pattern
 
-| Name             | Type                                | Description | Notes |
-| ---------------- | ----------------------------------- | ----------- | ----- |
-| **mainSettings** | [**MainSettings**](MainSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **mainSettings** | [**MainSettings**](MainSettings.md) |  | 
 
 ### Return type
 
@@ -1533,11 +1656,14 @@ Other parameters are passed through a pointer to a apiSettingsMainPostRequest st
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsMainRegeneratePost
 
 > MainSettings SettingsMainRegeneratePost(ctx).Execute()
 
 Get main settings with newly-generated API key
+
+
 
 ### Example
 
@@ -1573,6 +1699,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsMainRegeneratePostRequest struct via the builder pattern
 
+
 ### Return type
 
 [**MainSettings**](MainSettings.md)
@@ -1590,11 +1717,14 @@ Other parameters are passed through a pointer to a apiSettingsMainRegeneratePost
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsMetadatasGet
 
 > MetadataSettings SettingsMetadatasGet(ctx).Execute()
 
 Get Metadata settings
+
+
 
 ### Example
 
@@ -1630,6 +1760,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsMetadatasGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**MetadataSettings**](MetadataSettings.md)
@@ -1647,11 +1778,14 @@ Other parameters are passed through a pointer to a apiSettingsMetadatasGetReques
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsMetadatasPut
 
 > MetadataSettings SettingsMetadatasPut(ctx).MetadataSettings(metadataSettings).Execute()
 
 Update Metadata settings
+
+
 
 ### Example
 
@@ -1666,7 +1800,7 @@ import (
 )
 
 func main() {
-	metadataSettings := *openapiclient.NewMetadataSettings() // MetadataSettings |
+	metadataSettings := *openapiclient.NewMetadataSettings() // MetadataSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -1682,13 +1816,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsMetadatasPutRequest struct via the builder pattern
 
-| Name                 | Type                                        | Description | Notes |
-| -------------------- | ------------------------------------------- | ----------- | ----- |
-| **metadataSettings** | [**MetadataSettings**](MetadataSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **metadataSettings** | [**MetadataSettings**](MetadataSettings.md) |  | 
 
 ### Return type
 
@@ -1707,11 +1844,14 @@ Other parameters are passed through a pointer to a apiSettingsMetadatasPutReques
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsMetadatasTestPost
 
 > SettingsMetadatasTestPost200Response SettingsMetadatasTestPost(ctx).SettingsMetadatasTestPostRequest(settingsMetadatasTestPostRequest).Execute()
 
 Test Provider configuration
+
+
 
 ### Example
 
@@ -1726,7 +1866,7 @@ import (
 )
 
 func main() {
-	settingsMetadatasTestPostRequest := *openapiclient.NewSettingsMetadatasTestPostRequest() // SettingsMetadatasTestPostRequest |
+	settingsMetadatasTestPostRequest := *openapiclient.NewSettingsMetadatasTestPostRequest() // SettingsMetadatasTestPostRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -1742,13 +1882,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsMetadatasTestPostRequest struct via the builder pattern
 
-| Name                                 | Type                                                                        | Description | Notes |
-| ------------------------------------ | --------------------------------------------------------------------------- | ----------- | ----- |
-| **settingsMetadatasTestPostRequest** | [**SettingsMetadatasTestPostRequest**](SettingsMetadatasTestPostRequest.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **settingsMetadatasTestPostRequest** | [**SettingsMetadatasTestPostRequest**](SettingsMetadatasTestPostRequest.md) |  | 
 
 ### Return type
 
@@ -1767,11 +1910,14 @@ Other parameters are passed through a pointer to a apiSettingsMetadatasTestPostR
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNetworkGet
 
 > MainSettings SettingsNetworkGet(ctx).Execute()
 
 Get network settings
+
+
 
 ### Example
 
@@ -1807,6 +1953,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsNetworkGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**MainSettings**](MainSettings.md)
@@ -1824,11 +1971,14 @@ Other parameters are passed through a pointer to a apiSettingsNetworkGetRequest 
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNetworkPost
 
 > NetworkSettings SettingsNetworkPost(ctx).NetworkSettings(networkSettings).Execute()
 
 Update network settings
+
+
 
 ### Example
 
@@ -1843,7 +1993,7 @@ import (
 )
 
 func main() {
-	networkSettings := *openapiclient.NewNetworkSettings() // NetworkSettings |
+	networkSettings := *openapiclient.NewNetworkSettings() // NetworkSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -1859,13 +2009,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNetworkPostRequest struct via the builder pattern
 
-| Name                | Type                                      | Description | Notes |
-| ------------------- | ----------------------------------------- | ----------- | ----- |
-| **networkSettings** | [**NetworkSettings**](NetworkSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **networkSettings** | [**NetworkSettings**](NetworkSettings.md) |  | 
 
 ### Return type
 
@@ -1884,11 +2037,14 @@ Other parameters are passed through a pointer to a apiSettingsNetworkPostRequest
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsDiscordGet
 
 > DiscordSettings SettingsNotificationsDiscordGet(ctx).Execute()
 
 Get Discord notification settings
+
+
 
 ### Example
 
@@ -1924,6 +2080,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsDiscordGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**DiscordSettings**](DiscordSettings.md)
@@ -1941,11 +2098,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsDisco
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsDiscordPost
 
 > DiscordSettings SettingsNotificationsDiscordPost(ctx).DiscordSettings(discordSettings).Execute()
 
 Update Discord notification settings
+
+
 
 ### Example
 
@@ -1960,7 +2120,7 @@ import (
 )
 
 func main() {
-	discordSettings := *openapiclient.NewDiscordSettings() // DiscordSettings |
+	discordSettings := *openapiclient.NewDiscordSettings() // DiscordSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -1976,13 +2136,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsDiscordPostRequest struct via the builder pattern
 
-| Name                | Type                                      | Description | Notes |
-| ------------------- | ----------------------------------------- | ----------- | ----- |
-| **discordSettings** | [**DiscordSettings**](DiscordSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **discordSettings** | [**DiscordSettings**](DiscordSettings.md) |  | 
 
 ### Return type
 
@@ -2001,11 +2164,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsDisco
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsDiscordTestPost
 
 > SettingsNotificationsDiscordTestPost(ctx).DiscordSettings(discordSettings).Execute()
 
 Test Discord settings
+
+
 
 ### Example
 
@@ -2020,7 +2186,7 @@ import (
 )
 
 func main() {
-	discordSettings := *openapiclient.NewDiscordSettings() // DiscordSettings |
+	discordSettings := *openapiclient.NewDiscordSettings() // DiscordSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -2034,17 +2200,20 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsDiscordTestPostRequest struct via the builder pattern
 
-| Name                | Type                                      | Description | Notes |
-| ------------------- | ----------------------------------------- | ----------- | ----- |
-| **discordSettings** | [**DiscordSettings**](DiscordSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **discordSettings** | [**DiscordSettings**](DiscordSettings.md) |  | 
 
 ### Return type
 
-(empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -2059,11 +2228,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsDisco
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsEmailGet
 
 > NotificationEmailSettings SettingsNotificationsEmailGet(ctx).Execute()
 
 Get email notification settings
+
+
 
 ### Example
 
@@ -2099,6 +2271,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsEmailGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**NotificationEmailSettings**](NotificationEmailSettings.md)
@@ -2116,11 +2289,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsEmail
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsEmailPost
 
 > NotificationEmailSettings SettingsNotificationsEmailPost(ctx).NotificationEmailSettings(notificationEmailSettings).Execute()
 
 Update email notification settings
+
+
 
 ### Example
 
@@ -2135,7 +2311,7 @@ import (
 )
 
 func main() {
-	notificationEmailSettings := *openapiclient.NewNotificationEmailSettings() // NotificationEmailSettings |
+	notificationEmailSettings := *openapiclient.NewNotificationEmailSettings() // NotificationEmailSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -2151,13 +2327,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsEmailPostRequest struct via the builder pattern
 
-| Name                          | Type                                                          | Description | Notes |
-| ----------------------------- | ------------------------------------------------------------- | ----------- | ----- |
-| **notificationEmailSettings** | [**NotificationEmailSettings**](NotificationEmailSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **notificationEmailSettings** | [**NotificationEmailSettings**](NotificationEmailSettings.md) |  | 
 
 ### Return type
 
@@ -2176,11 +2355,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsEmail
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsEmailTestPost
 
 > SettingsNotificationsEmailTestPost(ctx).NotificationEmailSettings(notificationEmailSettings).Execute()
 
 Test email settings
+
+
 
 ### Example
 
@@ -2195,7 +2377,7 @@ import (
 )
 
 func main() {
-	notificationEmailSettings := *openapiclient.NewNotificationEmailSettings() // NotificationEmailSettings |
+	notificationEmailSettings := *openapiclient.NewNotificationEmailSettings() // NotificationEmailSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -2209,17 +2391,20 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsEmailTestPostRequest struct via the builder pattern
 
-| Name                          | Type                                                          | Description | Notes |
-| ----------------------------- | ------------------------------------------------------------- | ----------- | ----- |
-| **notificationEmailSettings** | [**NotificationEmailSettings**](NotificationEmailSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **notificationEmailSettings** | [**NotificationEmailSettings**](NotificationEmailSettings.md) |  | 
 
 ### Return type
 
-(empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -2234,11 +2419,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsEmail
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsGotifyGet
 
 > GotifySettings SettingsNotificationsGotifyGet(ctx).Execute()
 
 Get Gotify notification settings
+
+
 
 ### Example
 
@@ -2274,6 +2462,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsGotifyGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**GotifySettings**](GotifySettings.md)
@@ -2291,11 +2480,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsGotif
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsGotifyPost
 
 > GotifySettings SettingsNotificationsGotifyPost(ctx).GotifySettings(gotifySettings).Execute()
 
 Update Gotify notification settings
+
+
 
 ### Example
 
@@ -2310,7 +2502,7 @@ import (
 )
 
 func main() {
-	gotifySettings := *openapiclient.NewGotifySettings() // GotifySettings |
+	gotifySettings := *openapiclient.NewGotifySettings() // GotifySettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -2326,13 +2518,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsGotifyPostRequest struct via the builder pattern
 
-| Name               | Type                                    | Description | Notes |
-| ------------------ | --------------------------------------- | ----------- | ----- |
-| **gotifySettings** | [**GotifySettings**](GotifySettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **gotifySettings** | [**GotifySettings**](GotifySettings.md) |  | 
 
 ### Return type
 
@@ -2351,11 +2546,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsGotif
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsGotifyTestPost
 
 > SettingsNotificationsGotifyTestPost(ctx).GotifySettings(gotifySettings).Execute()
 
 Test Gotify settings
+
+
 
 ### Example
 
@@ -2370,7 +2568,7 @@ import (
 )
 
 func main() {
-	gotifySettings := *openapiclient.NewGotifySettings() // GotifySettings |
+	gotifySettings := *openapiclient.NewGotifySettings() // GotifySettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -2384,17 +2582,20 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsGotifyTestPostRequest struct via the builder pattern
 
-| Name               | Type                                    | Description | Notes |
-| ------------------ | --------------------------------------- | ----------- | ----- |
-| **gotifySettings** | [**GotifySettings**](GotifySettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **gotifySettings** | [**GotifySettings**](GotifySettings.md) |  | 
 
 ### Return type
 
-(empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -2409,11 +2610,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsGotif
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsNtfyGet
 
 > NtfySettings SettingsNotificationsNtfyGet(ctx).Execute()
 
 Get ntfy.sh notification settings
+
+
 
 ### Example
 
@@ -2449,6 +2653,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsNtfyGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**NtfySettings**](NtfySettings.md)
@@ -2466,11 +2671,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsNtfyG
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsNtfyPost
 
 > NtfySettings SettingsNotificationsNtfyPost(ctx).NtfySettings(ntfySettings).Execute()
 
 Update ntfy.sh notification settings
+
+
 
 ### Example
 
@@ -2485,7 +2693,7 @@ import (
 )
 
 func main() {
-	ntfySettings := *openapiclient.NewNtfySettings() // NtfySettings |
+	ntfySettings := *openapiclient.NewNtfySettings() // NtfySettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -2501,13 +2709,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsNtfyPostRequest struct via the builder pattern
 
-| Name             | Type                                | Description | Notes |
-| ---------------- | ----------------------------------- | ----------- | ----- |
-| **ntfySettings** | [**NtfySettings**](NtfySettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ntfySettings** | [**NtfySettings**](NtfySettings.md) |  | 
 
 ### Return type
 
@@ -2526,11 +2737,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsNtfyP
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsNtfyTestPost
 
 > SettingsNotificationsNtfyTestPost(ctx).NtfySettings(ntfySettings).Execute()
 
 Test ntfy.sh settings
+
+
 
 ### Example
 
@@ -2545,7 +2759,7 @@ import (
 )
 
 func main() {
-	ntfySettings := *openapiclient.NewNtfySettings() // NtfySettings |
+	ntfySettings := *openapiclient.NewNtfySettings() // NtfySettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -2559,17 +2773,20 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsNtfyTestPostRequest struct via the builder pattern
 
-| Name             | Type                                | Description | Notes |
-| ---------------- | ----------------------------------- | ----------- | ----- |
-| **ntfySettings** | [**NtfySettings**](NtfySettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ntfySettings** | [**NtfySettings**](NtfySettings.md) |  | 
 
 ### Return type
 
-(empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -2584,11 +2801,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsNtfyT
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsPushbulletGet
 
 > PushbulletSettings SettingsNotificationsPushbulletGet(ctx).Execute()
 
 Get Pushbullet notification settings
+
+
 
 ### Example
 
@@ -2624,6 +2844,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsPushbulletGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**PushbulletSettings**](PushbulletSettings.md)
@@ -2641,11 +2862,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsPushb
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsPushbulletPost
 
 > PushbulletSettings SettingsNotificationsPushbulletPost(ctx).PushbulletSettings(pushbulletSettings).Execute()
 
 Update Pushbullet notification settings
+
+
 
 ### Example
 
@@ -2660,7 +2884,7 @@ import (
 )
 
 func main() {
-	pushbulletSettings := *openapiclient.NewPushbulletSettings() // PushbulletSettings |
+	pushbulletSettings := *openapiclient.NewPushbulletSettings() // PushbulletSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -2676,13 +2900,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsPushbulletPostRequest struct via the builder pattern
 
-| Name                   | Type                                            | Description | Notes |
-| ---------------------- | ----------------------------------------------- | ----------- | ----- |
-| **pushbulletSettings** | [**PushbulletSettings**](PushbulletSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pushbulletSettings** | [**PushbulletSettings**](PushbulletSettings.md) |  | 
 
 ### Return type
 
@@ -2701,11 +2928,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsPushb
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsPushbulletTestPost
 
 > SettingsNotificationsPushbulletTestPost(ctx).PushbulletSettings(pushbulletSettings).Execute()
 
 Test Pushbullet settings
+
+
 
 ### Example
 
@@ -2720,7 +2950,7 @@ import (
 )
 
 func main() {
-	pushbulletSettings := *openapiclient.NewPushbulletSettings() // PushbulletSettings |
+	pushbulletSettings := *openapiclient.NewPushbulletSettings() // PushbulletSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -2734,17 +2964,20 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsPushbulletTestPostRequest struct via the builder pattern
 
-| Name                   | Type                                            | Description | Notes |
-| ---------------------- | ----------------------------------------------- | ----------- | ----- |
-| **pushbulletSettings** | [**PushbulletSettings**](PushbulletSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pushbulletSettings** | [**PushbulletSettings**](PushbulletSettings.md) |  | 
 
 ### Return type
 
-(empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -2759,11 +2992,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsPushb
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsPushoverGet
 
 > PushoverSettings SettingsNotificationsPushoverGet(ctx).Execute()
 
 Get Pushover notification settings
+
+
 
 ### Example
 
@@ -2799,6 +3035,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsPushoverGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**PushoverSettings**](PushoverSettings.md)
@@ -2816,11 +3053,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsPusho
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsPushoverPost
 
 > PushoverSettings SettingsNotificationsPushoverPost(ctx).PushoverSettings(pushoverSettings).Execute()
 
 Update Pushover notification settings
+
+
 
 ### Example
 
@@ -2835,7 +3075,7 @@ import (
 )
 
 func main() {
-	pushoverSettings := *openapiclient.NewPushoverSettings() // PushoverSettings |
+	pushoverSettings := *openapiclient.NewPushoverSettings() // PushoverSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -2851,13 +3091,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsPushoverPostRequest struct via the builder pattern
 
-| Name                 | Type                                        | Description | Notes |
-| -------------------- | ------------------------------------------- | ----------- | ----- |
-| **pushoverSettings** | [**PushoverSettings**](PushoverSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pushoverSettings** | [**PushoverSettings**](PushoverSettings.md) |  | 
 
 ### Return type
 
@@ -2876,11 +3119,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsPusho
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsPushoverSoundsGet
 
 > []SettingsNotificationsPushoverSoundsGet200ResponseInner SettingsNotificationsPushoverSoundsGet(ctx).Token(token).Execute()
 
 Get Pushover sounds
+
+
 
 ### Example
 
@@ -2895,7 +3141,7 @@ import (
 )
 
 func main() {
-	token := "token_example" // string |
+	token := "token_example" // string | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -2911,13 +3157,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsPushoverSoundsGetRequest struct via the builder pattern
 
-| Name      | Type       | Description | Notes |
-| --------- | ---------- | ----------- | ----- |
-| **token** | **string** |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **token** | **string** |  | 
 
 ### Return type
 
@@ -2936,11 +3185,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsPusho
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsPushoverTestPost
 
 > SettingsNotificationsPushoverTestPost(ctx).PushoverSettings(pushoverSettings).Execute()
 
 Test Pushover settings
+
+
 
 ### Example
 
@@ -2955,7 +3207,7 @@ import (
 )
 
 func main() {
-	pushoverSettings := *openapiclient.NewPushoverSettings() // PushoverSettings |
+	pushoverSettings := *openapiclient.NewPushoverSettings() // PushoverSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -2969,17 +3221,20 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsPushoverTestPostRequest struct via the builder pattern
 
-| Name                 | Type                                        | Description | Notes |
-| -------------------- | ------------------------------------------- | ----------- | ----- |
-| **pushoverSettings** | [**PushoverSettings**](PushoverSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pushoverSettings** | [**PushoverSettings**](PushoverSettings.md) |  | 
 
 ### Return type
 
-(empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -2994,11 +3249,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsPusho
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsSlackGet
 
 > SlackSettings SettingsNotificationsSlackGet(ctx).Execute()
 
 Get Slack notification settings
+
+
 
 ### Example
 
@@ -3034,6 +3292,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsSlackGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**SlackSettings**](SlackSettings.md)
@@ -3051,11 +3310,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsSlack
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsSlackPost
 
 > SlackSettings SettingsNotificationsSlackPost(ctx).SlackSettings(slackSettings).Execute()
 
 Update Slack notification settings
+
+
 
 ### Example
 
@@ -3070,7 +3332,7 @@ import (
 )
 
 func main() {
-	slackSettings := *openapiclient.NewSlackSettings() // SlackSettings |
+	slackSettings := *openapiclient.NewSlackSettings() // SlackSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -3086,13 +3348,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsSlackPostRequest struct via the builder pattern
 
-| Name              | Type                                  | Description | Notes |
-| ----------------- | ------------------------------------- | ----------- | ----- |
-| **slackSettings** | [**SlackSettings**](SlackSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **slackSettings** | [**SlackSettings**](SlackSettings.md) |  | 
 
 ### Return type
 
@@ -3111,11 +3376,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsSlack
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsSlackTestPost
 
 > SettingsNotificationsSlackTestPost(ctx).SlackSettings(slackSettings).Execute()
 
 Test Slack settings
+
+
 
 ### Example
 
@@ -3130,7 +3398,7 @@ import (
 )
 
 func main() {
-	slackSettings := *openapiclient.NewSlackSettings() // SlackSettings |
+	slackSettings := *openapiclient.NewSlackSettings() // SlackSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -3144,17 +3412,20 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsSlackTestPostRequest struct via the builder pattern
 
-| Name              | Type                                  | Description | Notes |
-| ----------------- | ------------------------------------- | ----------- | ----- |
-| **slackSettings** | [**SlackSettings**](SlackSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **slackSettings** | [**SlackSettings**](SlackSettings.md) |  | 
 
 ### Return type
 
-(empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -3169,11 +3440,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsSlack
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsTelegramGet
 
 > TelegramSettings SettingsNotificationsTelegramGet(ctx).Execute()
 
 Get Telegram notification settings
+
+
 
 ### Example
 
@@ -3209,6 +3483,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsTelegramGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**TelegramSettings**](TelegramSettings.md)
@@ -3226,11 +3501,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsTeleg
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsTelegramPost
 
 > TelegramSettings SettingsNotificationsTelegramPost(ctx).TelegramSettings(telegramSettings).Execute()
 
 Update Telegram notification settings
+
+
 
 ### Example
 
@@ -3245,7 +3523,7 @@ import (
 )
 
 func main() {
-	telegramSettings := *openapiclient.NewTelegramSettings() // TelegramSettings |
+	telegramSettings := *openapiclient.NewTelegramSettings() // TelegramSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -3261,13 +3539,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsTelegramPostRequest struct via the builder pattern
 
-| Name                 | Type                                        | Description | Notes |
-| -------------------- | ------------------------------------------- | ----------- | ----- |
-| **telegramSettings** | [**TelegramSettings**](TelegramSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **telegramSettings** | [**TelegramSettings**](TelegramSettings.md) |  | 
 
 ### Return type
 
@@ -3286,11 +3567,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsTeleg
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsTelegramTestPost
 
 > SettingsNotificationsTelegramTestPost(ctx).TelegramSettings(telegramSettings).Execute()
 
 Test Telegram settings
+
+
 
 ### Example
 
@@ -3305,7 +3589,7 @@ import (
 )
 
 func main() {
-	telegramSettings := *openapiclient.NewTelegramSettings() // TelegramSettings |
+	telegramSettings := *openapiclient.NewTelegramSettings() // TelegramSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -3319,17 +3603,20 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsTelegramTestPostRequest struct via the builder pattern
 
-| Name                 | Type                                        | Description | Notes |
-| -------------------- | ------------------------------------------- | ----------- | ----- |
-| **telegramSettings** | [**TelegramSettings**](TelegramSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **telegramSettings** | [**TelegramSettings**](TelegramSettings.md) |  | 
 
 ### Return type
 
-(empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -3344,11 +3631,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsTeleg
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsWebhookGet
 
 > WebhookSettings SettingsNotificationsWebhookGet(ctx).Execute()
 
 Get webhook notification settings
+
+
 
 ### Example
 
@@ -3384,6 +3674,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsWebhookGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**WebhookSettings**](WebhookSettings.md)
@@ -3401,11 +3692,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsWebho
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsWebhookPost
 
 > WebhookSettings SettingsNotificationsWebhookPost(ctx).WebhookSettings(webhookSettings).Execute()
 
 Update webhook notification settings
+
+
 
 ### Example
 
@@ -3420,7 +3714,7 @@ import (
 )
 
 func main() {
-	webhookSettings := *openapiclient.NewWebhookSettings() // WebhookSettings |
+	webhookSettings := *openapiclient.NewWebhookSettings() // WebhookSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -3436,13 +3730,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsWebhookPostRequest struct via the builder pattern
 
-| Name                | Type                                      | Description | Notes |
-| ------------------- | ----------------------------------------- | ----------- | ----- |
-| **webhookSettings** | [**WebhookSettings**](WebhookSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **webhookSettings** | [**WebhookSettings**](WebhookSettings.md) |  | 
 
 ### Return type
 
@@ -3461,11 +3758,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsWebho
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsWebhookTestPost
 
 > SettingsNotificationsWebhookTestPost(ctx).WebhookSettings(webhookSettings).Execute()
 
 Test webhook settings
+
+
 
 ### Example
 
@@ -3480,7 +3780,7 @@ import (
 )
 
 func main() {
-	webhookSettings := *openapiclient.NewWebhookSettings() // WebhookSettings |
+	webhookSettings := *openapiclient.NewWebhookSettings() // WebhookSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -3494,17 +3794,20 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsWebhookTestPostRequest struct via the builder pattern
 
-| Name                | Type                                      | Description | Notes |
-| ------------------- | ----------------------------------------- | ----------- | ----- |
-| **webhookSettings** | [**WebhookSettings**](WebhookSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **webhookSettings** | [**WebhookSettings**](WebhookSettings.md) |  | 
 
 ### Return type
 
-(empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -3519,11 +3822,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsWebho
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsWebpushGet
 
 > WebPushSettings SettingsNotificationsWebpushGet(ctx).Execute()
 
 Get Web Push notification settings
+
+
 
 ### Example
 
@@ -3559,6 +3865,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsWebpushGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**WebPushSettings**](WebPushSettings.md)
@@ -3576,11 +3883,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsWebpu
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsWebpushPost
 
 > WebPushSettings SettingsNotificationsWebpushPost(ctx).WebPushSettings(webPushSettings).Execute()
 
 Update Web Push notification settings
+
+
 
 ### Example
 
@@ -3595,7 +3905,7 @@ import (
 )
 
 func main() {
-	webPushSettings := *openapiclient.NewWebPushSettings() // WebPushSettings |
+	webPushSettings := *openapiclient.NewWebPushSettings() // WebPushSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -3611,13 +3921,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsWebpushPostRequest struct via the builder pattern
 
-| Name                | Type                                      | Description | Notes |
-| ------------------- | ----------------------------------------- | ----------- | ----- |
-| **webPushSettings** | [**WebPushSettings**](WebPushSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **webPushSettings** | [**WebPushSettings**](WebPushSettings.md) |  | 
 
 ### Return type
 
@@ -3636,11 +3949,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsWebpu
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsNotificationsWebpushTestPost
 
 > SettingsNotificationsWebpushTestPost(ctx).WebPushSettings(webPushSettings).Execute()
 
 Test Web Push settings
+
+
 
 ### Example
 
@@ -3655,7 +3971,7 @@ import (
 )
 
 func main() {
-	webPushSettings := *openapiclient.NewWebPushSettings() // WebPushSettings |
+	webPushSettings := *openapiclient.NewWebPushSettings() // WebPushSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -3669,17 +3985,20 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsNotificationsWebpushTestPostRequest struct via the builder pattern
 
-| Name                | Type                                      | Description | Notes |
-| ------------------- | ----------------------------------------- | ----------- | ----- |
-| **webPushSettings** | [**WebPushSettings**](WebPushSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **webPushSettings** | [**WebPushSettings**](WebPushSettings.md) |  | 
 
 ### Return type
 
-(empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -3694,11 +4013,14 @@ Other parameters are passed through a pointer to a apiSettingsNotificationsWebpu
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsPlexDevicesServersGet
 
 > []PlexDevice SettingsPlexDevicesServersGet(ctx).Execute()
 
 Gets the user's available Plex servers
+
+
 
 ### Example
 
@@ -3734,6 +4056,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsPlexDevicesServersGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**[]PlexDevice**](PlexDevice.md)
@@ -3751,11 +4074,14 @@ Other parameters are passed through a pointer to a apiSettingsPlexDevicesServers
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsPlexGet
 
 > PlexSettings SettingsPlexGet(ctx).Execute()
 
 Get Plex settings
+
+
 
 ### Example
 
@@ -3791,6 +4117,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsPlexGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**PlexSettings**](PlexSettings.md)
@@ -3808,11 +4135,14 @@ Other parameters are passed through a pointer to a apiSettingsPlexGetRequest str
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsPlexLibraryGet
 
 > []PlexLibrary SettingsPlexLibraryGet(ctx).Sync(sync).Enable(enable).Execute()
 
 Get Plex libraries
+
+
 
 ### Example
 
@@ -3844,14 +4174,17 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsPlexLibraryGetRequest struct via the builder pattern
 
-| Name       | Type       | Description                                                                             | Notes |
-| ---------- | ---------- | --------------------------------------------------------------------------------------- | ----- |
-| **sync**   | **string** | Syncs the current libraries with the current Plex server                                |
-| **enable** | **string** | Comma separated list of libraries to enable. Any libraries not passed will be disabled! |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **sync** | **string** | Syncs the current libraries with the current Plex server | 
+ **enable** | **string** | Comma separated list of libraries to enable. Any libraries not passed will be disabled! | 
 
 ### Return type
 
@@ -3870,11 +4203,14 @@ Other parameters are passed through a pointer to a apiSettingsPlexLibraryGetRequ
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsPlexPost
 
 > PlexSettings SettingsPlexPost(ctx).PlexSettings(plexSettings).Execute()
 
 Update Plex settings
+
+
 
 ### Example
 
@@ -3889,7 +4225,7 @@ import (
 )
 
 func main() {
-	plexSettings := *openapiclient.NewPlexSettings("Main Server", "1234123412341234", "127.0.0.1", float32(32400)) // PlexSettings |
+	plexSettings := *openapiclient.NewPlexSettings("Main Server", "1234123412341234", "127.0.0.1", float32(32400)) // PlexSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -3905,13 +4241,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsPlexPostRequest struct via the builder pattern
 
-| Name             | Type                                | Description | Notes |
-| ---------------- | ----------------------------------- | ----------- | ----- |
-| **plexSettings** | [**PlexSettings**](PlexSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **plexSettings** | [**PlexSettings**](PlexSettings.md) |  | 
 
 ### Return type
 
@@ -3930,11 +4269,14 @@ Other parameters are passed through a pointer to a apiSettingsPlexPostRequest st
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsPlexSyncGet
 
 > SettingsPlexSyncGet200Response SettingsPlexSyncGet(ctx).Execute()
 
 Get status of full Plex library scan
+
+
 
 ### Example
 
@@ -3970,6 +4312,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsPlexSyncGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**SettingsPlexSyncGet200Response**](SettingsPlexSyncGet200Response.md)
@@ -3987,11 +4330,14 @@ Other parameters are passed through a pointer to a apiSettingsPlexSyncGetRequest
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsPlexSyncPost
 
 > SettingsPlexSyncGet200Response SettingsPlexSyncPost(ctx).SettingsJellyfinSyncPostRequest(settingsJellyfinSyncPostRequest).Execute()
 
 Start full Plex library scan
+
+
 
 ### Example
 
@@ -4022,13 +4368,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsPlexSyncPostRequest struct via the builder pattern
 
-| Name                                | Type                                                                      | Description | Notes |
-| ----------------------------------- | ------------------------------------------------------------------------- | ----------- | ----- |
-| **settingsJellyfinSyncPostRequest** | [**SettingsJellyfinSyncPostRequest**](SettingsJellyfinSyncPostRequest.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **settingsJellyfinSyncPostRequest** | [**SettingsJellyfinSyncPostRequest**](SettingsJellyfinSyncPostRequest.md) |  | 
 
 ### Return type
 
@@ -4047,11 +4396,14 @@ Other parameters are passed through a pointer to a apiSettingsPlexSyncPostReques
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsPlexUsersGet
 
 > []SettingsPlexUsersGet200ResponseInner SettingsPlexUsersGet(ctx).Execute()
 
 Get Plex users
+
+
 
 ### Example
 
@@ -4087,6 +4439,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsPlexUsersGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**[]SettingsPlexUsersGet200ResponseInner**](SettingsPlexUsersGet200ResponseInner.md)
@@ -4104,11 +4457,14 @@ Other parameters are passed through a pointer to a apiSettingsPlexUsersGetReques
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsPublicGet
 
 > PublicSettings SettingsPublicGet(ctx).Execute()
 
 Get public settings
+
+
 
 ### Example
 
@@ -4144,6 +4500,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsPublicGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**PublicSettings**](PublicSettings.md)
@@ -4161,11 +4518,14 @@ No authorization required
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsRadarrGet
 
 > []RadarrSettings SettingsRadarrGet(ctx).Execute()
 
 Get Radarr settings
+
+
 
 ### Example
 
@@ -4201,6 +4561,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsRadarrGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**[]RadarrSettings**](RadarrSettings.md)
@@ -4218,11 +4579,14 @@ Other parameters are passed through a pointer to a apiSettingsRadarrGetRequest s
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsRadarrPost
 
 > RadarrSettings SettingsRadarrPost(ctx).RadarrSettings(radarrSettings).Execute()
 
 Create Radarr instance
+
+
 
 ### Example
 
@@ -4237,7 +4601,7 @@ import (
 )
 
 func main() {
-	radarrSettings := *openapiclient.NewRadarrSettings("Radarr Main", "127.0.0.1", float32(7878), "exampleapikey", false, float32(1), "720p/1080p", "/movies", false, "In Cinema", false) // RadarrSettings |
+	radarrSettings := *openapiclient.NewRadarrSettings("Radarr Main", "127.0.0.1", float32(7878), "exampleapikey", false, float32(1), "720p/1080p", "/movies", false, "In Cinema", false) // RadarrSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -4253,13 +4617,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsRadarrPostRequest struct via the builder pattern
 
-| Name               | Type                                    | Description | Notes |
-| ------------------ | --------------------------------------- | ----------- | ----- |
-| **radarrSettings** | [**RadarrSettings**](RadarrSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **radarrSettings** | [**RadarrSettings**](RadarrSettings.md) |  | 
 
 ### Return type
 
@@ -4278,11 +4645,14 @@ Other parameters are passed through a pointer to a apiSettingsRadarrPostRequest 
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsRadarrRadarrIdDelete
 
 > RadarrSettings SettingsRadarrRadarrIdDelete(ctx, radarrId).Execute()
 
 Delete Radarr instance
+
+
 
 ### Example
 
@@ -4313,17 +4683,20 @@ func main() {
 
 ### Path Parameters
 
-| Name         | Type                | Description                                                                 | Notes |
-| ------------ | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**      | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **radarrId** | **int32**           | Radarr instance ID                                                          |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**radarrId** | **int32** | Radarr instance ID | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsRadarrRadarrIdDeleteRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -4342,11 +4715,14 @@ Other parameters are passed through a pointer to a apiSettingsRadarrRadarrIdDele
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsRadarrRadarrIdProfilesGet
 
 > []ServiceProfile SettingsRadarrRadarrIdProfilesGet(ctx, radarrId).Execute()
 
 Get available Radarr profiles
+
+
 
 ### Example
 
@@ -4377,17 +4753,20 @@ func main() {
 
 ### Path Parameters
 
-| Name         | Type                | Description                                                                 | Notes |
-| ------------ | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**      | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **radarrId** | **int32**           | Radarr instance ID                                                          |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**radarrId** | **int32** | Radarr instance ID | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsRadarrRadarrIdProfilesGetRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -4406,11 +4785,14 @@ Other parameters are passed through a pointer to a apiSettingsRadarrRadarrIdProf
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsRadarrRadarrIdPut
 
 > RadarrSettings SettingsRadarrRadarrIdPut(ctx, radarrId).RadarrSettings(radarrSettings).Execute()
 
 Update Radarr instance
+
+
 
 ### Example
 
@@ -4426,7 +4808,7 @@ import (
 
 func main() {
 	radarrId := int32(56) // int32 | Radarr instance ID
-	radarrSettings := *openapiclient.NewRadarrSettings("Radarr Main", "127.0.0.1", float32(7878), "exampleapikey", false, float32(1), "720p/1080p", "/movies", false, "In Cinema", false) // RadarrSettings |
+	radarrSettings := *openapiclient.NewRadarrSettings("Radarr Main", "127.0.0.1", float32(7878), "exampleapikey", false, float32(1), "720p/1080p", "/movies", false, "In Cinema", false) // RadarrSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -4442,19 +4824,21 @@ func main() {
 
 ### Path Parameters
 
-| Name         | Type                | Description                                                                 | Notes |
-| ------------ | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**      | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **radarrId** | **int32**           | Radarr instance ID                                                          |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**radarrId** | **int32** | Radarr instance ID | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsRadarrRadarrIdPutRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
 
-**radarrSettings** | [**RadarrSettings**](RadarrSettings.md) | |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **radarrSettings** | [**RadarrSettings**](RadarrSettings.md) |  | 
 
 ### Return type
 
@@ -4473,11 +4857,14 @@ Other parameters are passed through a pointer to a apiSettingsRadarrRadarrIdPutR
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsRadarrTestPost
 
 > SettingsRadarrTestPost200Response SettingsRadarrTestPost(ctx).SettingsRadarrTestPostRequest(settingsRadarrTestPostRequest).Execute()
 
 Test Radarr configuration
+
+
 
 ### Example
 
@@ -4492,7 +4879,7 @@ import (
 )
 
 func main() {
-	settingsRadarrTestPostRequest := *openapiclient.NewSettingsRadarrTestPostRequest("127.0.0.1", float32(7878), "yourapikey", false) // SettingsRadarrTestPostRequest |
+	settingsRadarrTestPostRequest := *openapiclient.NewSettingsRadarrTestPostRequest("127.0.0.1", float32(7878), "yourapikey", false) // SettingsRadarrTestPostRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -4508,13 +4895,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsRadarrTestPostRequest struct via the builder pattern
 
-| Name                              | Type                                                                  | Description | Notes |
-| --------------------------------- | --------------------------------------------------------------------- | ----------- | ----- |
-| **settingsRadarrTestPostRequest** | [**SettingsRadarrTestPostRequest**](SettingsRadarrTestPostRequest.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **settingsRadarrTestPostRequest** | [**SettingsRadarrTestPostRequest**](SettingsRadarrTestPostRequest.md) |  | 
 
 ### Return type
 
@@ -4533,11 +4923,14 @@ Other parameters are passed through a pointer to a apiSettingsRadarrTestPostRequ
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsSonarrGet
 
 > []SonarrSettings SettingsSonarrGet(ctx).Execute()
 
 Get Sonarr settings
+
+
 
 ### Example
 
@@ -4573,6 +4966,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsSonarrGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**[]SonarrSettings**](SonarrSettings.md)
@@ -4590,11 +4984,14 @@ Other parameters are passed through a pointer to a apiSettingsSonarrGetRequest s
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsSonarrPost
 
 > SonarrSettings SettingsSonarrPost(ctx).SonarrSettings(sonarrSettings).Execute()
 
 Create Sonarr instance
+
+
 
 ### Example
 
@@ -4609,7 +5006,7 @@ import (
 )
 
 func main() {
-	sonarrSettings := *openapiclient.NewSonarrSettings("Sonarr Main", "127.0.0.1", float32(8989), "exampleapikey", false, float32(1), "720p/1080p", "/tv/", false, false, false) // SonarrSettings |
+	sonarrSettings := *openapiclient.NewSonarrSettings("Sonarr Main", "127.0.0.1", float32(8989), "exampleapikey", false, float32(1), "720p/1080p", "/tv/", false, false, false) // SonarrSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -4625,13 +5022,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsSonarrPostRequest struct via the builder pattern
 
-| Name               | Type                                    | Description | Notes |
-| ------------------ | --------------------------------------- | ----------- | ----- |
-| **sonarrSettings** | [**SonarrSettings**](SonarrSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **sonarrSettings** | [**SonarrSettings**](SonarrSettings.md) |  | 
 
 ### Return type
 
@@ -4650,11 +5050,14 @@ Other parameters are passed through a pointer to a apiSettingsSonarrPostRequest 
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsSonarrSonarrIdDelete
 
 > SonarrSettings SettingsSonarrSonarrIdDelete(ctx, sonarrId).Execute()
 
 Delete Sonarr instance
+
+
 
 ### Example
 
@@ -4685,17 +5088,20 @@ func main() {
 
 ### Path Parameters
 
-| Name         | Type                | Description                                                                 | Notes |
-| ------------ | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**      | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **sonarrId** | **int32**           | Sonarr instance ID                                                          |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**sonarrId** | **int32** | Sonarr instance ID | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsSonarrSonarrIdDeleteRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -4714,11 +5120,14 @@ Other parameters are passed through a pointer to a apiSettingsSonarrSonarrIdDele
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsSonarrSonarrIdPut
 
 > SonarrSettings SettingsSonarrSonarrIdPut(ctx, sonarrId).SonarrSettings(sonarrSettings).Execute()
 
 Update Sonarr instance
+
+
 
 ### Example
 
@@ -4734,7 +5143,7 @@ import (
 
 func main() {
 	sonarrId := int32(56) // int32 | Sonarr instance ID
-	sonarrSettings := *openapiclient.NewSonarrSettings("Sonarr Main", "127.0.0.1", float32(8989), "exampleapikey", false, float32(1), "720p/1080p", "/tv/", false, false, false) // SonarrSettings |
+	sonarrSettings := *openapiclient.NewSonarrSettings("Sonarr Main", "127.0.0.1", float32(8989), "exampleapikey", false, float32(1), "720p/1080p", "/tv/", false, false, false) // SonarrSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -4750,19 +5159,21 @@ func main() {
 
 ### Path Parameters
 
-| Name         | Type                | Description                                                                 | Notes |
-| ------------ | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**      | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **sonarrId** | **int32**           | Sonarr instance ID                                                          |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**sonarrId** | **int32** | Sonarr instance ID | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsSonarrSonarrIdPutRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
 
-**sonarrSettings** | [**SonarrSettings**](SonarrSettings.md) | |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **sonarrSettings** | [**SonarrSettings**](SonarrSettings.md) |  | 
 
 ### Return type
 
@@ -4781,11 +5192,14 @@ Other parameters are passed through a pointer to a apiSettingsSonarrSonarrIdPutR
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsSonarrTestPost
 
 > SettingsRadarrTestPost200Response SettingsSonarrTestPost(ctx).SettingsSonarrTestPostRequest(settingsSonarrTestPostRequest).Execute()
 
 Test Sonarr configuration
+
+
 
 ### Example
 
@@ -4800,7 +5214,7 @@ import (
 )
 
 func main() {
-	settingsSonarrTestPostRequest := *openapiclient.NewSettingsSonarrTestPostRequest("127.0.0.1", float32(8989), "yourapikey", false) // SettingsSonarrTestPostRequest |
+	settingsSonarrTestPostRequest := *openapiclient.NewSettingsSonarrTestPostRequest("127.0.0.1", float32(8989), "yourapikey", false) // SettingsSonarrTestPostRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -4816,13 +5230,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsSonarrTestPostRequest struct via the builder pattern
 
-| Name                              | Type                                                                  | Description | Notes |
-| --------------------------------- | --------------------------------------------------------------------- | ----------- | ----- |
-| **settingsSonarrTestPostRequest** | [**SettingsSonarrTestPostRequest**](SettingsSonarrTestPostRequest.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **settingsSonarrTestPostRequest** | [**SettingsSonarrTestPostRequest**](SettingsSonarrTestPostRequest.md) |  | 
 
 ### Return type
 
@@ -4841,11 +5258,14 @@ Other parameters are passed through a pointer to a apiSettingsSonarrTestPostRequ
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsTautulliGet
 
 > TautulliSettings SettingsTautulliGet(ctx).Execute()
 
 Get Tautulli settings
+
+
 
 ### Example
 
@@ -4881,6 +5301,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiSettingsTautulliGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**TautulliSettings**](TautulliSettings.md)
@@ -4898,11 +5319,14 @@ Other parameters are passed through a pointer to a apiSettingsTautulliGetRequest
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## SettingsTautulliPost
 
 > TautulliSettings SettingsTautulliPost(ctx).TautulliSettings(tautulliSettings).Execute()
 
 Update Tautulli settings
+
+
 
 ### Example
 
@@ -4917,7 +5341,7 @@ import (
 )
 
 func main() {
-	tautulliSettings := *openapiclient.NewTautulliSettings() // TautulliSettings |
+	tautulliSettings := *openapiclient.NewTautulliSettings() // TautulliSettings | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -4933,13 +5357,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSettingsTautulliPostRequest struct via the builder pattern
 
-| Name                 | Type                                        | Description | Notes |
-| -------------------- | ------------------------------------------- | ----------- | ----- |
-| **tautulliSettings** | [**TautulliSettings**](TautulliSettings.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **tautulliSettings** | [**TautulliSettings**](TautulliSettings.md) |  | 
 
 ### Return type
 
@@ -4957,3 +5384,4 @@ Other parameters are passed through a pointer to a apiSettingsTautulliPostReques
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
+

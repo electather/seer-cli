@@ -933,7 +933,7 @@ Name | Type | Description  | Notes
 
 ## UserUserIdPut
 
-> User UserUserIdPut(ctx, userId).User(user).Execute()
+> User UserUserIdPut(ctx, userId).UserUpdatePayload(userUpdatePayload).Execute()
 
 Update a user by user ID
 
@@ -953,11 +953,11 @@ import (
 
 func main() {
 	userId := float32(8.14) // float32 | 
-	user := *openapiclient.NewUser(int32(1), "hey@itsme.com", "2020-09-02T05:02:23.000Z", "2020-09-02T05:02:23.000Z") // User | 
+	userUpdatePayload := *openapiclient.NewUserUpdatePayload() // UserUpdatePayload | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UsersAPI.UserUserIdPut(context.Background(), userId).User(user).Execute()
+	resp, r, err := apiClient.UsersAPI.UserUserIdPut(context.Background(), userId).UserUpdatePayload(userUpdatePayload).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.UserUserIdPut``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -983,7 +983,7 @@ Other parameters are passed through a pointer to a apiUserUserIdPutRequest struc
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **user** | [**User**](User.md) |  | 
+ **userUpdatePayload** | [**UserUpdatePayload**](UserUpdatePayload.md) |  | 
 
 ### Return type
 

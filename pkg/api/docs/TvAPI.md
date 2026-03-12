@@ -1,20 +1,24 @@
 # \TvAPI
 
-All URIs are relative to _http://localhost:5055/api/v1_
+All URIs are relative to *http://localhost:5055/api/v1*
 
-| Method                                                                  | HTTP request                             | Description                         |
-| ----------------------------------------------------------------------- | ---------------------------------------- | ----------------------------------- |
-| [**TvTvIdGet**](TvAPI.md#TvTvIdGet)                                     | **Get** /tv/{tvId}                       | Get TV details                      |
-| [**TvTvIdRatingsGet**](TvAPI.md#TvTvIdRatingsGet)                       | **Get** /tv/{tvId}/ratings               | Get TV ratings                      |
-| [**TvTvIdRecommendationsGet**](TvAPI.md#TvTvIdRecommendationsGet)       | **Get** /tv/{tvId}/recommendations       | Get recommended TV series           |
-| [**TvTvIdSeasonSeasonNumberGet**](TvAPI.md#TvTvIdSeasonSeasonNumberGet) | **Get** /tv/{tvId}/season/{seasonNumber} | Get season details and episode list |
-| [**TvTvIdSimilarGet**](TvAPI.md#TvTvIdSimilarGet)                       | **Get** /tv/{tvId}/similar               | Get similar TV series               |
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**TvTvIdGet**](TvAPI.md#TvTvIdGet) | **Get** /tv/{tvId} | Get TV details
+[**TvTvIdRatingsGet**](TvAPI.md#TvTvIdRatingsGet) | **Get** /tv/{tvId}/ratings | Get TV ratings
+[**TvTvIdRecommendationsGet**](TvAPI.md#TvTvIdRecommendationsGet) | **Get** /tv/{tvId}/recommendations | Get recommended TV series
+[**TvTvIdSeasonSeasonNumberGet**](TvAPI.md#TvTvIdSeasonSeasonNumberGet) | **Get** /tv/{tvId}/season/{seasonNumber} | Get season details and episode list
+[**TvTvIdSimilarGet**](TvAPI.md#TvTvIdSimilarGet) | **Get** /tv/{tvId}/similar | Get similar TV series
+
+
 
 ## TvTvIdGet
 
 > TvDetails TvTvIdGet(ctx, tvId).Language(language).Execute()
 
 Get TV details
+
+
 
 ### Example
 
@@ -25,11 +29,11 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "seer-cli/pkg/api"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
 )
 
 func main() {
-	tvId := float32(76479) // float32 |
+	tvId := float32(76479) // float32 | 
 	language := "en" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
@@ -46,19 +50,21 @@ func main() {
 
 ### Path Parameters
 
-| Name     | Type                | Description                                                                 | Notes |
-| -------- | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**  | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **tvId** | **float32**         |                                                                             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**tvId** | **float32** |  | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiTvTvIdGetRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
 
-**language** | **string** | |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **language** | **string** |  | 
 
 ### Return type
 
@@ -77,11 +83,14 @@ Other parameters are passed through a pointer to a apiTvTvIdGetRequest struct vi
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## TvTvIdRatingsGet
 
 > TvTvIdRatingsGet200Response TvTvIdRatingsGet(ctx, tvId).Execute()
 
 Get TV ratings
+
+
 
 ### Example
 
@@ -96,7 +105,7 @@ import (
 )
 
 func main() {
-	tvId := float32(76479) // float32 |
+	tvId := float32(76479) // float32 | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -112,17 +121,20 @@ func main() {
 
 ### Path Parameters
 
-| Name     | Type                | Description                                                                 | Notes |
-| -------- | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**  | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **tvId** | **float32**         |                                                                             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**tvId** | **float32** |  | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiTvTvIdRatingsGetRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -141,11 +153,14 @@ Other parameters are passed through a pointer to a apiTvTvIdRatingsGetRequest st
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## TvTvIdRecommendationsGet
 
 > DiscoverTvGet200Response TvTvIdRecommendationsGet(ctx, tvId).Page(page).Language(language).Execute()
 
 Get recommended TV series
+
+
 
 ### Example
 
@@ -160,7 +175,7 @@ import (
 )
 
 func main() {
-	tvId := float32(76479) // float32 |
+	tvId := float32(76479) // float32 | 
 	page := float32(1) // float32 |  (optional) (default to 1)
 	language := "en" // string |  (optional)
 
@@ -178,20 +193,22 @@ func main() {
 
 ### Path Parameters
 
-| Name     | Type                | Description                                                                 | Notes |
-| -------- | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**  | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **tvId** | **float32**         |                                                                             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**tvId** | **float32** |  | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiTvTvIdRecommendationsGetRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
 
-**page** | **float32** | | [default to 1]
-**language** | **string** | |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **page** | **float32** |  | [default to 1]
+ **language** | **string** |  | 
 
 ### Return type
 
@@ -210,11 +227,14 @@ Other parameters are passed through a pointer to a apiTvTvIdRecommendationsGetRe
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## TvTvIdSeasonSeasonNumberGet
 
 > Season TvTvIdSeasonSeasonNumberGet(ctx, tvId, seasonNumber).Language(language).Execute()
 
 Get season details and episode list
+
+
 
 ### Example
 
@@ -229,8 +249,8 @@ import (
 )
 
 func main() {
-	tvId := float32(76479) // float32 |
-	seasonNumber := float32(123456) // float32 |
+	tvId := float32(76479) // float32 | 
+	seasonNumber := float32(123456) // float32 | 
 	language := "en" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
@@ -247,20 +267,23 @@ func main() {
 
 ### Path Parameters
 
-| Name             | Type                | Description                                                                 | Notes |
-| ---------------- | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**          | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **tvId**         | **float32**         |                                                                             |
-| **seasonNumber** | **float32**         |                                                                             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**tvId** | **float32** |  | 
+**seasonNumber** | **float32** |  | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiTvTvIdSeasonSeasonNumberGetRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
 
-**language** | **string** | |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **language** | **string** |  | 
 
 ### Return type
 
@@ -279,11 +302,14 @@ Other parameters are passed through a pointer to a apiTvTvIdSeasonSeasonNumberGe
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## TvTvIdSimilarGet
 
 > DiscoverTvGet200Response TvTvIdSimilarGet(ctx, tvId).Page(page).Language(language).Execute()
 
 Get similar TV series
+
+
 
 ### Example
 
@@ -298,7 +324,7 @@ import (
 )
 
 func main() {
-	tvId := float32(76479) // float32 |
+	tvId := float32(76479) // float32 | 
 	page := float32(1) // float32 |  (optional) (default to 1)
 	language := "en" // string |  (optional)
 
@@ -316,20 +342,22 @@ func main() {
 
 ### Path Parameters
 
-| Name     | Type                | Description                                                                 | Notes |
-| -------- | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**  | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **tvId** | **float32**         |                                                                             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**tvId** | **float32** |  | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiTvTvIdSimilarGetRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
 
-**page** | **float32** | | [default to 1]
-**language** | **string** | |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **page** | **float32** |  | [default to 1]
+ **language** | **string** |  | 
 
 ### Return type
 
@@ -347,3 +375,4 @@ Other parameters are passed through a pointer to a apiTvTvIdSimilarGetRequest st
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
+

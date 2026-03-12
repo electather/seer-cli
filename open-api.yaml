@@ -89,6 +89,15 @@ components:
           readOnly: true
         requestedBy:
           $ref: "#/components/schemas/User"
+    UserUpdatePayload:
+      type: object
+      properties:
+        email:
+          type: string
+        username:
+          type: string
+        permissions:
+          type: number
     User:
       type: object
       properties:
@@ -186,9 +195,6 @@ components:
           readOnly: true
       required:
         - id
-        - email
-        - createdAt
-        - updatedAt
     UserSettings:
       type: object
       properties:
@@ -4455,7 +4461,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/UserUpdatePayload"
       responses:
         "200":
           description: Successfully updated user details

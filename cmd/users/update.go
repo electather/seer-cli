@@ -25,18 +25,18 @@ var updateCmd = &cobra.Command{
 		email, _ := cmd.Flags().GetString("email")
 		permissions, _ := cmd.Flags().GetFloat32("permissions")
 
-		body := api.User{}
+		body := api.UserUpdatePayload{}
 		if cmd.Flags().Changed("username") {
 			body.Username = &username
 		}
 		if cmd.Flags().Changed("email") {
-			body.Email = email
+			body.Email = &email
 		}
 		if cmd.Flags().Changed("permissions") {
 			body.Permissions = &permissions
 		}
 
-		res, r, err := apiClient.UsersAPI.UserUserIdPut(ctx, float32(userId)).User(body).Execute()
+		res, r, err := apiClient.UsersAPI.UserUserIdPut(ctx, float32(userId)).UserUpdatePayload(body).Execute()
 		if err != nil {
 			if isVerbose && r != nil {
 				return fmt.Errorf("error when calling UserUserIdPut: %w\nFull HTTP response: %v", err, r)

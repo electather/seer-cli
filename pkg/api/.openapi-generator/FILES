@@ -205,6 +205,7 @@ docs/UserPutRequest.md
 docs/UserRegisterPushSubscriptionPostRequest.md
 docs/UserSettings.md
 docs/UserSettingsNotifications.md
+docs/UserUpdatePayload.md
 docs/UserUserIdPushSubscriptionsGet200Response.md
 docs/UserUserIdQuotaGet200Response.md
 docs/UserUserIdQuotaGet200ResponseMovie.md
@@ -408,6 +409,7 @@ model_tv_result.go
 model_user.go
 model_user_settings.go
 model_user_settings_notifications.go
+model_user_update_payload.go
 model_watch_provider_details.go
 model_watch_provider_region.go
 model_watch_providers_inner.go

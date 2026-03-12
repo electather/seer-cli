@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **int32** |  | [readonly] 
-**Email** | **string** |  | [readonly] 
+**Email** | Pointer to **string** |  | [optional] [readonly] 
 **Username** | Pointer to **string** |  | [optional] 
 **PlexUsername** | Pointer to **string** |  | [optional] [readonly] 
 **PlexToken** | Pointer to **string** |  | [optional] [readonly] 
@@ -13,8 +13,8 @@ Name | Type | Description | Notes
 **UserType** | Pointer to **int32** |  | [optional] [readonly] 
 **Permissions** | Pointer to **float32** |  | [optional] 
 **Avatar** | Pointer to **string** |  | [optional] [readonly] 
-**CreatedAt** | **string** |  | [readonly] 
-**UpdatedAt** | **string** |  | [readonly] 
+**CreatedAt** | Pointer to **string** |  | [optional] [readonly] 
+**UpdatedAt** | Pointer to **string** |  | [optional] [readonly] 
 **Settings** | Pointer to [**UserSettings**](UserSettings.md) |  | [optional] 
 **RequestCount** | Pointer to **float32** |  | [optional] [readonly] 
 **DisplayName** | Pointer to **string** |  | [optional] [readonly] 
@@ -34,7 +34,7 @@ Name | Type | Description | Notes
 
 ### NewUser
 
-`func NewUser(id int32, email string, createdAt string, updatedAt string, ) *User`
+`func NewUser(id int32, ) *User`
 
 NewUser instantiates a new User object
 This constructor will assign default values to properties that have it defined,
@@ -88,6 +88,11 @@ and a boolean to check if the value has been set.
 
 SetEmail sets Email field to given value.
 
+### HasEmail
+
+`func (o *User) HasEmail() bool`
+
+HasEmail returns a boolean if a field has been set.
 
 ### GetUsername
 
@@ -283,6 +288,11 @@ and a boolean to check if the value has been set.
 
 SetCreatedAt sets CreatedAt field to given value.
 
+### HasCreatedAt
+
+`func (o *User) HasCreatedAt() bool`
+
+HasCreatedAt returns a boolean if a field has been set.
 
 ### GetUpdatedAt
 
@@ -303,6 +313,11 @@ and a boolean to check if the value has been set.
 
 SetUpdatedAt sets UpdatedAt field to given value.
 
+### HasUpdatedAt
+
+`func (o *User) HasUpdatedAt() bool`
+
+HasUpdatedAt returns a boolean if a field has been set.
 
 ### GetSettings
 

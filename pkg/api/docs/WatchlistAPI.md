@@ -1,11 +1,13 @@
 # \WatchlistAPI
 
-All URIs are relative to _http://localhost:5055/api/v1_
+All URIs are relative to *http://localhost:5055/api/v1*
 
-| Method                                                             | HTTP request                   | Description            |
-| ------------------------------------------------------------------ | ------------------------------ | ---------------------- |
-| [**WatchlistPost**](WatchlistAPI.md#WatchlistPost)                 | **Post** /watchlist            | Add media to watchlist |
-| [**WatchlistTmdbIdDelete**](WatchlistAPI.md#WatchlistTmdbIdDelete) | **Delete** /watchlist/{tmdbId} | Delete watchlist item  |
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**WatchlistPost**](WatchlistAPI.md#WatchlistPost) | **Post** /watchlist | Add media to watchlist
+[**WatchlistTmdbIdDelete**](WatchlistAPI.md#WatchlistTmdbIdDelete) | **Delete** /watchlist/{tmdbId} | Delete watchlist item
+
+
 
 ## WatchlistPost
 
@@ -22,11 +24,11 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "seer-cli/pkg/api"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
 )
 
 func main() {
-	watchlist := *openapiclient.NewWatchlist() // Watchlist |
+	watchlist := *openapiclient.NewWatchlist() // Watchlist | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -42,13 +44,16 @@ func main() {
 
 ### Path Parameters
 
+
+
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiWatchlistPostRequest struct via the builder pattern
 
-| Name          | Type                          | Description | Notes |
-| ------------- | ----------------------------- | ----------- | ----- |
-| **watchlist** | [**Watchlist**](Watchlist.md) |             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **watchlist** | [**Watchlist**](Watchlist.md) |  | 
 
 ### Return type
 
@@ -67,11 +72,14 @@ Other parameters are passed through a pointer to a apiWatchlistPostRequest struc
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## WatchlistTmdbIdDelete
 
 > WatchlistTmdbIdDelete(ctx, tmdbId).Execute()
 
 Delete watchlist item
+
+
 
 ### Example
 
@@ -100,21 +108,24 @@ func main() {
 
 ### Path Parameters
 
-| Name       | Type                | Description                                                                 | Notes |
-| ---------- | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**    | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **tmdbId** | **string**          | tmdbId ID                                                                   |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**tmdbId** | **string** | tmdbId ID | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiWatchlistTmdbIdDeleteRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
-(empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -128,3 +139,4 @@ Other parameters are passed through a pointer to a apiWatchlistTmdbIdDeleteReque
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
+

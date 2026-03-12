@@ -1,20 +1,24 @@
 # \ServiceAPI
 
-All URIs are relative to _http://localhost:5055/api/v1_
+All URIs are relative to *http://localhost:5055/api/v1*
 
-| Method                                                                         | HTTP request                            | Description                                         |
-| ------------------------------------------------------------------------------ | --------------------------------------- | --------------------------------------------------- |
-| [**ServiceRadarrGet**](ServiceAPI.md#ServiceRadarrGet)                         | **Get** /service/radarr                 | Get non-sensitive Radarr server list                |
-| [**ServiceRadarrRadarrIdGet**](ServiceAPI.md#ServiceRadarrRadarrIdGet)         | **Get** /service/radarr/{radarrId}      | Get Radarr server quality profiles and root folders |
-| [**ServiceSonarrGet**](ServiceAPI.md#ServiceSonarrGet)                         | **Get** /service/sonarr                 | Get non-sensitive Sonarr server list                |
-| [**ServiceSonarrLookupTmdbIdGet**](ServiceAPI.md#ServiceSonarrLookupTmdbIdGet) | **Get** /service/sonarr/lookup/{tmdbId} | Get series from Sonarr                              |
-| [**ServiceSonarrSonarrIdGet**](ServiceAPI.md#ServiceSonarrSonarrIdGet)         | **Get** /service/sonarr/{sonarrId}      | Get Sonarr server quality profiles and root folders |
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**ServiceRadarrGet**](ServiceAPI.md#ServiceRadarrGet) | **Get** /service/radarr | Get non-sensitive Radarr server list
+[**ServiceRadarrRadarrIdGet**](ServiceAPI.md#ServiceRadarrRadarrIdGet) | **Get** /service/radarr/{radarrId} | Get Radarr server quality profiles and root folders
+[**ServiceSonarrGet**](ServiceAPI.md#ServiceSonarrGet) | **Get** /service/sonarr | Get non-sensitive Sonarr server list
+[**ServiceSonarrLookupTmdbIdGet**](ServiceAPI.md#ServiceSonarrLookupTmdbIdGet) | **Get** /service/sonarr/lookup/{tmdbId} | Get series from Sonarr
+[**ServiceSonarrSonarrIdGet**](ServiceAPI.md#ServiceSonarrSonarrIdGet) | **Get** /service/sonarr/{sonarrId} | Get Sonarr server quality profiles and root folders
+
+
 
 ## ServiceRadarrGet
 
 > []RadarrSettings ServiceRadarrGet(ctx).Execute()
 
 Get non-sensitive Radarr server list
+
+
 
 ### Example
 
@@ -25,7 +29,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "seer-cli/pkg/api"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/api"
 )
 
 func main() {
@@ -50,6 +54,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiServiceRadarrGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**[]RadarrSettings**](RadarrSettings.md)
@@ -67,11 +72,14 @@ Other parameters are passed through a pointer to a apiServiceRadarrGetRequest st
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## ServiceRadarrRadarrIdGet
 
 > ServiceRadarrRadarrIdGet200Response ServiceRadarrRadarrIdGet(ctx, radarrId).Execute()
 
 Get Radarr server quality profiles and root folders
+
+
 
 ### Example
 
@@ -86,7 +94,7 @@ import (
 )
 
 func main() {
-	radarrId := float32(0) // float32 |
+	radarrId := float32(0) // float32 | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -102,17 +110,20 @@ func main() {
 
 ### Path Parameters
 
-| Name         | Type                | Description                                                                 | Notes |
-| ------------ | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**      | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **radarrId** | **float32**         |                                                                             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**radarrId** | **float32** |  | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiServiceRadarrRadarrIdGetRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -131,11 +142,14 @@ Other parameters are passed through a pointer to a apiServiceRadarrRadarrIdGetRe
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## ServiceSonarrGet
 
 > []SonarrSettings ServiceSonarrGet(ctx).Execute()
 
 Get non-sensitive Sonarr server list
+
+
 
 ### Example
 
@@ -171,6 +185,7 @@ This endpoint does not need any parameter.
 
 Other parameters are passed through a pointer to a apiServiceSonarrGetRequest struct via the builder pattern
 
+
 ### Return type
 
 [**[]SonarrSettings**](SonarrSettings.md)
@@ -188,11 +203,14 @@ Other parameters are passed through a pointer to a apiServiceSonarrGetRequest st
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## ServiceSonarrLookupTmdbIdGet
 
 > []SonarrSeries ServiceSonarrLookupTmdbIdGet(ctx, tmdbId).Execute()
 
 Get series from Sonarr
+
+
 
 ### Example
 
@@ -207,7 +225,7 @@ import (
 )
 
 func main() {
-	tmdbId := float32(0) // float32 |
+	tmdbId := float32(0) // float32 | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -223,17 +241,20 @@ func main() {
 
 ### Path Parameters
 
-| Name       | Type                | Description                                                                 | Notes |
-| ---------- | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**    | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **tmdbId** | **float32**         |                                                                             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**tmdbId** | **float32** |  | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiServiceSonarrLookupTmdbIdGetRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -252,11 +273,14 @@ Other parameters are passed through a pointer to a apiServiceSonarrLookupTmdbIdG
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
 ## ServiceSonarrSonarrIdGet
 
 > ServiceSonarrSonarrIdGet200Response ServiceSonarrSonarrIdGet(ctx, sonarrId).Execute()
 
 Get Sonarr server quality profiles and root folders
+
+
 
 ### Example
 
@@ -271,7 +295,7 @@ import (
 )
 
 func main() {
-	sonarrId := float32(0) // float32 |
+	sonarrId := float32(0) // float32 | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -287,17 +311,20 @@ func main() {
 
 ### Path Parameters
 
-| Name         | Type                | Description                                                                 | Notes |
-| ------------ | ------------------- | --------------------------------------------------------------------------- | ----- |
-| **ctx**      | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
-| **sonarrId** | **float32**         |                                                                             |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**sonarrId** | **float32** |  | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiServiceSonarrSonarrIdGetRequest struct via the builder pattern
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -315,3 +342,4 @@ Other parameters are passed through a pointer to a apiServiceSonarrSonarrIdGetRe
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
+

@@ -1991,7 +1991,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/UserUpdatePayload"
         required: true
       responses:
         "200":
@@ -5360,6 +5360,19 @@ components:
         requestedBy:
           $ref: "#/components/schemas/User"
       type: object
+    UserUpdatePayload:
+      example:
+        permissions: 0.8008281904610115
+        email: email
+        username: username
+      properties:
+        email:
+          type: string
+        username:
+          type: string
+        permissions:
+          type: number
+      type: object
     User:
       example:
         movieQuotaLimit: 1.4658129805029452
@@ -5499,10 +5512,7 @@ components:
           readOnly: true
           type: number
       required:
-      - createdAt
-      - email
       - id
-      - updatedAt
       type: object
     UserSettings:
       example:
