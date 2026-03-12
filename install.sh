@@ -27,7 +27,8 @@ case "$ARCH" in
     ;;
 esac
 
-# ── Resolve latest release version ───────────────────────────────────────────
+# ── Resolve latest stable release version ────────────────────────────────────
+# /releases/latest returns the newest non-prerelease, non-draft release only.
 API="https://api.github.com/repos/${REPO}/releases/latest"
 
 if command -v curl > /dev/null 2>&1; then
