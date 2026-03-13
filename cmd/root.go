@@ -76,7 +76,7 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.seer-cli.yaml)")
-	RootCmd.PersistentFlags().StringVarP(&server, "server", "s", "", "Seer server URL (e.g., https://request.omidastaraki.com). The /api/v1 prefix is added automatically if not provided.")
+	RootCmd.PersistentFlags().StringVarP(&server, "server", "s", "", "Seer server URL (e.g., https://seer.example.com). The /api/v1 prefix is added automatically if not provided.")
 	RootCmd.PersistentFlags().StringVarP(&apiKey, "api-key", "k", "", "Seer API Key")
 	RootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Enable verbose output")
 
