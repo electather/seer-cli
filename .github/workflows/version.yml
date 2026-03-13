@@ -116,8 +116,9 @@ jobs:
         run: |
           npm install -g clawhub
           clawhub login --token "${{ secrets.CLAWHUB_TOKEN }}"
-          cp AGENT.md SKILL.md
-          clawhub publish SKILL.md \
+          mkdir -p .clawhub-publish
+          cp AGENT.md .clawhub-publish/SKILL.md
+          clawhub publish .clawhub-publish \
             --slug seer-manager \
             --name "Seer server manager" \
             --version "${{ steps.version.outputs.tag }}" \
