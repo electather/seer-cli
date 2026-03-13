@@ -2,11 +2,12 @@ name: Publish to ClawHub
 
 on:
   release:
-    types: [released]
+    types: [published]
 
 jobs:
   publish:
     name: Publish to ClawHub
+    if: github.event.release.prerelease == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
