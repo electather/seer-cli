@@ -1,0 +1,45 @@
+name: Publish to ClawHub
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - AGENT.md
+
+jobs:
+  publish:
+    name: Publish to ClawHub
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install clawhub CLI
+        run: npm install -g clawhub
+
+      - name: Authenticate
+        run: clawhub login --token "${{ secrets.CLAWHUB_TOKEN }}"
+
+      - name: Resolve version
+        id: version
+        run: |
+          TAG=$(git tag -l "v[0-9]*" | grep -v -- '-' | sort -V | tail -1)
+          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish AGENT.md as SKILL.md
+        run: |
+          cp AGENT.md SKILL.md
+          clawhub publish SKILL.md \
+            --slug seer-cli \
+            --name "seer-cli" \
+            --version "${{ steps.version.outputs.version }}" \
+            --changelog "Updated from commit ${{ github.sha }}" \
+            --no-input
+        env:
+          CLAWHUB_DISABLE_TELEMETRY: 1
