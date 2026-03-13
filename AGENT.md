@@ -15,6 +15,14 @@ metadata:
 
 CLI for interacting with a [Seer](https://github.com/seerr/app) media request management server.
 
+## Installation
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/electather/seer-cli/main/install.sh | sh
+```
+
+Installs the latest stable release to `/usr/local/bin`. Supports Linux and macOS (amd64 / arm64).
+
 ## Setup
 
 ```bash
