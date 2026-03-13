@@ -1,10 +1,8 @@
 name: Publish to ClawHub
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - AGENT.md
+  release:
+    types: [released]
 
 jobs:
   publish:
@@ -26,20 +24,14 @@ jobs:
       - name: Authenticate
         run: clawhub login --token "${{ secrets.CLAWHUB_TOKEN }}"
 
-      - name: Resolve version
-        id: version
-        run: |
-          TAG=$(git tag -l "v[0-9]*" | grep -v -- '-' | sort -V | tail -1)
-          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
-
       - name: Publish AGENT.md as SKILL.md
         run: |
           cp AGENT.md SKILL.md
           clawhub publish SKILL.md \
             --slug seer-cli \
             --name "seer-cli" \
-            --version "${{ steps.version.outputs.version }}" \
-            --changelog "Updated from commit ${{ github.sha }}" \
+            --version "${{ github.event.release.tag_name }}" \
+            --changelog "${{ github.event.release.body }}" \
             --no-input
         env:
           CLAWHUB_DISABLE_TELEMETRY: 1
