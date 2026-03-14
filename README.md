@@ -24,6 +24,35 @@ cd seer-cli
 go build -o seer-cli .
 ```
 
+### Docker
+
+A container image is published to the GitHub Container Registry on every release:
+
+```sh
+docker pull ghcr.io/electather/seer-cli:latest
+```
+
+The image defaults to running the MCP HTTP server on port `8811`. Pass configuration via environment variables:
+
+```sh
+docker run -d \
+  -p 8811:8811 \
+  -e SEER_SERVER=https://your-seer-instance.com \
+  -e SEER_API_KEY=your-api-key \
+  -e SEER_MCP_AUTH_TOKEN=mysecrettoken \
+  ghcr.io/electather/seer-cli:latest
+```
+
+To run CLI commands instead, override the default arguments:
+
+```sh
+docker run --rm \
+  -e SEER_SERVER=https://your-seer-instance.com \
+  -e SEER_API_KEY=your-api-key \
+  ghcr.io/electather/seer-cli:latest \
+  status system
+```
+
 ## Configuration
 
 Set your server URL and API key once:
@@ -346,6 +375,36 @@ seer-cli mcp serve --transport http --addr :8811 --no-auth
 The MCP endpoint will be `http://localhost:8811/mcp`. Configure your client with `Authorization: Bearer mysecrettoken`.
 
 > **Note:** The HTTP transport uses Bearer token auth. It does not implement OAuth 2.0, so it is not compatible with clients that require OAuth (e.g. claude.ai remote MCP). Use stdio for Claude Desktop.
+
+### Docker (HTTP transport)
+
+The published container image runs the MCP HTTP server by default. This is the recommended way to self-host the MCP server:
+
+```sh
+docker run -d \
+  --name seer-mcp \
+  -p 8811:8811 \
+  -e SEER_SERVER=https://your-seer-instance.com \
+  -e SEER_API_KEY=your-api-key \
+  -e SEER_MCP_AUTH_TOKEN=mysecrettoken \
+  ghcr.io/electather/seer-cli:latest
+```
+
+Configure your MCP client with:
+- **URL:** `http://localhost:8811/mcp`
+- **Authorization:** `Bearer mysecrettoken`
+
+To bind to a different port or address, pass `--addr` explicitly:
+
+```sh
+docker run -d \
+  -p 9000:9000 \
+  -e SEER_SERVER=https://your-seer-instance.com \
+  -e SEER_API_KEY=your-api-key \
+  -e SEER_MCP_AUTH_TOKEN=mysecrettoken \
+  ghcr.io/electather/seer-cli:latest \
+  mcp serve --transport http --addr :9000
+```
 
 ### Available tools (43)
 
