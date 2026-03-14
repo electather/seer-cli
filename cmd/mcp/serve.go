@@ -1,6 +1,7 @@
 package mcp
 
 import (
+	"context"
 	"crypto/subtle"
 	"fmt"
 	"net/http"
@@ -26,7 +27,10 @@ var serveCmd = &cobra.Command{
   seer-cli mcp serve --transport http --auth-token mysecret --tls-cert /path/to/cert.pem --tls-key /path/to/key.pem
 
   # Start over HTTP without auth (insecure, not recommended)
-  seer-cli mcp serve --transport http --no-auth`,
+  seer-cli mcp serve --transport http --no-auth
+
+  # Start in multi-tenant mode (per-user API keys in URL path)
+  seer-cli mcp serve --transport http --no-auth --multi-tenant`,
 	RunE: runServe,
 }
 
@@ -37,6 +41,7 @@ func init() {
 	serveCmd.Flags().Bool("no-auth", false, "Disable authentication (insecure — must be explicit)")
 	serveCmd.Flags().String("tls-cert", "", "Path to TLS certificate file")
 	serveCmd.Flags().String("tls-key", "", "Path to TLS private key file")
+	serveCmd.Flags().Bool("multi-tenant", false, "Route /{seer-api-token}/mcp for per-user API keys (HTTP transport only)")
 	viper.BindPFlag("mcp_auth_token", serveCmd.Flags().Lookup("auth-token"))
 	Cmd.AddCommand(serveCmd)
 }
@@ -48,30 +53,34 @@ func runServe(cmd *cobra.Command, args []string) error {
 	noAuth, _ := cmd.Flags().GetBool("no-auth")
 	tlsCert, _ := cmd.Flags().GetString("tls-cert")
 	tlsKey, _ := cmd.Flags().GetString("tls-key")
+	multiTenant, _ := cmd.Flags().GetBool("multi-tenant")
 
 	if transport == "http" && authToken == "" && !noAuth {
 		return fmt.Errorf("HTTP transport requires --auth-token or --no-auth (insecure) to be set explicitly")
 	}
 
+	if multiTenant && transport != "http" {
+		return fmt.Errorf("--multi-tenant requires --transport http")
+	}
+
 	verbose := viper.GetBool("verbose")
-	client, ctx := newAPIClient()
 
 	s := server.NewMCPServer("seer-mcp", "1.0.0")
 
-	registerStatusTools(s, client, ctx)
-	registerSearchTools(s, client, ctx)
-	registerMoviesTools(s, client, ctx)
-	registerTVTools(s, client, ctx)
-	registerRequestTools(s, client, ctx)
-	registerMediaTools(s, client, ctx)
-	registerUsersTools(s, client, ctx)
-	registerIssueTools(s, client, ctx)
-	registerPersonTools(s, client, ctx)
-	registerCollectionTools(s, client, ctx)
-	registerServiceTools(s, client, ctx)
-	registerSettingsTools(s, client, ctx)
-	registerWatchlistTools(s, client, ctx)
-	registerBlocklistTools(s, client, ctx)
+	registerStatusTools(s)
+	registerSearchTools(s)
+	registerMoviesTools(s)
+	registerTVTools(s)
+	registerRequestTools(s)
+	registerMediaTools(s)
+	registerUsersTools(s)
+	registerIssueTools(s)
+	registerPersonTools(s)
+	registerCollectionTools(s)
+	registerServiceTools(s)
+	registerSettingsTools(s)
+	registerWatchlistTools(s)
+	registerBlocklistTools(s)
 
 	switch transport {
 	case "stdio":
@@ -96,6 +105,9 @@ func runServe(cmd *cobra.Command, args []string) error {
 			host = "localhost" + host
 		}
 		endpoint := fmt.Sprintf("%s://%s/mcp", scheme, host)
+		if multiTenant {
+			endpoint = fmt.Sprintf("%s://%s/{seer-api-token}/mcp", scheme, host)
+		}
 
 		fmt.Fprintf(os.Stderr, "seer-mcp: listening on %s\n", endpoint)
 		fmt.Fprintf(os.Stderr, "\nConfigure your MCP client:\n")
@@ -113,15 +125,21 @@ func runServe(cmd *cobra.Command, args []string) error {
 			fmt.Fprintf(os.Stderr, "  Bind addr: %s\n", addr)
 			fmt.Fprintf(os.Stderr, "  TLS: %v\n", tlsCert != "")
 			fmt.Fprintf(os.Stderr, "  Auth: %v\n", authToken != "")
+			fmt.Fprintf(os.Stderr, "  Multi-tenant: %v\n", multiTenant)
 			fmt.Fprintf(os.Stderr, "  Tools registered: 43\n")
 		}
 
 		fmt.Fprintf(os.Stderr, "\n")
 
 		httpHandler := server.NewStreamableHTTPServer(s)
-		var handler http.Handler = httpHandler
+		var handler http.Handler
+		if multiTenant {
+			handler = tenantRoutingHandler(httpHandler)
+		} else {
+			handler = httpHandler
+		}
 		if authToken != "" {
-			handler = bearerAuthMiddleware(authToken, httpHandler)
+			handler = bearerAuthMiddleware(authToken, handler)
 		}
 		srv := &http.Server{
 			Addr:    addr,
@@ -150,5 +168,33 @@ func bearerAuthMiddleware(token string, next http.Handler) http.Handler {
 			return
 		}
 		next.ServeHTTP(w, r)
+	})
+}
+
+// TenantRoutingHandler extracts the Seer API token from /{token}/mcp paths and
+// injects it into the request context before forwarding to the MCP handler.
+// Exported for testing.
+func TenantRoutingHandler(mcpHandler http.Handler) http.Handler {
+	return tenantRoutingHandler(mcpHandler)
+}
+
+func tenantRoutingHandler(mcpHandler http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Expect /{token}/mcp or /{token}/mcp/...
+		path := strings.TrimPrefix(r.URL.Path, "/")
+		slash := strings.Index(path, "/")
+		if slash < 0 {
+			http.NotFound(w, r)
+			return
+		}
+		token, rest := path[:slash], path[slash:] // rest = "/mcp" or "/mcp/..."
+		if token == "" || !strings.HasPrefix(rest, "/mcp") {
+			http.NotFound(w, r)
+			return
+		}
+		ctx := context.WithValue(r.Context(), apiKeyCtxKey, token)
+		r2 := r.Clone(ctx)
+		r2.URL.Path = rest
+		mcpHandler.ServeHTTP(w, r2)
 	})
 }

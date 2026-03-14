@@ -7,17 +7,16 @@ import (
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
-	api "seer-cli/pkg/api"
 )
 
-func registerSearchTools(s *server.MCPServer, client *api.APIClient, ctx context.Context) {
+func registerSearchTools(s *server.MCPServer) {
 	s.AddTool(
 		mcp.NewTool("search_multi",
 			mcp.WithDescription("Search for movies, TV shows, and people"),
 			mcp.WithString("query", mcp.Required(), mcp.Description("Search query")),
 			mcp.WithNumber("page", mcp.Description("Page number")),
 		),
-		SearchMultiHandler(client, ctx),
+		SearchMultiHandler(),
 	)
 
 	s.AddTool(
@@ -25,7 +24,7 @@ func registerSearchTools(s *server.MCPServer, client *api.APIClient, ctx context
 			mcp.WithDescription("Discover movies"),
 			mcp.WithNumber("page", mcp.Description("Page number")),
 		),
-		SearchDiscoverMoviesHandler(client, ctx),
+		SearchDiscoverMoviesHandler(),
 	)
 
 	s.AddTool(
@@ -33,7 +32,7 @@ func registerSearchTools(s *server.MCPServer, client *api.APIClient, ctx context
 			mcp.WithDescription("Discover TV shows"),
 			mcp.WithNumber("page", mcp.Description("Page number")),
 		),
-		SearchDiscoverTVHandler(client, ctx),
+		SearchDiscoverTVHandler(),
 	)
 
 	s.AddTool(
@@ -41,17 +40,18 @@ func registerSearchTools(s *server.MCPServer, client *api.APIClient, ctx context
 			mcp.WithDescription("Get trending movies and TV shows"),
 			mcp.WithNumber("page", mcp.Description("Page number")),
 		),
-		SearchTrendingHandler(client, ctx),
+		SearchTrendingHandler(),
 	)
 }
 
-func SearchMultiHandler(client *api.APIClient, ctx context.Context) server.ToolHandlerFunc {
+func SearchMultiHandler() server.ToolHandlerFunc {
 	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 		query := req.GetString("query", "")
 		if query == "" {
 			return nil, fmt.Errorf("query is required")
 		}
-		r := client.SearchAPI.SearchGet(ctx).Query(query)
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		r := client.SearchAPI.SearchGet(callCtx).Query(query)
 		if page := req.GetFloat("page", 0); page > 0 {
 			r = r.Page(float32(page))
 		}
@@ -67,9 +67,10 @@ func SearchMultiHandler(client *api.APIClient, ctx context.Context) server.ToolH
 	}
 }
 
-func SearchDiscoverMoviesHandler(client *api.APIClient, ctx context.Context) server.ToolHandlerFunc {
+func SearchDiscoverMoviesHandler() server.ToolHandlerFunc {
 	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		r := client.SearchAPI.DiscoverMoviesGet(ctx)
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		r := client.SearchAPI.DiscoverMoviesGet(callCtx)
 		if page := req.GetFloat("page", 0); page > 0 {
 			r = r.Page(float32(page))
 		}
@@ -85,9 +86,10 @@ func SearchDiscoverMoviesHandler(client *api.APIClient, ctx context.Context) ser
 	}
 }
 
-func SearchDiscoverTVHandler(client *api.APIClient, ctx context.Context) server.ToolHandlerFunc {
+func SearchDiscoverTVHandler() server.ToolHandlerFunc {
 	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		r := client.SearchAPI.DiscoverTvGet(ctx)
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		r := client.SearchAPI.DiscoverTvGet(callCtx)
 		if page := req.GetFloat("page", 0); page > 0 {
 			r = r.Page(float32(page))
 		}
@@ -103,9 +105,10 @@ func SearchDiscoverTVHandler(client *api.APIClient, ctx context.Context) server.
 	}
 }
 
-func SearchTrendingHandler(client *api.APIClient, ctx context.Context) server.ToolHandlerFunc {
+func SearchTrendingHandler() server.ToolHandlerFunc {
 	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		r := client.SearchAPI.DiscoverTrendingGet(ctx)
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		r := client.SearchAPI.DiscoverTrendingGet(callCtx)
 		if page := req.GetFloat("page", 0); page > 0 {
 			r = r.Page(float32(page))
 		}

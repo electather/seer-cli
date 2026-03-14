@@ -10,14 +10,14 @@ import (
 	api "seer-cli/pkg/api"
 )
 
-func registerIssueTools(s *server.MCPServer, client *api.APIClient, ctx context.Context) {
+func registerIssueTools(s *server.MCPServer) {
 	s.AddTool(
 		mcp.NewTool("issue_list",
 			mcp.WithDescription("List issues"),
 			mcp.WithNumber("take", mcp.Description("Number of results to return")),
 			mcp.WithNumber("skip", mcp.Description("Number of results to skip")),
 		),
-		IssueListHandler(client, ctx),
+		IssueListHandler(),
 	)
 
 	s.AddTool(
@@ -25,7 +25,7 @@ func registerIssueTools(s *server.MCPServer, client *api.APIClient, ctx context.
 			mcp.WithDescription("Get a specific issue by ID"),
 			mcp.WithNumber("issueId", mcp.Required(), mcp.Description("Issue ID")),
 		),
-		IssueGetHandler(client, ctx),
+		IssueGetHandler(),
 	)
 
 	s.AddTool(
@@ -35,7 +35,7 @@ func registerIssueTools(s *server.MCPServer, client *api.APIClient, ctx context.
 			mcp.WithString("message", mcp.Required(), mcp.Description("Issue message")),
 			mcp.WithNumber("mediaId", mcp.Required(), mcp.Description("Media ID")),
 		),
-		IssueCreateHandler(client, ctx),
+		IssueCreateHandler(),
 	)
 
 	s.AddTool(
@@ -44,20 +44,21 @@ func registerIssueTools(s *server.MCPServer, client *api.APIClient, ctx context.
 			mcp.WithString("issueId", mcp.Required(), mcp.Description("Issue ID")),
 			mcp.WithString("status", mcp.Required(), mcp.Description("New status (open, resolved)")),
 		),
-		IssueStatusUpdateHandler(client, ctx),
+		IssueStatusUpdateHandler(),
 	)
 
 	s.AddTool(
 		mcp.NewTool("issue_count",
 			mcp.WithDescription("Get issue counts by status"),
 		),
-		IssueCountHandler(client, ctx),
+		IssueCountHandler(),
 	)
 }
 
-func IssueListHandler(client *api.APIClient, ctx context.Context) server.ToolHandlerFunc {
+func IssueListHandler() server.ToolHandlerFunc {
 	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		r := client.IssueAPI.IssueGet(ctx)
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		r := client.IssueAPI.IssueGet(callCtx)
 		if take := req.GetFloat("take", 0); take > 0 {
 			r = r.Take(float32(take))
 		}
@@ -76,13 +77,14 @@ func IssueListHandler(client *api.APIClient, ctx context.Context) server.ToolHan
 	}
 }
 
-func IssueGetHandler(client *api.APIClient, ctx context.Context) server.ToolHandlerFunc {
+func IssueGetHandler() server.ToolHandlerFunc {
 	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 		issueId, err := req.RequireFloat("issueId")
 		if err != nil {
 			return nil, err
 		}
-		res, _, err := client.IssueAPI.IssueIssueIdGet(ctx, float32(issueId)).Execute()
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		res, _, err := client.IssueAPI.IssueIssueIdGet(callCtx, float32(issueId)).Execute()
 		if err != nil {
 			return nil, fmt.Errorf("IssueIssueIdGet failed: %w", err)
 		}
@@ -94,7 +96,7 @@ func IssueGetHandler(client *api.APIClient, ctx context.Context) server.ToolHand
 	}
 }
 
-func IssueCreateHandler(client *api.APIClient, ctx context.Context) server.ToolHandlerFunc {
+func IssueCreateHandler() server.ToolHandlerFunc {
 	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 		issueType, err := req.RequireFloat("issueType")
 		if err != nil {
@@ -115,7 +117,8 @@ func IssueCreateHandler(client *api.APIClient, ctx context.Context) server.ToolH
 			Message:   &message,
 			MediaId:   &mediaIdFloat,
 		}
-		res, _, err := client.IssueAPI.IssuePost(ctx).IssuePostRequest(body).Execute()
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		res, _, err := client.IssueAPI.IssuePost(callCtx).IssuePostRequest(body).Execute()
 		if err != nil {
 			return nil, fmt.Errorf("IssuePost failed: %w", err)
 		}
@@ -127,7 +130,7 @@ func IssueCreateHandler(client *api.APIClient, ctx context.Context) server.ToolH
 	}
 }
 
-func IssueStatusUpdateHandler(client *api.APIClient, ctx context.Context) server.ToolHandlerFunc {
+func IssueStatusUpdateHandler() server.ToolHandlerFunc {
 	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 		issueId, err := req.RequireString("issueId")
 		if err != nil {
@@ -137,7 +140,8 @@ func IssueStatusUpdateHandler(client *api.APIClient, ctx context.Context) server
 		if err != nil {
 			return nil, err
 		}
-		res, _, err := client.IssueAPI.IssueIssueIdStatusPost(ctx, issueId, status).Execute()
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		res, _, err := client.IssueAPI.IssueIssueIdStatusPost(callCtx, issueId, status).Execute()
 		if err != nil {
 			return nil, fmt.Errorf("IssueIssueIdStatusPost failed: %w", err)
 		}
@@ -149,9 +153,10 @@ func IssueStatusUpdateHandler(client *api.APIClient, ctx context.Context) server
 	}
 }
 
-func IssueCountHandler(client *api.APIClient, ctx context.Context) server.ToolHandlerFunc {
+func IssueCountHandler() server.ToolHandlerFunc {
 	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		res, _, err := client.IssueAPI.IssueCountGet(ctx).Execute()
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		res, _, err := client.IssueAPI.IssueCountGet(callCtx).Execute()
 		if err != nil {
 			return nil, fmt.Errorf("IssueCountGet failed: %w", err)
 		}

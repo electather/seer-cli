@@ -7,28 +7,28 @@ import (
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
-	api "seer-cli/pkg/api"
 )
 
-func registerServiceTools(s *server.MCPServer, client *api.APIClient, ctx context.Context) {
+func registerServiceTools(s *server.MCPServer) {
 	s.AddTool(
 		mcp.NewTool("service_radarr_list",
 			mcp.WithDescription("List configured Radarr instances"),
 		),
-		ServiceRadarrListHandler(client, ctx),
+		ServiceRadarrListHandler(),
 	)
 
 	s.AddTool(
 		mcp.NewTool("service_sonarr_list",
 			mcp.WithDescription("List configured Sonarr instances"),
 		),
-		ServiceSonarrListHandler(client, ctx),
+		ServiceSonarrListHandler(),
 	)
 }
 
-func ServiceRadarrListHandler(client *api.APIClient, ctx context.Context) server.ToolHandlerFunc {
+func ServiceRadarrListHandler() server.ToolHandlerFunc {
 	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		res, _, err := client.ServiceAPI.ServiceRadarrGet(ctx).Execute()
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		res, _, err := client.ServiceAPI.ServiceRadarrGet(callCtx).Execute()
 		if err != nil {
 			return nil, fmt.Errorf("ServiceRadarrGet failed: %w", err)
 		}
@@ -40,9 +40,10 @@ func ServiceRadarrListHandler(client *api.APIClient, ctx context.Context) server
 	}
 }
 
-func ServiceSonarrListHandler(client *api.APIClient, ctx context.Context) server.ToolHandlerFunc {
+func ServiceSonarrListHandler() server.ToolHandlerFunc {
 	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		res, _, err := client.ServiceAPI.ServiceSonarrGet(ctx).Execute()
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		res, _, err := client.ServiceAPI.ServiceSonarrGet(callCtx).Execute()
 		if err != nil {
 			return nil, fmt.Errorf("ServiceSonarrGet failed: %w", err)
 		}

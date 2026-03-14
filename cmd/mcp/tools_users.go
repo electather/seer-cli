@@ -7,17 +7,16 @@ import (
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
-	api "seer-cli/pkg/api"
 )
 
-func registerUsersTools(s *server.MCPServer, client *api.APIClient, ctx context.Context) {
+func registerUsersTools(s *server.MCPServer) {
 	s.AddTool(
 		mcp.NewTool("users_list",
 			mcp.WithDescription("List all users"),
 			mcp.WithNumber("take", mcp.Description("Number of results to return")),
 			mcp.WithNumber("skip", mcp.Description("Number of results to skip")),
 		),
-		UsersListHandler(client, ctx),
+		UsersListHandler(),
 	)
 
 	s.AddTool(
@@ -25,7 +24,7 @@ func registerUsersTools(s *server.MCPServer, client *api.APIClient, ctx context.
 			mcp.WithDescription("Get a specific user by ID"),
 			mcp.WithNumber("userId", mcp.Required(), mcp.Description("User ID")),
 		),
-		UsersGetHandler(client, ctx),
+		UsersGetHandler(),
 	)
 
 	s.AddTool(
@@ -33,13 +32,14 @@ func registerUsersTools(s *server.MCPServer, client *api.APIClient, ctx context.
 			mcp.WithDescription("Get request quota for a specific user"),
 			mcp.WithNumber("userId", mcp.Required(), mcp.Description("User ID")),
 		),
-		UsersQuotaHandler(client, ctx),
+		UsersQuotaHandler(),
 	)
 }
 
-func UsersListHandler(client *api.APIClient, ctx context.Context) server.ToolHandlerFunc {
+func UsersListHandler() server.ToolHandlerFunc {
 	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		r := client.UsersAPI.UserGet(ctx)
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		r := client.UsersAPI.UserGet(callCtx)
 		if take := req.GetFloat("take", 0); take > 0 {
 			r = r.Take(float32(take))
 		}
@@ -58,13 +58,14 @@ func UsersListHandler(client *api.APIClient, ctx context.Context) server.ToolHan
 	}
 }
 
-func UsersGetHandler(client *api.APIClient, ctx context.Context) server.ToolHandlerFunc {
+func UsersGetHandler() server.ToolHandlerFunc {
 	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 		userId, err := req.RequireFloat("userId")
 		if err != nil {
 			return nil, err
 		}
-		res, _, err := client.UsersAPI.UserUserIdGet(ctx, float32(userId)).Execute()
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		res, _, err := client.UsersAPI.UserUserIdGet(callCtx, float32(userId)).Execute()
 		if err != nil {
 			return nil, fmt.Errorf("UserUserIdGet failed: %w", err)
 		}
@@ -76,13 +77,14 @@ func UsersGetHandler(client *api.APIClient, ctx context.Context) server.ToolHand
 	}
 }
 
-func UsersQuotaHandler(client *api.APIClient, ctx context.Context) server.ToolHandlerFunc {
+func UsersQuotaHandler() server.ToolHandlerFunc {
 	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 		userId, err := req.RequireFloat("userId")
 		if err != nil {
 			return nil, err
 		}
-		res, _, err := client.UsersAPI.UserUserIdQuotaGet(ctx, float32(userId)).Execute()
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		res, _, err := client.UsersAPI.UserUserIdQuotaGet(callCtx, float32(userId)).Execute()
 		if err != nil {
 			return nil, fmt.Errorf("UserUserIdQuotaGet failed: %w", err)
 		}
