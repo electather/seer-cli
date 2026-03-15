@@ -30,7 +30,7 @@ func registerMediaTools(s *server.MCPServer) {
 			mcp.WithReadOnlyHintAnnotation(true),
 			mcp.WithDestructiveHintAnnotation(false),
 			mcp.WithIdempotentHintAnnotation(true),
-			mcp.WithNumber("take", mcp.Description("Max number of results to return per page (omit for all).")),
+			mcp.WithNumber("take", mcp.Description("Max number of results to return per page. Defaults to 20.")),
 			mcp.WithNumber("skip", mcp.Description("Number of results to skip, for pagination.")),
 			mcp.WithString("filter",
 				mcp.Description("Filter results by availability status. Defaults to all."),
@@ -58,9 +58,8 @@ func MediaListHandler() server.ToolHandlerFunc {
 	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		r := client.MediaAPI.MediaGet(callCtx)
-		if take := req.GetFloat("take", 0); take > 0 {
-			r = r.Take(float32(take))
-		}
+		take := req.GetFloat("take", 20)
+		r = r.Take(float32(take))
 		if skip := req.GetFloat("skip", 0); skip > 0 {
 			r = r.Skip(float32(skip))
 		}
