@@ -2,7 +2,6 @@ package mcp
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 
 	"github.com/mark3labs/mcp-go/mcp"
@@ -13,6 +12,10 @@ func registerSearchTools(s *server.MCPServer) {
 	s.AddTool(
 		mcp.NewTool("search_multi",
 			mcp.WithDescription("Search for movies, TV shows, and people"),
+			mcp.WithOpenWorldHintAnnotation(true),
+			mcp.WithReadOnlyHintAnnotation(true),
+			mcp.WithDestructiveHintAnnotation(false),
+			mcp.WithIdempotentHintAnnotation(true),
 			mcp.WithString("query", mcp.Required(), mcp.Description("Search query")),
 			mcp.WithNumber("page", mcp.Description("Page number")),
 		),
@@ -22,6 +25,10 @@ func registerSearchTools(s *server.MCPServer) {
 	s.AddTool(
 		mcp.NewTool("search_discover_movies",
 			mcp.WithDescription("Discover movies"),
+			mcp.WithOpenWorldHintAnnotation(true),
+			mcp.WithReadOnlyHintAnnotation(true),
+			mcp.WithDestructiveHintAnnotation(false),
+			mcp.WithIdempotentHintAnnotation(true),
 			mcp.WithNumber("page", mcp.Description("Page number")),
 		),
 		SearchDiscoverMoviesHandler(),
@@ -30,6 +37,10 @@ func registerSearchTools(s *server.MCPServer) {
 	s.AddTool(
 		mcp.NewTool("search_discover_tv",
 			mcp.WithDescription("Discover TV shows"),
+			mcp.WithOpenWorldHintAnnotation(true),
+			mcp.WithReadOnlyHintAnnotation(true),
+			mcp.WithDestructiveHintAnnotation(false),
+			mcp.WithIdempotentHintAnnotation(true),
 			mcp.WithNumber("page", mcp.Description("Page number")),
 		),
 		SearchDiscoverTVHandler(),
@@ -38,6 +49,10 @@ func registerSearchTools(s *server.MCPServer) {
 	s.AddTool(
 		mcp.NewTool("search_trending",
 			mcp.WithDescription("Get trending movies and TV shows"),
+			mcp.WithOpenWorldHintAnnotation(true),
+			mcp.WithReadOnlyHintAnnotation(true),
+			mcp.WithDestructiveHintAnnotation(false),
+			mcp.WithIdempotentHintAnnotation(true),
 			mcp.WithNumber("page", mcp.Description("Page number")),
 		),
 		SearchTrendingHandler(),
@@ -59,11 +74,7 @@ func SearchMultiHandler() server.ToolHandlerFunc {
 		if err != nil {
 			return apiToolError("SearchGet failed", err)
 		}
-		b, err := json.Marshal(res)
-		if err != nil {
-			return nil, err
-		}
-		return mcp.NewToolResultText(string(b)), nil
+		return mcp.NewToolResultJSON(res)
 	}
 }
 
@@ -78,11 +89,7 @@ func SearchDiscoverMoviesHandler() server.ToolHandlerFunc {
 		if err != nil {
 			return apiToolError("DiscoverMoviesGet failed", err)
 		}
-		b, err := json.Marshal(res)
-		if err != nil {
-			return nil, err
-		}
-		return mcp.NewToolResultText(string(b)), nil
+		return mcp.NewToolResultJSON(res)
 	}
 }
 
@@ -97,11 +104,7 @@ func SearchDiscoverTVHandler() server.ToolHandlerFunc {
 		if err != nil {
 			return apiToolError("DiscoverTvGet failed", err)
 		}
-		b, err := json.Marshal(res)
-		if err != nil {
-			return nil, err
-		}
-		return mcp.NewToolResultText(string(b)), nil
+		return mcp.NewToolResultJSON(res)
 	}
 }
 
@@ -116,10 +119,6 @@ func SearchTrendingHandler() server.ToolHandlerFunc {
 		if err != nil {
 			return apiToolError("DiscoverTrendingGet failed", err)
 		}
-		b, err := json.Marshal(res)
-		if err != nil {
-			return nil, err
-		}
-		return mcp.NewToolResultText(string(b)), nil
+		return mcp.NewToolResultJSON(res)
 	}
 }
