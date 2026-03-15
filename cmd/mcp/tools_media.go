@@ -18,7 +18,6 @@ var statusLabels = map[float64]string{
 	6: "DELETED",
 }
 
-
 func registerMediaTools(s *server.MCPServer) {
 	s.AddTool(
 		mcp.NewTool("media_list",
@@ -30,22 +29,14 @@ func registerMediaTools(s *server.MCPServer) {
 			),
 			mcp.WithNumber("take", mcp.Description("Max number of results to return per page (omit for all).")),
 			mcp.WithNumber("skip", mcp.Description("Number of results to skip, for pagination.")),
-			mcp.WithString("filter", mcp.Description(
-				"Filter results by availability status. Valid values: "+
-					"all (default, no filter), "+
-					"available (fully available), "+
-					"partial (partially available), "+
-					"allavailable (available or partially available), "+
-					"processing (currently being downloaded), "+
-					"pending (requested but not yet downloading), "+
-					"deleted (removed from library).",
-			)),
-			mcp.WithString("sort", mcp.Description(
-				"Field to sort results by. Valid values: "+
-					"added (default, sort by date added to Seer), "+
-					"modified (sort by last modified date), "+
-					"mediaAdded (sort by date media was added to the library).",
-			)),
+			mcp.WithString("filter",
+				mcp.Description("Filter results by availability status. Defaults to all."),
+				mcp.Enum("all", "available", "partial", "allavailable", "processing", "pending", "deleted"),
+			),
+			mcp.WithString("sort",
+				mcp.Description("Field to sort results by. Defaults to added."),
+				mcp.Enum("added", "modified", "mediaAdded"),
+			),
 		),
 		MediaListHandler(),
 	)
