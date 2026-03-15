@@ -3,7 +3,6 @@ package mcp
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
@@ -30,7 +29,7 @@ func ServiceRadarrListHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.ServiceAPI.ServiceRadarrGet(callCtx).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("ServiceRadarrGet failed: %w", err)
+			return apiToolError("ServiceRadarrGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -45,7 +44,7 @@ func ServiceSonarrListHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.ServiceAPI.ServiceSonarrGet(callCtx).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("ServiceSonarrGet failed: %w", err)
+			return apiToolError("ServiceSonarrGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {

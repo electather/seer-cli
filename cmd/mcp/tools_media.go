@@ -3,7 +3,6 @@ package mcp
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
@@ -49,7 +48,7 @@ func MediaListHandler() server.ToolHandlerFunc {
 		}
 		res, _, err := r.Execute()
 		if err != nil {
-			return nil, fmt.Errorf("MediaGet failed: %w", err)
+			return apiToolError("MediaGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -72,7 +71,7 @@ func MediaStatusUpdateHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.MediaAPI.MediaMediaIdStatusPost(callCtx, mediaId, status).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("MediaMediaIdStatusPost failed: %w", err)
+			return apiToolError("MediaMediaIdStatusPost failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {

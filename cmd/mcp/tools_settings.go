@@ -3,7 +3,6 @@ package mcp
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
@@ -38,7 +37,7 @@ func SettingsAboutHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.SettingsAPI.SettingsAboutGet(callCtx).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("SettingsAboutGet failed: %w", err)
+			return apiToolError("SettingsAboutGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -53,7 +52,7 @@ func SettingsJobsListHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.SettingsAPI.SettingsJobsGet(callCtx).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("SettingsJobsGet failed: %w", err)
+			return apiToolError("SettingsJobsGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -72,7 +71,7 @@ func SettingsJobsRunHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.SettingsAPI.SettingsJobsJobIdRunPost(callCtx, jobId).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("SettingsJobsJobIdRunPost failed: %w", err)
+			return apiToolError("SettingsJobsJobIdRunPost failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {

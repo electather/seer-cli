@@ -2,8 +2,10 @@ package mcp
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
+	mcplib "github.com/mark3labs/mcp-go/mcp"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	api "seer-cli/pkg/api"
@@ -63,6 +65,18 @@ func newAPIClient() (*api.APIClient, context.Context) {
 // NewAPIClientForTest is an exported alias used by tests.
 func NewAPIClientForTest() (*api.APIClient, context.Context) {
 	return newAPIClient()
+}
+
+// apiToolError converts a Seer API error into a visible MCP tool result error.
+// Using mcp.NewToolResultError (IsError=true) instead of returning a Go error
+// makes the actual Seer error message visible in the MCP client (e.g. Claude)
+// rather than the generic "Error occurred during tool execution" wrapper.
+func apiToolError(label string, err error) (*mcplib.CallToolResult, error) {
+	msg := fmt.Sprintf("%s: %v", label, err)
+	if e, ok := err.(*api.GenericOpenAPIError); ok && len(e.Body()) > 0 {
+		msg = fmt.Sprintf("%s: %s (HTTP %v)", label, e.Body(), err)
+	}
+	return mcplib.NewToolResultError(msg), nil
 }
 
 func init() {

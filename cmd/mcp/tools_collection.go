@@ -3,7 +3,6 @@ package mcp
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
@@ -28,7 +27,7 @@ func CollectionGetHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.CollectionAPI.CollectionCollectionIdGet(callCtx, float32(collectionId)).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("CollectionCollectionIdGet failed: %w", err)
+			return apiToolError("CollectionCollectionIdGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {

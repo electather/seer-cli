@@ -3,7 +3,6 @@ package mcp
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
@@ -36,7 +35,7 @@ func PersonGetHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.PersonAPI.PersonPersonIdGet(callCtx, float32(personId)).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("PersonPersonIdGet failed: %w", err)
+			return apiToolError("PersonPersonIdGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -55,7 +54,7 @@ func PersonCreditsHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.PersonAPI.PersonPersonIdCombinedCreditsGet(callCtx, float32(personId)).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("PersonPersonIdCombinedCreditsGet failed: %w", err)
+			return apiToolError("PersonPersonIdCombinedCreditsGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {

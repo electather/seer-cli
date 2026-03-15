@@ -3,7 +3,6 @@ package mcp
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
@@ -67,7 +66,7 @@ func IssueListHandler() server.ToolHandlerFunc {
 		}
 		res, _, err := r.Execute()
 		if err != nil {
-			return nil, fmt.Errorf("IssueGet failed: %w", err)
+			return apiToolError("IssueGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -86,7 +85,7 @@ func IssueGetHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.IssueAPI.IssueIssueIdGet(callCtx, float32(issueId)).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("IssueIssueIdGet failed: %w", err)
+			return apiToolError("IssueIssueIdGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -120,7 +119,7 @@ func IssueCreateHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.IssueAPI.IssuePost(callCtx).IssuePostRequest(body).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("IssuePost failed: %w", err)
+			return apiToolError("IssuePost failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -143,7 +142,7 @@ func IssueStatusUpdateHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.IssueAPI.IssueIssueIdStatusPost(callCtx, issueId, status).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("IssueIssueIdStatusPost failed: %w", err)
+			return apiToolError("IssueIssueIdStatusPost failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -158,7 +157,7 @@ func IssueCountHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.IssueAPI.IssueCountGet(callCtx).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("IssueCountGet failed: %w", err)
+			return apiToolError("IssueCountGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {

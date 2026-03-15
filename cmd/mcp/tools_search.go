@@ -57,7 +57,7 @@ func SearchMultiHandler() server.ToolHandlerFunc {
 		}
 		res, _, err := r.Execute()
 		if err != nil {
-			return nil, fmt.Errorf("SearchGet failed: %w", err)
+			return apiToolError("SearchGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -76,7 +76,7 @@ func SearchDiscoverMoviesHandler() server.ToolHandlerFunc {
 		}
 		res, _, err := r.Execute()
 		if err != nil {
-			return nil, fmt.Errorf("DiscoverMoviesGet failed: %w", err)
+			return apiToolError("DiscoverMoviesGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -95,7 +95,7 @@ func SearchDiscoverTVHandler() server.ToolHandlerFunc {
 		}
 		res, _, err := r.Execute()
 		if err != nil {
-			return nil, fmt.Errorf("DiscoverTvGet failed: %w", err)
+			return apiToolError("DiscoverTvGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -114,7 +114,7 @@ func SearchTrendingHandler() server.ToolHandlerFunc {
 		}
 		res, _, err := r.Execute()
 		if err != nil {
-			return nil, fmt.Errorf("DiscoverTrendingGet failed: %w", err)
+			return apiToolError("DiscoverTrendingGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {

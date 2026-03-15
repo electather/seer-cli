@@ -3,7 +3,6 @@ package mcp
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	api "seer-cli/pkg/api"
 
@@ -51,7 +50,7 @@ func BlocklistListHandler() server.ToolHandlerFunc {
 		}
 		res, _, err := r.Execute()
 		if err != nil {
-			return nil, fmt.Errorf("BlocklistGet failed: %w", err)
+			return apiToolError("BlocklistGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -77,7 +76,7 @@ func BlocklistAddHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		_, err = client.BlocklistAPI.BlocklistPost(callCtx).Blocklist(body).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("BlocklistPost failed: %w", err)
+			return apiToolError("BlocklistPost failed", err)
 		}
 		return mcp.NewToolResultText(`{"status":"ok"}`), nil
 	}
@@ -92,7 +91,7 @@ func BlocklistRemoveHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		_, err = client.BlocklistAPI.BlocklistTmdbIdDelete(callCtx, tmdbId).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("BlocklistTmdbIdDelete failed: %w", err)
+			return apiToolError("BlocklistTmdbIdDelete failed", err)
 		}
 		return mcp.NewToolResultText(`{"status":"ok"}`), nil
 	}

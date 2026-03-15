@@ -3,7 +3,6 @@ package mcp
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
@@ -90,7 +89,7 @@ func RequestListHandler() server.ToolHandlerFunc {
 		}
 		res, _, err := r.Execute()
 		if err != nil {
-			return nil, fmt.Errorf("RequestGet failed: %w", err)
+			return apiToolError("RequestGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -109,7 +108,7 @@ func RequestGetHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.RequestAPI.RequestRequestIdGet(callCtx, requestId).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("RequestRequestIdGet failed: %w", err)
+			return apiToolError("RequestRequestIdGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -136,7 +135,7 @@ func RequestCreateHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.RequestAPI.RequestPost(callCtx).RequestPostRequest(*body).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("RequestPost failed: %w", err)
+			return apiToolError("RequestPost failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -155,7 +154,7 @@ func RequestApproveHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.RequestAPI.RequestRequestIdStatusPost(callCtx, requestId, "approve").Execute()
 		if err != nil {
-			return nil, fmt.Errorf("RequestRequestIdStatusPost(approve) failed: %w", err)
+			return apiToolError("RequestRequestIdStatusPost(approve) failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -174,7 +173,7 @@ func RequestDeclineHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.RequestAPI.RequestRequestIdStatusPost(callCtx, requestId, "decline").Execute()
 		if err != nil {
-			return nil, fmt.Errorf("RequestRequestIdStatusPost(decline) failed: %w", err)
+			return apiToolError("RequestRequestIdStatusPost(decline) failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -193,7 +192,7 @@ func RequestDeleteHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		_, err = client.RequestAPI.RequestRequestIdDelete(callCtx, requestId).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("RequestRequestIdDelete failed: %w", err)
+			return apiToolError("RequestRequestIdDelete failed", err)
 		}
 		return mcp.NewToolResultText(`{"status":"ok"}`), nil
 	}
@@ -204,7 +203,7 @@ func RequestCountHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.RequestAPI.RequestCountGet(callCtx).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("RequestCountGet failed: %w", err)
+			return apiToolError("RequestCountGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {

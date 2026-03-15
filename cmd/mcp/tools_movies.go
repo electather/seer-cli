@@ -3,7 +3,6 @@ package mcp
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
@@ -54,7 +53,7 @@ func MoviesGetHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.MoviesAPI.MovieMovieIdGet(callCtx, float32(movieId)).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("MovieMovieIdGet failed: %w", err)
+			return apiToolError("MovieMovieIdGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -77,7 +76,7 @@ func MoviesRecommendationsHandler() server.ToolHandlerFunc {
 		}
 		res, _, err := r.Execute()
 		if err != nil {
-			return nil, fmt.Errorf("MovieMovieIdRecommendationsGet failed: %w", err)
+			return apiToolError("MovieMovieIdRecommendationsGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -100,7 +99,7 @@ func MoviesSimilarHandler() server.ToolHandlerFunc {
 		}
 		res, _, err := r.Execute()
 		if err != nil {
-			return nil, fmt.Errorf("MovieMovieIdSimilarGet failed: %w", err)
+			return apiToolError("MovieMovieIdSimilarGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -119,7 +118,7 @@ func MoviesRatingsHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.MoviesAPI.MovieMovieIdRatingsGet(callCtx, float32(movieId)).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("MovieMovieIdRatingsGet failed: %w", err)
+			return apiToolError("MovieMovieIdRatingsGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {

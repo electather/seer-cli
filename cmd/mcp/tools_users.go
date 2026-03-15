@@ -3,7 +3,6 @@ package mcp
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
@@ -48,7 +47,7 @@ func UsersListHandler() server.ToolHandlerFunc {
 		}
 		res, _, err := r.Execute()
 		if err != nil {
-			return nil, fmt.Errorf("UserGet failed: %w", err)
+			return apiToolError("UserGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -67,7 +66,7 @@ func UsersGetHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.UsersAPI.UserUserIdGet(callCtx, float32(userId)).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("UserUserIdGet failed: %w", err)
+			return apiToolError("UserUserIdGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -86,7 +85,7 @@ func UsersQuotaHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.UsersAPI.UserUserIdQuotaGet(callCtx, float32(userId)).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("UserUserIdQuotaGet failed: %w", err)
+			return apiToolError("UserUserIdQuotaGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {

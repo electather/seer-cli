@@ -3,7 +3,6 @@ package mcp
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
@@ -23,7 +22,7 @@ func StatusSystemHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.PublicAPI.StatusGet(callCtx).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("StatusGet failed: %w", err)
+			return apiToolError("StatusGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {

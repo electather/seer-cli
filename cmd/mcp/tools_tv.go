@@ -3,7 +3,6 @@ package mcp
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
@@ -63,7 +62,7 @@ func TVGetHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.TvAPI.TvTvIdGet(callCtx, float32(tvId)).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("TvTvIdGet failed: %w", err)
+			return apiToolError("TvTvIdGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -86,7 +85,7 @@ func TVSeasonHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.TvAPI.TvTvIdSeasonSeasonNumberGet(callCtx, float32(tvId), float32(seasonNumber)).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("TvTvIdSeasonSeasonNumberGet failed: %w", err)
+			return apiToolError("TvTvIdSeasonSeasonNumberGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -109,7 +108,7 @@ func TVRecommendationsHandler() server.ToolHandlerFunc {
 		}
 		res, _, err := r.Execute()
 		if err != nil {
-			return nil, fmt.Errorf("TvTvIdRecommendationsGet failed: %w", err)
+			return apiToolError("TvTvIdRecommendationsGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -132,7 +131,7 @@ func TVSimilarHandler() server.ToolHandlerFunc {
 		}
 		res, _, err := r.Execute()
 		if err != nil {
-			return nil, fmt.Errorf("TvTvIdSimilarGet failed: %w", err)
+			return apiToolError("TvTvIdSimilarGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -151,7 +150,7 @@ func TVRatingsHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.TvAPI.TvTvIdRatingsGet(callCtx, float32(tvId)).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("TvTvIdRatingsGet failed: %w", err)
+			return apiToolError("TvTvIdRatingsGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {

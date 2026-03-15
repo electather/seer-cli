@@ -3,7 +3,6 @@ package mcp
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
@@ -53,7 +52,7 @@ func WatchlistAddHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		res, _, err := client.WatchlistAPI.WatchlistPost(callCtx).Watchlist(body).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("WatchlistPost failed: %w", err)
+			return apiToolError("WatchlistPost failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
@@ -72,7 +71,7 @@ func WatchlistRemoveHandler() server.ToolHandlerFunc {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		_, err = client.WatchlistAPI.WatchlistTmdbIdDelete(callCtx, tmdbId).Execute()
 		if err != nil {
-			return nil, fmt.Errorf("WatchlistTmdbIdDelete failed: %w", err)
+			return apiToolError("WatchlistTmdbIdDelete failed", err)
 		}
 		return mcp.NewToolResultText(`{"status":"ok"}`), nil
 	}
