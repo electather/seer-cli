@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question or discussion
+    url: https://github.com/electather/seer-cli/discussions
+    about: Ask questions or share ideas in Discussions rather than opening an issue.
+  - name: Seer (upstream) issues
+    url: https://github.com/seerr/app/issues
+    about: Bugs in the Seer web app itself belong in the upstream repo.
