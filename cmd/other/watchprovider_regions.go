@@ -1,6 +1,8 @@
 package other
 
 import (
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -9,9 +11,9 @@ var watchproviderRegionsCmd = &cobra.Command{
 	Short:   "List all available watch provider regions",
 	Example: `  seerr-cli other watchprovider-regions`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		res, r, err := apiClient.OtherAPI.WatchprovidersRegionsGet(ctx).Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "WatchprovidersRegionsGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "WatchprovidersRegionsGet")
 	},
 }
 

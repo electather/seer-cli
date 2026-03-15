@@ -37,3 +37,4 @@ Thumbs.db
 # Go coverage and profiling
 *.out
 *.prof
+.claude/

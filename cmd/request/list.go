@@ -1,6 +1,8 @@
 package request
 
 import (
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -8,7 +10,7 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all media requests",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		req := apiClient.RequestAPI.RequestGet(ctx)
 
 		if cmd.Flags().Changed("take") {
@@ -41,7 +43,7 @@ var listCmd = &cobra.Command{
 		}
 
 		res, r, err := req.Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "RequestGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "RequestGet")
 	},
 }
 

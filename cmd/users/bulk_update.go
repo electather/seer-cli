@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"seerr-cli/cmd/apiutil"
 	api "seerr-cli/pkg/api"
 
 	"github.com/spf13/cobra"
@@ -13,7 +14,7 @@ var bulkUpdateCmd = &cobra.Command{
 	Use:   "bulk-update",
 	Short: "Update permissions for multiple users",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		ids, _ := cmd.Flags().GetInt32Slice("ids")
 		permissions, _ := cmd.Flags().GetInt32("permissions")

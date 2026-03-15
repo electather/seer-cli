@@ -1,6 +1,8 @@
 package issue
 
 import (
+	"seerr-cli/cmd/apiutil"
+
 	api "seerr-cli/pkg/api"
 
 	"github.com/spf13/cobra"
@@ -16,9 +18,9 @@ var updateCommentCmd = &cobra.Command{
 			v, _ := cmd.Flags().GetString("message")
 			body.SetMessage(v)
 		}
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		res, r, err := apiClient.IssueAPI.IssueCommentCommentIdPut(ctx, args[0]).IssueCommentCommentIdPutRequest(*body).Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "IssueCommentCommentIdPut")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "IssueCommentCommentIdPut")
 	},
 }
 

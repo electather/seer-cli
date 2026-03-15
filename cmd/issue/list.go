@@ -1,12 +1,16 @@
 package issue
 
-import "github.com/spf13/cobra"
+import (
+	"seerr-cli/cmd/apiutil"
+
+	"github.com/spf13/cobra"
+)
 
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all issues",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		req := apiClient.IssueAPI.IssueGet(ctx)
 		if cmd.Flags().Changed("take") {
 			v, _ := cmd.Flags().GetFloat32("take")
@@ -29,7 +33,7 @@ var listCmd = &cobra.Command{
 			req = req.RequestedBy(v)
 		}
 		res, r, err := req.Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "IssueGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "IssueGet")
 	},
 }
 

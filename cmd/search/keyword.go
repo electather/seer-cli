@@ -1,6 +1,8 @@
 package search
 
 import (
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -21,7 +23,7 @@ var keywordCmd = &cobra.Command{
 		}
 
 		res, r, err := req.Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "SearchKeywordGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "SearchKeywordGet")
 	},
 }
 

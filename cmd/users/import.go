@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"seerr-cli/cmd/apiutil"
 	api "seerr-cli/pkg/api"
 
 	"github.com/spf13/cobra"
@@ -13,7 +14,7 @@ var importFromPlexCmd = &cobra.Command{
 	Use:   "import-from-plex",
 	Short: "Import users from Plex",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		plexIds, _ := cmd.Flags().GetStringSlice("plex-ids")
 
@@ -48,7 +49,7 @@ var importFromJellyfinCmd = &cobra.Command{
 	Use:   "import-from-jellyfin",
 	Short: "Import users from Jellyfin",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		jellyfinUserIds, _ := cmd.Flags().GetStringSlice("jellyfin-user-ids")
 

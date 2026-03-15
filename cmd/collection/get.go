@@ -3,6 +3,8 @@ package collection
 import (
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -13,7 +15,7 @@ var getCmd = &cobra.Command{
 	Example: `  seerr-cli collection get 537982
   seerr-cli collection get 537982 --language en`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		id, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
@@ -27,7 +29,7 @@ var getCmd = &cobra.Command{
 		}
 
 		res, r, err := req.Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "CollectionCollectionIdGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "CollectionCollectionIdGet")
 	},
 }
 

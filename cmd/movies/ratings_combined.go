@@ -3,6 +3,8 @@ package movies
 import (
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -13,7 +15,7 @@ var ratingsCombinedCmd = &cobra.Command{
 	Example: `  # Get combined ratings for The Matrix (ID 603)
   seerr-cli movies ratings-combined 603`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		movieId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
@@ -21,7 +23,7 @@ var ratingsCombinedCmd = &cobra.Command{
 		}
 
 		res, r, err := apiClient.MoviesAPI.MovieMovieIdRatingscombinedGet(ctx, float32(movieId)).Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "MovieMovieIdRatingscombinedGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "MovieMovieIdRatingscombinedGet")
 	},
 }
 

@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"seerr-cli/cmd"
-	"seerr-cli/cmd/watchlist"
+	"seerr-cli/cmd/apiutil"
 
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
@@ -63,10 +63,10 @@ func TestWatchlistCommands(t *testing.T) {
 			}))
 			defer server.Close()
 
-			watchlist.OverrideServerURL = server.URL + "/api/v1"
+			apiutil.OverrideServerURL = server.URL + "/api/v1"
 			os.Setenv("SEER_SERVER", server.URL)
 			defer func() {
-				watchlist.OverrideServerURL = ""
+				apiutil.OverrideServerURL = ""
 				os.Unsetenv("SEER_SERVER")
 			}()
 

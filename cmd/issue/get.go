@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/spf13/cobra"
+	"seerr-cli/cmd/apiutil"
 )
 
 var getCmd = &cobra.Command{
@@ -16,9 +17,9 @@ var getCmd = &cobra.Command{
 		if err != nil {
 			return fmt.Errorf("invalid issue ID: %s", args[0])
 		}
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		res, r, apiErr := apiClient.IssueAPI.IssueIssueIdGet(ctx, float32(id)).Execute()
-		return handleResponse(cmd, r, apiErr, res, isVerbose, "IssueIssueIdGet")
+		return apiutil.HandleResponse(cmd, r, apiErr, res, isVerbose, "IssueIssueIdGet")
 	},
 }
 

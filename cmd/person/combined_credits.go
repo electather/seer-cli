@@ -3,6 +3,8 @@ package person
 import (
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -16,7 +18,7 @@ var combinedCreditsCmd = &cobra.Command{
   # Get credits in Spanish
   seerr-cli person combined-credits 287 --language es`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		personId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
@@ -30,7 +32,7 @@ var combinedCreditsCmd = &cobra.Command{
 		}
 
 		res, r, err := req.Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "PersonPersonIdCombinedCreditsGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "PersonPersonIdCombinedCreditsGet")
 	},
 }
 

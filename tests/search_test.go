@@ -8,7 +8,7 @@ import (
 
 	"bytes"
 	"seerr-cli/cmd"
-	"seerr-cli/cmd/search"
+	"seerr-cli/cmd/apiutil"
 
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
@@ -81,7 +81,7 @@ func TestSearchCommands(t *testing.T) {
 			}))
 			defer server.Close()
 
-			search.OverrideServerURL = server.URL + "/api/v1"
+			apiutil.OverrideServerURL = server.URL + "/api/v1"
 
 			b := bytes.NewBufferString("")
 			command := cmd.RootCmd

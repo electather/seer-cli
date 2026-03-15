@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
 	api "seerr-cli/pkg/api"
 
 	"github.com/spf13/cobra"
@@ -19,7 +20,7 @@ var pushSubscriptionsRegisterCmd = &cobra.Command{
 	Use:   "register",
 	Short: "Register a web push subscription",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		endpoint, _ := cmd.Flags().GetString("endpoint")
 		auth, _ := cmd.Flags().GetString("auth")
@@ -36,7 +37,7 @@ var pushSubscriptionsRegisterCmd = &cobra.Command{
 		}
 
 		r, err := apiClient.UsersAPI.UserRegisterPushSubscriptionPost(ctx).UserRegisterPushSubscriptionPostRequest(body).Execute()
-		return handle204Response(cmd, r, err, isVerbose, "UserRegisterPushSubscriptionPost")
+		return apiutil.Handle204Response(cmd, r, err, isVerbose, "UserRegisterPushSubscriptionPost")
 	},
 }
 
@@ -45,7 +46,7 @@ var pushSubscriptionsListCmd = &cobra.Command{
 	Short: "List push subscriptions for a user",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
 			return fmt.Errorf("invalid userId: %w", err)
@@ -79,7 +80,7 @@ var pushSubscriptionsGetCmd = &cobra.Command{
 	Short: "Get a specific push subscription for a user",
 	Args:  cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
 			return fmt.Errorf("invalid userId: %w", err)
@@ -114,7 +115,7 @@ var pushSubscriptionsDeleteCmd = &cobra.Command{
 	Short: "Delete a push subscription for a user",
 	Args:  cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
 			return fmt.Errorf("invalid userId: %w", err)
@@ -122,7 +123,7 @@ var pushSubscriptionsDeleteCmd = &cobra.Command{
 		endpoint := args[1]
 
 		r, err := apiClient.UsersAPI.UserUserIdPushSubscriptionEndpointDelete(ctx, float32(userId), endpoint).Execute()
-		return handle204Response(cmd, r, err, isVerbose, "UserUserIdPushSubscriptionEndpointDelete")
+		return apiutil.Handle204Response(cmd, r, err, isVerbose, "UserUserIdPushSubscriptionEndpointDelete")
 	},
 }
 

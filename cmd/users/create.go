@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"seerr-cli/cmd/apiutil"
 	api "seerr-cli/pkg/api"
 
 	"github.com/spf13/cobra"
@@ -13,7 +14,7 @@ var createCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create a new user",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		email, _ := cmd.Flags().GetString("email")
 		username, _ := cmd.Flags().GetString("username")

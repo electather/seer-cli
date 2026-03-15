@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
 	api "seerr-cli/pkg/api"
 
 	"github.com/spf13/cobra"
@@ -19,7 +20,7 @@ var linkPlexCmd = &cobra.Command{
 	Short: "Link a Plex account to a user",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
 			return fmt.Errorf("invalid userId: %w", err)
@@ -31,7 +32,7 @@ var linkPlexCmd = &cobra.Command{
 		}
 
 		r, err := apiClient.UsersAPI.UserUserIdSettingsLinkedAccountsPlexPost(ctx, float32(userId)).AuthPlexPostRequest(body).Execute()
-		return handle204Response(cmd, r, err, isVerbose, "UserUserIdSettingsLinkedAccountsPlexPost")
+		return apiutil.Handle204Response(cmd, r, err, isVerbose, "UserUserIdSettingsLinkedAccountsPlexPost")
 	},
 }
 
@@ -40,14 +41,14 @@ var unlinkPlexCmd = &cobra.Command{
 	Short: "Unlink a Plex account from a user",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
 			return fmt.Errorf("invalid userId: %w", err)
 		}
 
 		r, err := apiClient.UsersAPI.UserUserIdSettingsLinkedAccountsPlexDelete(ctx, float32(userId)).Execute()
-		return handle204Response(cmd, r, err, isVerbose, "UserUserIdSettingsLinkedAccountsPlexDelete")
+		return apiutil.Handle204Response(cmd, r, err, isVerbose, "UserUserIdSettingsLinkedAccountsPlexDelete")
 	},
 }
 
@@ -56,7 +57,7 @@ var linkJellyfinCmd = &cobra.Command{
 	Short: "Link a Jellyfin account to a user",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
 			return fmt.Errorf("invalid userId: %w", err)
@@ -73,7 +74,7 @@ var linkJellyfinCmd = &cobra.Command{
 		}
 
 		r, err := apiClient.UsersAPI.UserUserIdSettingsLinkedAccountsJellyfinPost(ctx, float32(userId)).UserUserIdSettingsLinkedAccountsJellyfinPostRequest(body).Execute()
-		return handle204Response(cmd, r, err, isVerbose, "UserUserIdSettingsLinkedAccountsJellyfinPost")
+		return apiutil.Handle204Response(cmd, r, err, isVerbose, "UserUserIdSettingsLinkedAccountsJellyfinPost")
 	},
 }
 
@@ -82,14 +83,14 @@ var unlinkJellyfinCmd = &cobra.Command{
 	Short: "Unlink a Jellyfin account from a user",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
 			return fmt.Errorf("invalid userId: %w", err)
 		}
 
 		r, err := apiClient.UsersAPI.UserUserIdSettingsLinkedAccountsJellyfinDelete(ctx, float32(userId)).Execute()
-		return handle204Response(cmd, r, err, isVerbose, "UserUserIdSettingsLinkedAccountsJellyfinDelete")
+		return apiutil.Handle204Response(cmd, r, err, isVerbose, "UserUserIdSettingsLinkedAccountsJellyfinDelete")
 	},
 }
 

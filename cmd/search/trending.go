@@ -1,6 +1,8 @@
 package search
 
 import (
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -35,7 +37,7 @@ var trendingCmd = &cobra.Command{
 		}
 
 		res, r, err := req.Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "DiscoverTrendingGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "DiscoverTrendingGet")
 	},
 }
 

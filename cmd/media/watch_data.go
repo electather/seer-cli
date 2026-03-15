@@ -1,6 +1,8 @@
 package media
 
 import (
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -11,9 +13,9 @@ var watchDataCmd = &cobra.Command{
 	Example: `  # Get watch data for media item 42
   seerr-cli media watch-data 42`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		res, r, err := apiClient.MediaAPI.MediaMediaIdWatchDataGet(ctx, args[0]).Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "MediaMediaIdWatchDataGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "MediaMediaIdWatchDataGet")
 	},
 }
 

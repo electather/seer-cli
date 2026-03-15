@@ -1,6 +1,8 @@
 package request
 
 import (
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -9,9 +11,9 @@ var approveCmd = &cobra.Command{
 	Short: "Approve a media request",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		res, r, err := apiClient.RequestAPI.RequestRequestIdStatusPost(ctx, args[0], "approve").Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "RequestRequestIdStatusPost")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "RequestRequestIdStatusPost")
 	},
 }
 

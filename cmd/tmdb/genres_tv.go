@@ -1,19 +1,23 @@
 package tmdb
 
-import "github.com/spf13/cobra"
+import (
+	"seerr-cli/cmd/apiutil"
+
+	"github.com/spf13/cobra"
+)
 
 var genresTvCmd = &cobra.Command{
 	Use:   "genres-tv",
 	Short: "Get list of official TMDB TV genres",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		req := apiClient.TmdbAPI.GenresTvGet(ctx)
 		if cmd.Flags().Changed("language") {
 			v, _ := cmd.Flags().GetString("language")
 			req = req.Language(v)
 		}
 		res, r, err := req.Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "GenresTvGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "GenresTvGet")
 	},
 }
 

@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"seerr-cli/cmd"
-	"seerr-cli/cmd/tmdb"
+	"seerr-cli/cmd/apiutil"
 
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
@@ -108,10 +108,10 @@ func TestTmdbCommands(t *testing.T) {
 			}))
 			defer server.Close()
 
-			tmdb.OverrideServerURL = server.URL + "/api/v1"
+			apiutil.OverrideServerURL = server.URL + "/api/v1"
 			os.Setenv("SEER_SERVER", server.URL)
 			defer func() {
-				tmdb.OverrideServerURL = ""
+				apiutil.OverrideServerURL = ""
 				os.Unsetenv("SEER_SERVER")
 			}()
 

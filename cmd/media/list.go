@@ -1,6 +1,8 @@
 package media
 
 import (
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -16,7 +18,7 @@ var listCmd = &cobra.Command{
   # Paginate results
   seerr-cli media list --take 10 --skip 20`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		req := apiClient.MediaAPI.MediaGet(ctx)
 
@@ -38,7 +40,7 @@ var listCmd = &cobra.Command{
 		}
 
 		res, r, err := req.Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "MediaGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "MediaGet")
 	},
 }
 

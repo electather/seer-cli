@@ -1,6 +1,8 @@
 package blocklist
 
 import (
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -13,7 +15,7 @@ var listCmd = &cobra.Command{
   # Filter and paginate
   seerr-cli blocklist list --filter all --take 25 --skip 0`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		req := apiClient.BlocklistAPI.BlocklistGet(ctx)
 
@@ -35,7 +37,7 @@ var listCmd = &cobra.Command{
 		}
 
 		res, r, err := req.Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "BlocklistGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "BlocklistGet")
 	},
 }
 

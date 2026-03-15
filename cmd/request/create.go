@@ -2,6 +2,7 @@ package request
 
 import (
 	"fmt"
+	"seerr-cli/cmd/apiutil"
 	"strconv"
 	"strings"
 
@@ -14,7 +15,7 @@ var createCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create a new media request",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		mediaType, _ := cmd.Flags().GetString("media-type")
 		mediaId, _ := cmd.Flags().GetFloat32("media-id")
@@ -67,7 +68,7 @@ var createCmd = &cobra.Command{
 		}
 
 		res, r, err := apiClient.RequestAPI.RequestPost(ctx).RequestPostRequest(body).Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "RequestPost")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "RequestPost")
 	},
 }
 

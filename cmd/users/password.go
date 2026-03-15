@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
 	api "seerr-cli/pkg/api"
 
 	"github.com/spf13/cobra"
@@ -19,7 +20,7 @@ var passwordResetRequestCmd = &cobra.Command{
 	Use:   "reset-request",
 	Short: "Request a password reset",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		email, _ := cmd.Flags().GetString("email")
 
 		body := api.AuthResetPasswordPostRequest{
@@ -54,7 +55,7 @@ var passwordResetConfirmCmd = &cobra.Command{
 	Short: "Confirm a password reset",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		guid := args[0]
 		password, _ := cmd.Flags().GetString("password")
 
@@ -90,7 +91,7 @@ var passwordGetCmd = &cobra.Command{
 	Short: "Check if a user has a password set",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
 			return fmt.Errorf("invalid userId: %w", err)
@@ -124,7 +125,7 @@ var passwordSetCmd = &cobra.Command{
 	Short: "Set a user's password",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
 			return fmt.Errorf("invalid userId: %w", err)
@@ -143,7 +144,7 @@ var passwordSetCmd = &cobra.Command{
 		}
 
 		r, err := apiClient.UsersAPI.UserUserIdSettingsPasswordPost(ctx, float32(userId)).UserUserIdSettingsPasswordPostRequest(body).Execute()
-		return handle204Response(cmd, r, err, isVerbose, "UserUserIdSettingsPasswordPost")
+		return apiutil.Handle204Response(cmd, r, err, isVerbose, "UserUserIdSettingsPasswordPost")
 	},
 }
 

@@ -1,6 +1,8 @@
 package media
 
 import (
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -9,9 +11,9 @@ var deleteCmd = &cobra.Command{
 	Short: "Delete a media item",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		r, err := apiClient.MediaAPI.MediaMediaIdDelete(ctx, args[0]).Execute()
-		return handle204Response(cmd, r, err, isVerbose, "MediaMediaIdDelete")
+		return apiutil.Handle204Response(cmd, r, err, isVerbose, "MediaMediaIdDelete")
 	},
 }
 
