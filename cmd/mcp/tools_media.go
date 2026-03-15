@@ -8,14 +8,38 @@ import (
 	"github.com/mark3labs/mcp-go/server"
 )
 
+// statusLabels maps numeric Seer media status codes to human-readable names.
+var statusLabels = map[float64]string{
+	1: "UNKNOWN",
+	2: "PENDING",
+	3: "PROCESSING",
+	4: "PARTIALLY_AVAILABLE",
+	5: "AVAILABLE",
+	6: "DELETED",
+}
+
 func registerMediaTools(s *server.MCPServer) {
 	s.AddTool(
 		mcp.NewTool("media_list",
-			mcp.WithDescription("List media items"),
-			mcp.WithNumber("take", mcp.Description("Number of results to return")),
-			mcp.WithNumber("skip", mcp.Description("Number of results to skip")),
-			mcp.WithString("filter", mcp.Description("Filter by status")),
-			mcp.WithString("sort", mcp.Description("Sort field")),
+			mcp.WithDescription(
+				"List movies and TV shows tracked by Seer (i.e. requested or added to the library), "+
+					"including their download/availability status and associated requests. "+
+					"Supports pagination via take/skip. "+
+					"Each result includes statusLabel and status4kLabel string fields alongside the numeric status codes.",
+			),
+			mcp.WithReadOnlyHintAnnotation(true),
+			mcp.WithDestructiveHintAnnotation(false),
+			mcp.WithIdempotentHintAnnotation(true),
+			mcp.WithNumber("take", mcp.Description("Max number of results to return per page."), mcp.DefaultNumber(20)),
+			mcp.WithNumber("skip", mcp.Description("Number of results to skip, for pagination."), mcp.DefaultNumber(0)),
+			mcp.WithString("filter",
+				mcp.Description("Filter results by availability status. Defaults to all."),
+				mcp.Enum("all", "available", "partial", "allavailable", "processing", "pending", "deleted"),
+			),
+			mcp.WithString("sort",
+				mcp.Description("Field to sort results by. Defaults to added."),
+				mcp.Enum("added", "modified", "mediaAdded"),
+			),
 		),
 		MediaListHandler(),
 	)
@@ -34,9 +58,8 @@ func MediaListHandler() server.ToolHandlerFunc {
 	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
 		r := client.MediaAPI.MediaGet(callCtx)
-		if take := req.GetFloat("take", 0); take > 0 {
-			r = r.Take(float32(take))
-		}
+		take := req.GetFloat("take", 20)
+		r = r.Take(float32(take))
 		if skip := req.GetFloat("skip", 0); skip > 0 {
 			r = r.Skip(float32(skip))
 		}
@@ -54,7 +77,40 @@ func MediaListHandler() server.ToolHandlerFunc {
 		if err != nil {
 			return nil, err
 		}
-		return mcp.NewToolResultText(string(b)), nil
+
+		// Enrich the response with human-readable status labels so agents can
+		// interpret numeric codes without a separate lookup table.
+		var envelope map[string]interface{}
+		if err := json.Unmarshal(b, &envelope); err != nil {
+			return mcp.NewToolResultText(string(b)), nil
+		}
+		if results, ok := envelope["results"].([]interface{}); ok {
+			for _, item := range results {
+				m, ok := item.(map[string]interface{})
+				if !ok {
+					continue
+				}
+				if v, ok := m["status"].(float64); ok {
+					m["statusLabel"] = statusLabels[v]
+				}
+				if v, ok := m["status4k"].(float64); ok {
+					m["status4kLabel"] = statusLabels[v]
+				}
+			}
+		}
+		envelope["_statusLegend"] = map[string]string{
+			"1": "UNKNOWN",
+			"2": "PENDING",
+			"3": "PROCESSING",
+			"4": "PARTIALLY_AVAILABLE",
+			"5": "AVAILABLE",
+			"6": "DELETED",
+		}
+		enriched, err := json.Marshal(envelope)
+		if err != nil {
+			return mcp.NewToolResultText(string(b)), nil
+		}
+		return mcp.NewToolResultText(string(enriched)), nil
 	}
 }
 
