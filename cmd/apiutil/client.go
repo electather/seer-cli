@@ -2,7 +2,10 @@ package apiutil
 
 import (
 	"context"
+	"fmt"
+	"io"
 	"net/http"
+	"net/url"
 	"strings"
 
 	api "seerr-cli/pkg/api"
@@ -27,6 +30,50 @@ func NewAPIClientWithTransport(transport http.RoundTripper) *api.APIClient {
 // NewAPIClientWithKey builds a client using apiKey, falling back to Viper when empty.
 func NewAPIClientWithKey(apiKey string) *api.APIClient {
 	return NewAPIClientWithKeyAndTransport(apiKey, nil)
+}
+
+// RawGet makes an authenticated GET request using the API client's configuration
+// and returns the raw response body bytes. params may be nil for requests with
+// no query parameters. Spaces in parameter values are encoded as %20, not +,
+// to satisfy the Seerr API's strict URL-encoding requirement.
+func RawGet(ctx context.Context, client *api.APIClient, path string, params url.Values) ([]byte, error) {
+	cfg := client.GetConfig()
+	serverURL, err := cfg.ServerURLWithContext(ctx, "")
+	if err != nil {
+		return nil, fmt.Errorf("resolve server URL: %w", err)
+	}
+	u, err := url.Parse(serverURL + path)
+	if err != nil {
+		return nil, fmt.Errorf("parse URL: %w", err)
+	}
+	if len(params) > 0 {
+		// url.Values.Encode() uses + for spaces; replace with %20 for Seerr compatibility.
+		u.RawQuery = strings.ReplaceAll(params.Encode(), "+", "%20")
+	}
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	for k, v := range cfg.DefaultHeader {
+		req.Header.Set(k, v)
+	}
+	httpClient := cfg.HTTPClient
+	if httpClient == nil {
+		httpClient = http.DefaultClient
+	}
+	resp, err := httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	if resp.StatusCode >= 400 {
+		return nil, fmt.Errorf("HTTP %d: %s", resp.StatusCode, string(body))
+	}
+	return body, nil
 }
 
 // NewAPIClientWithKeyAndTransport is the base constructor used by all other helpers.

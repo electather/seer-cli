@@ -67,13 +67,16 @@ func TestMCPStatusSystemHandler(t *testing.T) {
 
 func TestMCPSearchMultiHandler(t *testing.T) {
 	ts, cleanup := newMCPTestServer(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/api/v1/search" {
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		switch r.URL.Path {
+		case "/api/v1/search":
 			w.Write([]byte(`{"page":1,"totalPages":1,"totalResults":1,"results":[]}`))
-			return
+		case "/api/v1/genres/movie", "/api/v1/genres/tv":
+			w.Write([]byte(`[]`))
+		default:
+			w.WriteHeader(http.StatusNotFound)
 		}
-		w.WriteHeader(http.StatusNotFound)
 	})
 	defer cleanup()
 	_ = ts
@@ -84,6 +87,96 @@ func TestMCPSearchMultiHandler(t *testing.T) {
 	text := resultText(t, result)
 
 	assert.Contains(t, text, `"results"`)
+}
+
+func TestMCPSearchEnrichment(t *testing.T) {
+	ts, cleanup := newMCPTestServer(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		switch r.URL.Path {
+		case "/api/v1/search":
+			// Include both a movie and a TV show to verify TV fields are preserved.
+			w.Write([]byte(`{"page":1,"totalPages":1,"totalResults":2,"results":[` +
+				`{"id":27205,"title":"Inception","mediaType":"movie","genreIds":[28,878],"posterPath":"/poster.jpg"},` +
+				`{"id":13,"name":"Family Guy","mediaType":"tv","genreIds":[16,35],"posterPath":"/tv.jpg"}` +
+				`]}`))
+		case "/api/v1/genres/movie":
+			w.Write([]byte(`[{"id":28,"name":"Action"},{"id":878,"name":"Science Fiction"}]`))
+		case "/api/v1/genres/tv":
+			w.Write([]byte(`[{"id":16,"name":"Animation"},{"id":35,"name":"Comedy"}]`))
+		default:
+			w.WriteHeader(http.StatusNotFound)
+		}
+	})
+	defer cleanup()
+	_ = ts
+
+	handler := cmdmcp.SearchMultiHandler()
+	result := callTool(t, handler, map[string]any{"query": "inception"})
+	text := resultText(t, result)
+
+	// Genre IDs should be resolved to names.
+	assert.Contains(t, text, `"genreNames"`)
+	assert.Contains(t, text, `"Action"`)
+	assert.Contains(t, text, `"Science Fiction"`)
+
+	// TV show fields (name, mediaType) must be preserved.
+	assert.Contains(t, text, `"Family Guy"`)
+	assert.Contains(t, text, `"Animation"`)
+
+	// Poster paths should be expanded to full URLs.
+	assert.Contains(t, text, `https://image.tmdb.org/t/p/w500/poster.jpg`)
+	assert.Contains(t, text, `https://image.tmdb.org/t/p/w500/tv.jpg`)
+}
+
+func TestMCPSearchSpacesInQuery(t *testing.T) {
+	var capturedQuery string
+	ts, cleanup := newMCPTestServer(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		switch r.URL.Path {
+		case "/api/v1/search":
+			capturedQuery = r.URL.RawQuery
+			w.Write([]byte(`{"page":1,"totalPages":1,"totalResults":0,"results":[]}`))
+		case "/api/v1/genres/movie", "/api/v1/genres/tv":
+			w.Write([]byte(`[]`))
+		default:
+			w.WriteHeader(http.StatusNotFound)
+		}
+	})
+	defer cleanup()
+	_ = ts
+
+	handler := cmdmcp.SearchMultiHandler()
+	callTool(t, handler, map[string]any{"query": "how i met your mother"})
+
+	// Spaces must be encoded as %20, not + (Seerr rejects + in query values).
+	assert.Contains(t, capturedQuery, "how%20i%20met%20your%20mother")
+	assert.NotContains(t, capturedQuery, "+")
+}
+
+func TestMCPDiscoverMoviesEnrichment(t *testing.T) {
+	ts, cleanup := newMCPTestServer(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		switch r.URL.Path {
+		case "/api/v1/discover/movies":
+			w.Write([]byte(`{"page":1,"totalPages":1,"totalResults":1,"results":[{"id":1,"title":"Drama Film","mediaType":"movie","genreIds":[18],"posterPath":"/drama.jpg"}]}`))
+		case "/api/v1/genres/movie":
+			w.Write([]byte(`[{"id":18,"name":"Drama"}]`))
+		default:
+			w.WriteHeader(http.StatusNotFound)
+		}
+	})
+	defer cleanup()
+	_ = ts
+
+	handler := cmdmcp.SearchDiscoverMoviesHandler()
+	result := callTool(t, handler, nil)
+	text := resultText(t, result)
+
+	assert.Contains(t, text, `"Drama"`)
+	assert.Contains(t, text, `https://image.tmdb.org/t/p/w500/drama.jpg`)
 }
 
 func TestMCPSearchMultiHandlerMissingQuery(t *testing.T) {
