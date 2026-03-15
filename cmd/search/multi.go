@@ -1,6 +1,8 @@
 package search
 
 import (
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -28,7 +30,7 @@ var multiCmd = &cobra.Command{
 		}
 
 		res, r, err := req.Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "SearchGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "SearchGet")
 	},
 }
 

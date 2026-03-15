@@ -3,6 +3,8 @@ package movies
 import (
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -16,7 +18,7 @@ var getCmd = &cobra.Command{
   # Get details in Spanish
   seerr-cli movies get 603 --language es`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		movieId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
@@ -31,7 +33,7 @@ var getCmd = &cobra.Command{
 		}
 
 		res, r, err := req.Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "MovieMovieIdGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "MovieMovieIdGet")
 	},
 }
 

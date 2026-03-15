@@ -1,12 +1,7 @@
 package status
 
 import (
-	"context"
-	"encoding/json"
-	"fmt"
-	"strings"
-
-	api "seerr-cli/pkg/api"
+	"seerr-cli/cmd/apiutil"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -17,55 +12,14 @@ var statusAppdataCmd = &cobra.Command{
 	Short: "Get application data volume status",
 	Long:  `For Docker installs, returns whether or not the volume mount was configured properly. Always returns true for non-Docker installs.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		configuration := api.NewConfiguration()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
-		serverURL := viper.GetString("seerr.server")
-		if !strings.HasSuffix(serverURL, "/api/v1") && !strings.HasSuffix(serverURL, "/api/v1/") {
-			serverURL = strings.TrimSuffix(serverURL, "/") + "/api/v1"
-		}
-
-		configuration.Servers = api.ServerConfigurations{
-			{URL: serverURL, Description: "Configured Server"},
-		}
-
-		if apiKey := viper.GetString("seerr.api_key"); apiKey != "" {
-			configuration.AddDefaultHeader("X-Api-Key", apiKey)
-		}
-
-		if OverrideServerURL != "" {
-			configuration.Servers = api.ServerConfigurations{
-				{URL: OverrideServerURL, Description: "Mock Server"},
-			}
-		}
-
-		apiClient := api.NewAPIClient(configuration)
-		ctx := context.Background()
-
-		isVerbose := viper.GetBool("verbose")
 		if isVerbose {
-			cmd.Printf("Calling /status/appdata endpoint on %s...\n", serverURL)
+			cmd.Printf("Calling /status/appdata endpoint on %s...\n", viper.GetString("seerr.server"))
 		}
 
 		res, r, err := apiClient.PublicAPI.StatusAppdataGet(ctx).Execute()
-		if err != nil {
-			if isVerbose && r != nil {
-				return fmt.Errorf("error when calling StatusAppdataGet: %w\nFull HTTP response: %v", err, r)
-			}
-			return fmt.Errorf("error when calling StatusAppdataGet: %w", err)
-		}
-
-		jsonRes, err := json.MarshalIndent(res, "", "  ")
-		if err != nil {
-			return fmt.Errorf("failed to marshal response: %w", err)
-		}
-
-		if isVerbose {
-			cmd.Printf("HTTP Status: %s\n", r.Status)
-			cmd.Printf("Response from StatusAppdataGet:\n%s\n", string(jsonRes))
-		} else {
-			cmd.Println(string(jsonRes))
-		}
-		return nil
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "StatusAppdataGet")
 	},
 }
 

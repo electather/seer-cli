@@ -1,6 +1,7 @@
 package media
 
 import (
+	"seerr-cli/cmd/apiutil"
 	api "seerr-cli/pkg/api"
 
 	"github.com/spf13/cobra"
@@ -16,7 +17,7 @@ var statusCmd = &cobra.Command{
   # Mark 4K version as available
   seerr-cli media status 42 available --is4k`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		body := api.NewMediaMediaIdStatusPostRequest()
 		if cmd.Flags().Changed("is4k") {
@@ -27,7 +28,7 @@ var statusCmd = &cobra.Command{
 		res, r, err := apiClient.MediaAPI.MediaMediaIdStatusPost(ctx, args[0], args[1]).
 			MediaMediaIdStatusPostRequest(*body).
 			Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "MediaMediaIdStatusPost")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "MediaMediaIdStatusPost")
 	},
 }
 

@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"seerr-cli/cmd"
-	"seerr-cli/cmd/status"
+	"seerr-cli/cmd/apiutil"
 )
 
 func TestStatusAppdataCommand(t *testing.T) {
@@ -25,7 +25,7 @@ func TestStatusAppdataCommand(t *testing.T) {
 	}))
 	defer server.Close()
 
-	status.OverrideServerURL = server.URL
+	apiutil.OverrideServerURL = server.URL
 	os.Setenv("SEER_SERVER", server.URL)
 	defer os.Unsetenv("SEER_SERVER")
 

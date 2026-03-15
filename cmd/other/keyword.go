@@ -3,6 +3,8 @@ package other
 import (
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -12,7 +14,7 @@ var keywordCmd = &cobra.Command{
 	Args:    cobra.ExactArgs(1),
 	Example: `  seerr-cli other keyword 1`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		keywordId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
@@ -20,7 +22,7 @@ var keywordCmd = &cobra.Command{
 		}
 
 		res, r, err := apiClient.OtherAPI.KeywordKeywordIdGet(ctx, float32(keywordId)).Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "KeywordKeywordIdGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "KeywordKeywordIdGet")
 	},
 }
 

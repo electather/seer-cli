@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
 	api "seerr-cli/pkg/api"
 
 	"github.com/spf13/cobra"
@@ -28,9 +29,9 @@ var createCmd = &cobra.Command{
 			v, _ := cmd.Flags().GetFloat32("media-id")
 			body.SetMediaId(v)
 		}
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		res, r, apiErr := apiClient.IssueAPI.IssuePost(ctx).IssuePostRequest(*body).Execute()
-		return handleResponse(cmd, r, apiErr, res, isVerbose, "IssuePost")
+		return apiutil.HandleResponse(cmd, r, apiErr, res, isVerbose, "IssuePost")
 	},
 }
 

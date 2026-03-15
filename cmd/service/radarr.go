@@ -3,6 +3,8 @@ package service
 import (
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -10,9 +12,9 @@ var radarrListCmd = &cobra.Command{
 	Use:   "radarr-list",
 	Short: "List Radarr servers",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		res, r, err := apiClient.ServiceAPI.ServiceRadarrGet(ctx).Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "ServiceRadarrGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "ServiceRadarrGet")
 	},
 }
 
@@ -21,7 +23,7 @@ var radarrGetCmd = &cobra.Command{
 	Short: "Get Radarr server quality profiles and root folders",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		id, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
@@ -29,7 +31,7 @@ var radarrGetCmd = &cobra.Command{
 		}
 
 		res, r, err := apiClient.ServiceAPI.ServiceRadarrRadarrIdGet(ctx, float32(id)).Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "ServiceRadarrRadarrIdGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "ServiceRadarrRadarrIdGet")
 	},
 }
 

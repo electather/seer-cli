@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
 	api "seerr-cli/pkg/api"
 
 	"github.com/spf13/cobra"
@@ -20,9 +21,9 @@ var commentCmd = &cobra.Command{
 		}
 		message, _ := cmd.Flags().GetString("message")
 		body := api.NewIssueIssueIdCommentPostRequest(message)
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		res, r, apiErr := apiClient.IssueAPI.IssueIssueIdCommentPost(ctx, float32(id)).IssueIssueIdCommentPostRequest(*body).Execute()
-		return handleResponse(cmd, r, apiErr, res, isVerbose, "IssueIssueIdCommentPost")
+		return apiutil.HandleResponse(cmd, r, apiErr, res, isVerbose, "IssueIssueIdCommentPost")
 	},
 }
 

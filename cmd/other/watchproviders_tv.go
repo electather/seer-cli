@@ -1,6 +1,8 @@
 package other
 
 import (
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -9,7 +11,7 @@ var watchprovidersTvCmd = &cobra.Command{
 	Short:   "List watch providers for TV shows in a region",
 	Example: `  seerr-cli other watchproviders-tv --watch-region US`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		req := apiClient.OtherAPI.WatchprovidersTvGet(ctx)
 		if cmd.Flags().Changed("watch-region") {
@@ -18,7 +20,7 @@ var watchprovidersTvCmd = &cobra.Command{
 		}
 
 		res, r, err := req.Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "WatchprovidersTvGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "WatchprovidersTvGet")
 	},
 }
 

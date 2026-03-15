@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -16,9 +18,9 @@ var studioCmd = &cobra.Command{
 		if err != nil {
 			return fmt.Errorf("invalid studio ID: %s", args[0])
 		}
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		res, r, apiErr := apiClient.TmdbAPI.StudioStudioIdGet(ctx, float32(id)).Execute()
-		return handleResponse(cmd, r, apiErr, res, isVerbose, "StudioStudioIdGet")
+		return apiutil.HandleResponse(cmd, r, apiErr, res, isVerbose, "StudioStudioIdGet")
 	},
 }
 

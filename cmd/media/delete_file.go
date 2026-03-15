@@ -1,6 +1,8 @@
 package media
 
 import (
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -14,7 +16,7 @@ var deleteFileCmd = &cobra.Command{
   # Delete the 4K file
   seerr-cli media delete-file 42 --is4k`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		req := apiClient.MediaAPI.MediaMediaIdFileDelete(ctx, args[0])
 		if cmd.Flags().Changed("is4k") {
@@ -23,7 +25,7 @@ var deleteFileCmd = &cobra.Command{
 		}
 
 		r, err := req.Execute()
-		return handle204Response(cmd, r, err, isVerbose, "MediaMediaIdFileDelete")
+		return apiutil.Handle204Response(cmd, r, err, isVerbose, "MediaMediaIdFileDelete")
 	},
 }
 

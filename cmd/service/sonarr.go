@@ -3,6 +3,8 @@ package service
 import (
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -10,9 +12,9 @@ var sonarrListCmd = &cobra.Command{
 	Use:   "sonarr-list",
 	Short: "List Sonarr servers",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		res, r, err := apiClient.ServiceAPI.ServiceSonarrGet(ctx).Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "ServiceSonarrGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "ServiceSonarrGet")
 	},
 }
 
@@ -21,7 +23,7 @@ var sonarrGetCmd = &cobra.Command{
 	Short: "Get Sonarr server quality profiles and root folders",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		id, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
@@ -29,7 +31,7 @@ var sonarrGetCmd = &cobra.Command{
 		}
 
 		res, r, err := apiClient.ServiceAPI.ServiceSonarrSonarrIdGet(ctx, float32(id)).Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "ServiceSonarrSonarrIdGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "ServiceSonarrSonarrIdGet")
 	},
 }
 
@@ -38,7 +40,7 @@ var sonarrLookupCmd = &cobra.Command{
 	Short: "Look up a series in Sonarr by TMDB ID",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		id, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
@@ -46,7 +48,7 @@ var sonarrLookupCmd = &cobra.Command{
 		}
 
 		res, r, err := apiClient.ServiceAPI.ServiceSonarrLookupTmdbIdGet(ctx, float32(id)).Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "ServiceSonarrLookupTmdbIdGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "ServiceSonarrLookupTmdbIdGet")
 	},
 }
 

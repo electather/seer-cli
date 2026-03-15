@@ -1,6 +1,8 @@
 package other
 
 import (
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -9,9 +11,9 @@ var certificationsMovieCmd = &cobra.Command{
 	Short:   "List movie certifications from TMDB",
 	Example: `  seerr-cli other certifications-movie`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		res, r, err := apiClient.OtherAPI.CertificationsMovieGet(ctx).Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "CertificationsMovieGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "CertificationsMovieGet")
 	},
 }
 

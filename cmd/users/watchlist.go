@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -13,7 +15,7 @@ var watchlistCmd = &cobra.Command{
 	Short: "Get watchlist for a user",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {

@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"seerr-cli/cmd"
-	"seerr-cli/cmd/request"
+	"seerr-cli/cmd/apiutil"
 
 	"github.com/spf13/viper"
 )
@@ -86,7 +86,7 @@ func TestRequest(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	request.OverrideServerURL = ts.URL + "/api/v1"
+	apiutil.OverrideServerURL = ts.URL + "/api/v1"
 	viper.Set("seerr.server", ts.URL)
 	os.Setenv("SEER_SERVER", ts.URL)
 

@@ -3,6 +3,8 @@ package tv
 import (
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -16,7 +18,7 @@ var recommendationsCmd = &cobra.Command{
   # Get second page
   seerr-cli tv recommendations 1396 --page 2`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		tvId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
@@ -34,7 +36,7 @@ var recommendationsCmd = &cobra.Command{
 		}
 
 		res, r, err := req.Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "TvTvIdRecommendationsGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "TvTvIdRecommendationsGet")
 	},
 }
 

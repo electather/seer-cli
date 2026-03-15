@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -11,7 +13,7 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all users",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		take, _ := cmd.Flags().GetFloat32("take")
 		skip, _ := cmd.Flags().GetFloat32("skip")

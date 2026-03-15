@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -12,7 +14,7 @@ var deleteCmd = &cobra.Command{
 	Short: "Delete a user",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
@@ -20,7 +22,7 @@ var deleteCmd = &cobra.Command{
 		}
 
 		_, r, err := apiClient.UsersAPI.UserUserIdDelete(ctx, float32(userId)).Execute()
-		return handle204Response(cmd, r, err, isVerbose, "UserUserIdDelete")
+		return apiutil.Handle204Response(cmd, r, err, isVerbose, "UserUserIdDelete")
 	},
 }
 

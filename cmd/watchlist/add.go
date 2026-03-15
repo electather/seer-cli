@@ -1,6 +1,7 @@
 package watchlist
 
 import (
+	"seerr-cli/cmd/apiutil"
 	api "seerr-cli/pkg/api"
 
 	"github.com/spf13/cobra"
@@ -11,7 +12,7 @@ var addCmd = &cobra.Command{
 	Short:   "Add media to the watchlist",
 	Example: `  seerr-cli watchlist add --tmdb-id 12345 --media-type movie --title "Dune"`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		body := api.NewWatchlist()
 		if cmd.Flags().Changed("tmdb-id") {
@@ -32,7 +33,7 @@ var addCmd = &cobra.Command{
 		}
 
 		res, r, err := apiClient.WatchlistAPI.WatchlistPost(ctx).Watchlist(*body).Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "WatchlistPost")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "WatchlistPost")
 	},
 }
 

@@ -1,6 +1,8 @@
 package request
 
 import (
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -9,9 +11,9 @@ var retryCmd = &cobra.Command{
 	Short: "Retry a failed media request",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		res, r, err := apiClient.RequestAPI.RequestRequestIdRetryPost(ctx, args[0]).Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "RequestRequestIdRetryPost")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "RequestRequestIdRetryPost")
 	},
 }
 

@@ -3,6 +3,8 @@ package tv
 import (
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -13,7 +15,7 @@ var similarCmd = &cobra.Command{
 	Example: `  # Get similar shows to Breaking Bad (ID 1396)
   seerr-cli tv similar 1396`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		tvId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
@@ -31,7 +33,7 @@ var similarCmd = &cobra.Command{
 		}
 
 		res, r, err := req.Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "TvTvIdSimilarGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "TvTvIdSimilarGet")
 	},
 }
 

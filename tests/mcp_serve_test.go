@@ -8,6 +8,7 @@ import (
 	"strings"
 	"testing"
 
+	"seerr-cli/cmd/apiutil"
 	cmdmcp "seerr-cli/cmd/mcp"
 
 	"github.com/mark3labs/mcp-go/mcp"
@@ -17,10 +18,10 @@ import (
 
 func newMCPTestServer(handler http.HandlerFunc) (*httptest.Server, func()) {
 	ts := httptest.NewServer(handler)
-	cmdmcp.OverrideServerURL = ts.URL + "/api/v1"
+	apiutil.OverrideServerURL = ts.URL + "/api/v1"
 	return ts, func() {
 		ts.Close()
-		cmdmcp.OverrideServerURL = ""
+		apiutil.OverrideServerURL = ""
 	}
 }
 

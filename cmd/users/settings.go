@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
 	api "seerr-cli/pkg/api"
 
 	"github.com/spf13/cobra"
@@ -20,7 +21,7 @@ var settingsGetCmd = &cobra.Command{
 	Short: "Get settings for a user",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
 			return fmt.Errorf("invalid userId: %w", err)
@@ -54,7 +55,7 @@ var settingsUpdateCmd = &cobra.Command{
 	Short: "Update settings for a user",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
 			return fmt.Errorf("invalid userId: %w", err)
@@ -143,7 +144,7 @@ var settingsNotificationsGetCmd = &cobra.Command{
 	Short: "Get notification settings for a user",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
 			return fmt.Errorf("invalid userId: %w", err)
@@ -177,7 +178,7 @@ var settingsNotificationsUpdateCmd = &cobra.Command{
 	Short: "Update notification settings for a user",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
 			return fmt.Errorf("invalid userId: %w", err)
@@ -217,7 +218,7 @@ var settingsPermissionsGetCmd = &cobra.Command{
 	Short: "Get permissions for a user",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
 			return fmt.Errorf("invalid userId: %w", err)
@@ -251,7 +252,7 @@ var settingsPermissionsSetCmd = &cobra.Command{
 	Short: "Set permissions for a user",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 		userId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
 			return fmt.Errorf("invalid userId: %w", err)

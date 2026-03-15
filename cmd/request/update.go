@@ -2,6 +2,7 @@ package request
 
 import (
 	"fmt"
+	"seerr-cli/cmd/apiutil"
 	"strconv"
 	"strings"
 
@@ -15,7 +16,7 @@ var updateCmd = &cobra.Command{
 	Short: "Update a media request",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		mediaType, _ := cmd.Flags().GetString("media-type")
 		body := *api.NewRequestRequestIdPutRequest(mediaType)
@@ -59,7 +60,7 @@ var updateCmd = &cobra.Command{
 		}
 
 		res, r, err := apiClient.RequestAPI.RequestRequestIdPut(ctx, args[0]).RequestRequestIdPutRequest(body).Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "RequestRequestIdPut")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "RequestRequestIdPut")
 	},
 }
 

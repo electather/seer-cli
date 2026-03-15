@@ -3,17 +3,13 @@ package mcp
 import (
 	"context"
 	"fmt"
-	"strings"
 
+	"seerr-cli/cmd/apiutil"
 	api "seerr-cli/pkg/api"
 
 	mcplib "github.com/mark3labs/mcp-go/mcp"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
-
-// OverrideServerURL is used by tests to redirect API calls to a mock server.
-var OverrideServerURL string
 
 type contextKey string
 
@@ -40,27 +36,11 @@ var Cmd = &cobra.Command{
 
 // newAPIClientWithKey builds a client using apiKey, falling back to Viper when empty.
 func newAPIClientWithKey(apiKey string) *api.APIClient {
-	configuration := api.NewConfiguration()
-	serverURL := viper.GetString("seerr.server")
-	if !strings.HasSuffix(serverURL, "/api/v1") {
-		serverURL = strings.TrimSuffix(serverURL, "/") + "/api/v1"
-	}
-	configuration.Servers = api.ServerConfigurations{{URL: serverURL, Description: "Configured Server"}}
-	key := apiKey
-	if key == "" {
-		key = viper.GetString("seerr.api_key")
-	}
-	if key != "" {
-		configuration.AddDefaultHeader("X-Api-Key", key)
-	}
-	if OverrideServerURL != "" {
-		configuration.Servers = api.ServerConfigurations{{URL: OverrideServerURL, Description: "Mock Server"}}
-	}
-	return api.NewAPIClient(configuration)
+	return apiutil.NewAPIClientWithKey(apiKey)
 }
 
 func newAPIClient() (*api.APIClient, context.Context) {
-	return newAPIClientWithKey(""), context.Background()
+	return apiutil.NewAPIClientWithKey(""), context.Background()
 }
 
 // NewAPIClientForTest is an exported alias used by tests.

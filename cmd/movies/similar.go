@@ -3,6 +3,8 @@ package movies
 import (
 	"strconv"
 
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -13,7 +15,7 @@ var similarCmd = &cobra.Command{
 	Example: `  # Get similar movies to The Matrix (ID 603)
   seerr-cli movies similar 603`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		movieId, err := strconv.ParseFloat(args[0], 32)
 		if err != nil {
@@ -32,7 +34,7 @@ var similarCmd = &cobra.Command{
 		}
 
 		res, r, err := req.Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "MovieMovieIdSimilarGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "MovieMovieIdSimilarGet")
 	},
 }
 

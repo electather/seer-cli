@@ -1,6 +1,7 @@
 package blocklist
 
 import (
+	"seerr-cli/cmd/apiutil"
 	api "seerr-cli/pkg/api"
 
 	"github.com/spf13/cobra"
@@ -11,7 +12,7 @@ var addCmd = &cobra.Command{
 	Short:   "Add media to the blocklist",
 	Example: `  seerr-cli blocklist add --tmdb-id 12345`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apiClient, ctx, isVerbose := newAPIClient()
+		apiClient, ctx, isVerbose := apiutil.NewAPIClient()
 
 		body := api.NewBlocklist()
 		if cmd.Flags().Changed("tmdb-id") {
@@ -20,7 +21,7 @@ var addCmd = &cobra.Command{
 		}
 
 		r, err := apiClient.BlocklistAPI.BlocklistPost(ctx).Blocklist(*body).Execute()
-		return handle204Response(cmd, r, err, isVerbose, "BlocklistPost")
+		return apiutil.Handle204Response(cmd, r, err, isVerbose, "BlocklistPost")
 	},
 }
 

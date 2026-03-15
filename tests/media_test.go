@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	"seerr-cli/cmd"
-	"seerr-cli/cmd/media"
+	"seerr-cli/cmd/apiutil"
 
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
@@ -98,7 +98,7 @@ func TestMediaCommands(t *testing.T) {
 			}))
 			defer server.Close()
 
-			media.OverrideServerURL = server.URL + "/api/v1"
+			apiutil.OverrideServerURL = server.URL + "/api/v1"
 
 			b := bytes.NewBufferString("")
 			command := cmd.RootCmd

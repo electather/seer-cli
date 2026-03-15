@@ -1,6 +1,8 @@
 package search
 
 import (
+	"seerr-cli/cmd/apiutil"
+
 	"github.com/spf13/cobra"
 )
 
@@ -58,7 +60,7 @@ var moviesCmd = &cobra.Command{
 		}
 
 		res, r, err := req.Execute()
-		return handleResponse(cmd, r, err, res, isVerbose, "DiscoverMoviesGet")
+		return apiutil.HandleResponse(cmd, r, err, res, isVerbose, "DiscoverMoviesGet")
 	},
 }
 

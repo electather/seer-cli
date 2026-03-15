@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"seerr-cli/cmd"
-	"seerr-cli/cmd/collection"
+	"seerr-cli/cmd/apiutil"
 
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
@@ -54,10 +54,10 @@ func TestCollectionCommands(t *testing.T) {
 			}))
 			defer server.Close()
 
-			collection.OverrideServerURL = server.URL + "/api/v1"
+			apiutil.OverrideServerURL = server.URL + "/api/v1"
 			os.Setenv("SEER_SERVER", server.URL)
 			defer func() {
-				collection.OverrideServerURL = ""
+				apiutil.OverrideServerURL = ""
 				os.Unsetenv("SEER_SERVER")
 			}()
 
