@@ -412,44 +412,12 @@ func TestMCPBlocklistListHandler(t *testing.T) {
 	assert.Contains(t, text, `"results"`)
 }
 
-// --- Multi-tenancy tests ---
+// --- API key context propagation test ---
 
-func TestTenantRoutingExtractsToken(t *testing.T) {
-	var capturedPath string
-	var capturedKey string
-
-	inner := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		capturedPath = r.URL.Path
-		capturedKey, _ = r.Context().Value(cmdmcp.APIKeyContextKey).(string)
-		w.WriteHeader(http.StatusOK)
-	})
-
-	handler := cmdmcp.TenantRoutingHandler(inner)
-
-	req := httptest.NewRequest(http.MethodGet, "/mytoken/mcp", nil)
-	rec := httptest.NewRecorder()
-	handler.ServeHTTP(rec, req)
-
-	assert.Equal(t, http.StatusOK, rec.Code)
-	assert.Equal(t, "/mcp", capturedPath)
-	assert.Equal(t, "mytoken", capturedKey)
-}
-
-func TestTenantRoutingRejects404(t *testing.T) {
-	inner := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-	})
-	handler := cmdmcp.TenantRoutingHandler(inner)
-
-	for _, path := range []string{"/mcp", "/", "/nopath"} {
-		req := httptest.NewRequest(http.MethodGet, path, nil)
-		rec := httptest.NewRecorder()
-		handler.ServeHTTP(rec, req)
-		assert.Equal(t, http.StatusNotFound, rec.Code, "path %q should return 404", path)
-	}
-}
-
-func TestMultiTenantAPIKeyPropagation(t *testing.T) {
+func TestAPIKeyContextPropagation(t *testing.T) {
+	// Verify that an API key injected into the context is forwarded to the
+	// Seerr API as the X-Api-Key header, matching how SeerrAPIKeyMiddleware
+	// injects keys for downstream tool handlers.
 	var receivedAPIKey string
 
 	ts, cleanup := newMCPTestServer(func(w http.ResponseWriter, r *http.Request) {
@@ -467,12 +435,12 @@ func TestMultiTenantAPIKeyPropagation(t *testing.T) {
 
 	handler := cmdmcp.StatusSystemHandler()
 
-	ctx := context.WithValue(context.Background(), cmdmcp.APIKeyContextKey, "tenant-api-key")
+	ctx := context.WithValue(context.Background(), cmdmcp.APIKeyContextKey, "injected-api-key")
 	req := mcp.CallToolRequest{}
 	req.Params.Arguments = nil
 	result, err := handler(ctx, req)
 
 	require.NoError(t, err)
 	require.NotNil(t, result)
-	assert.Equal(t, "tenant-api-key", receivedAPIKey)
+	assert.Equal(t, "injected-api-key", receivedAPIKey)
 }

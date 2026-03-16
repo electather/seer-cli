@@ -10,11 +10,10 @@ import (
 
 func TestSafeLogPath(t *testing.T) {
 	tests := []struct {
-		name        string
-		path        string
-		routeToken  string
-		multiTenant bool
-		want        string
+		name       string
+		path       string
+		routeToken string
+		want       string
 	}{
 		{
 			name: "plain mcp path unchanged",
@@ -51,45 +50,59 @@ func TestSafeLogPath(t *testing.T) {
 			want:       "/health",
 		},
 		{
-			name:        "multi-tenant api key in path is redacted",
-			path:        "/user-api-key/mcp",
-			multiTenant: true,
-			want:        "/{tenant}/mcp",
-		},
-		{
-			name:        "multi-tenant api key with sse suffix is redacted",
-			path:        "/user-api-key/mcp/sse",
-			multiTenant: true,
-			want:        "/{tenant}/mcp/sse",
-		},
-		{
-			name:        "root path unchanged in multi-tenant mode",
-			path:        "/",
-			multiTenant: true,
-			want:        "/",
-		},
-		{
-			name:        "single segment path unchanged in multi-tenant mode",
-			path:        "/health",
-			multiTenant: true,
-			want:        "/health",
-		},
-		{
-			name:        "no route token and no multi-tenant returns path unchanged",
-			path:        "/unexpected/path",
-			routeToken:  "",
-			multiTenant: false,
-			want:        "/unexpected/path",
+			name: "no route token returns path unchanged",
+			path: "/unexpected/path",
+			want: "/unexpected/path",
 		},
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			got := cmdmcp.SafeLogPath(tc.path, tc.routeToken, tc.multiTenant)
+			got := cmdmcp.SafeLogPath(tc.path, tc.routeToken)
 			assert.Equal(t, tc.want, got)
 			// Verify the raw token never appears in the output.
 			if tc.routeToken != "" {
 				assert.NotContains(t, got, tc.routeToken)
 			}
+		})
+	}
+}
+
+func TestSafeLogQuery(t *testing.T) {
+	tests := []struct {
+		name  string
+		query string
+		want  string
+	}{
+		{
+			name:  "empty query unchanged",
+			query: "",
+			want:  "",
+		},
+		{
+			name:  "api_key value is redacted",
+			query: "api_key=secret123",
+			want:  "api_key={redacted}",
+		},
+		{
+			name:  "api_key redacted while other params preserved",
+			query: "api_key=secret&page=1",
+			want:  "api_key={redacted}&page=1",
+		},
+		{
+			name:  "query without api_key is unchanged",
+			query: "page=1&limit=10",
+			want:  "page=1&limit=10",
+		},
+		{
+			name:  "api_key in middle of query is redacted",
+			query: "page=1&api_key=mysecret&limit=10",
+			want:  "page=1&api_key={redacted}&limit=10",
+		},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			got := cmdmcp.SafeLogQuery(tc.query)
+			assert.Equal(t, tc.want, got)
 		})
 	}
 }

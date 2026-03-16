@@ -73,8 +73,8 @@
           "type": "boolean",
           "default": false
         },
-        "multi_tenant": {
-          "description": "Route /{seerr-api-token}/mcp so each user supplies their own API key in the URL.",
+        "allow_api_key_query_param": {
+          "description": "Accept the Seerr API key via the api_key query parameter in addition to the X-Api-Key header. Opt-in; disabled by default. HTTP transport only.",
           "type": "boolean",
           "default": false
         },

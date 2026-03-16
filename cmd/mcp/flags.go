@@ -75,11 +75,11 @@ var ServeFlags = []FlagDef{
 		Usage:    "Enable CORS headers (required for browser-based clients such as claude.ai) (env: SEERR_MCP_CORS)",
 	},
 	{
-		Name:     "multi-tenant",
-		ViperKey: "mcp.multi_tenant",
+		Name:     "allow-api-key-query-param",
+		ViperKey: "mcp.allow_api_key_query_param",
 		Default:  "false",
 		IsBool:   true,
-		Usage:    "Route /{seerr-api-token}/mcp for per-user API keys (HTTP transport only)",
+		Usage:    "Accept the Seerr API key via the api_key query parameter in addition to the X-Api-Key header (HTTP transport only)",
 	},
 	{
 		Name:     "log-file",

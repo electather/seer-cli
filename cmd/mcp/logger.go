@@ -90,10 +90,8 @@ func (r *statusRecorder) WriteHeader(code int) {
 // SafeLogPath returns a redacted version of path that omits sensitive tokens.
 //
 // In route-token mode the raw token in the URL prefix is replaced with
-// {redacted}. In multi-tenant mode the per-user API key that occupies the
-// first path segment is replaced with {tenant}. Plain /mcp paths are returned
-// unchanged.
-func SafeLogPath(path, routeToken string, multiTenant bool) string {
+// {redacted}. Plain /mcp paths are returned unchanged.
+func SafeLogPath(path, routeToken string) string {
 	if routeToken != "" {
 		prefix := "/" + routeToken
 		if strings.HasPrefix(path, prefix+"/") {
@@ -103,19 +101,29 @@ func SafeLogPath(path, routeToken string, multiTenant bool) string {
 			return "/{redacted}"
 		}
 	}
-	if multiTenant {
-		trimmed := strings.TrimPrefix(path, "/")
-		idx := strings.Index(trimmed, "/")
-		if idx > 0 {
-			return "/{tenant}" + trimmed[idx:]
-		}
-	}
 	return path
 }
 
+// SafeLogQuery returns a redacted version of a raw query string, replacing the
+// value of the api_key parameter with {redacted} to prevent credential leakage
+// in logs.
+func SafeLogQuery(rawQuery string) string {
+	if rawQuery == "" {
+		return ""
+	}
+	// Replace api_key=<value> with api_key={redacted}.
+	parts := strings.Split(rawQuery, "&")
+	for i, part := range parts {
+		if strings.HasPrefix(part, "api_key=") {
+			parts[i] = "api_key={redacted}"
+		}
+	}
+	return strings.Join(parts, "&")
+}
+
 // httpLoggingMiddleware logs every HTTP request at Info level (Warn for 4xx/5xx).
-// routeToken and multiTenant are used to redact sensitive tokens from the logged path.
-func httpLoggingMiddleware(next http.Handler, routeToken string, multiTenant bool) http.Handler {
+// routeToken is used to redact sensitive tokens from the logged path.
+func httpLoggingMiddleware(next http.Handler, routeToken string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 		rec := &statusRecorder{ResponseWriter: w, status: http.StatusOK}
@@ -124,10 +132,13 @@ func httpLoggingMiddleware(next http.Handler, routeToken string, multiTenant boo
 
 		args := []any{
 			"method", r.Method,
-			"path", SafeLogPath(r.URL.Path, routeToken, multiTenant),
+			"path", SafeLogPath(r.URL.Path, routeToken),
 			"remote_addr", r.RemoteAddr,
 			"status", rec.status,
 			"duration_ms", duration.Milliseconds(),
+		}
+		if r.URL.RawQuery != "" {
+			args = append(args, "query", SafeLogQuery(r.URL.RawQuery))
 		}
 		if rec.status >= 400 {
 			mcpLog.Warn("http request", args...)

@@ -393,20 +393,41 @@ seerr-cli mcp serve --transport http --addr :8811 --route-token abc123 --auth-to
 
 > **Note:** The HTTP transport does not implement OAuth 2.0 and is not compatible with clients that require OAuth. Use stdio for Claude Desktop.
 
+#### API key via query parameter (opt-in)
+
+For clients that cannot set custom headers, the Seerr API key can be passed via the `api_key` query parameter when `--allow-api-key-query-param` is enabled. The `X-Api-Key` header takes precedence when both are present.
+
+```sh
+# Enable query parameter API key transport
+seerr-cli mcp serve --transport http --no-auth --allow-api-key-query-param
+
+# MCP endpoint: http://localhost:8811/mcp?api_key=YOUR_SEERR_API_KEY
+```
+
+> **Security note:** Query parameters may appear in proxy logs and browser history. Prefer header-based transport where possible, or combine with TLS and `--route-token`.
+
+#### Migration from `--multi-tenant`
+
+The `--multi-tenant` flag and `/{token}/mcp` path-based routing have been removed. Clients that previously used `/{seerr-api-token}/mcp` should migrate to one of:
+
+- **Header transport** — send the Seerr API key as `X-Api-Key: <key>` on each request to `/mcp`.
+- **Query parameter transport** — enable `--allow-api-key-query-param` and append `?api_key=<key>` to the `/mcp` URL.
+
 #### Environment variables
 
 All `mcp serve` flags can be set via environment variables, which is especially useful for Docker deployments:
 
-| Flag            | Environment variable    | Default |
-| --------------- | ----------------------- | ------- |
-| `--transport`   | `SEERR_MCP_TRANSPORT`   | `stdio` |
-| `--addr`        | `SEERR_MCP_ADDR`        | `:8811` |
-| `--auth-token`  | `SEERR_MCP_AUTH_TOKEN`  | —       |
-| `--no-auth`     | `SEERR_MCP_NO_AUTH`     | `false` |
-| `--route-token` | `SEERR_MCP_ROUTE_TOKEN` | —       |
-| `--cors`        | `SEERR_MCP_CORS`        | `false` |
-| `--tls-cert`    | `SEERR_MCP_TLS_CERT`    | —       |
-| `--tls-key`     | `SEERR_MCP_TLS_KEY`     | —       |
+| Flag                          | Environment variable                | Default |
+| ----------------------------- | ----------------------------------- | ------- |
+| `--transport`                 | `SEERR_MCP_TRANSPORT`               | `stdio` |
+| `--addr`                      | `SEERR_MCP_ADDR`                    | `:8811` |
+| `--auth-token`                | `SEERR_MCP_AUTH_TOKEN`              | —       |
+| `--no-auth`                   | `SEERR_MCP_NO_AUTH`                 | `false` |
+| `--route-token`               | `SEERR_MCP_ROUTE_TOKEN`             | —       |
+| `--allow-api-key-query-param` | `SEERR_MCP_ALLOW_API_KEY_QUERY_PARAM` | `false` |
+| `--cors`                      | `SEERR_MCP_CORS`                    | `false` |
+| `--tls-cert`                  | `SEERR_MCP_TLS_CERT`                | —       |
+| `--tls-key`                   | `SEERR_MCP_TLS_KEY`                 | —       |
 
 ### Docker (HTTP transport)
 
