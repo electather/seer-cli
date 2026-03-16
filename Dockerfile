@@ -20,6 +20,21 @@ RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /seerr-cli .
 # Stage 2: Final image
 FROM alpine:3.21
 
+# Build args for OCI standard image labels.
+ARG VERSION=dev
+ARG REVISION=unknown
+ARG CREATED=unknown
+ARG REPO_URL=https://github.com/electather/seerr-cli
+
+LABEL org.opencontainers.image.title="seerr-cli" \
+      org.opencontainers.image.description="Command-line interface and MCP server for the Seerr media request management API" \
+      org.opencontainers.image.url="${REPO_URL}" \
+      org.opencontainers.image.source="${REPO_URL}" \
+      org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.revision="${REVISION}" \
+      org.opencontainers.image.created="${CREATED}" \
+      org.opencontainers.image.licenses="MIT"
+
 RUN apk add --no-cache ca-certificates
 
 COPY --from=builder /seerr-cli /usr/local/bin/seerr-cli
