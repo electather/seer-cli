@@ -61,21 +61,14 @@ var serveCmd = &cobra.Command{
   # Start over HTTPS with TLS
   seerr-cli mcp serve --transport http --auth-token mysecret --tls-cert /path/to/cert.pem --tls-key /path/to/key.pem
 
-  # Start over HTTP with a secret path prefix (for clients that cannot send custom headers)
-  seerr-cli mcp serve --transport http --route-token abc123 --no-auth
-  # MCP endpoint becomes: http://localhost:8811/abc123/mcp
+  # Accept Seerr API key via X-Api-Key header or ?api_key= query parameter
+  seerr-cli mcp serve --transport http --allow-api-key-query-param
 
   # Enable CORS for browser-based clients (e.g. claude.ai)
-  seerr-cli mcp serve --transport http --route-token abc123 --no-auth --cors
-
-  # Combine both auth methods for defense in depth
-  seerr-cli mcp serve --transport http --route-token abc123 --auth-token mysecret
+  seerr-cli mcp serve --transport http --allow-api-key-query-param --cors
 
   # Start over HTTP without auth (insecure, not recommended)
-  seerr-cli mcp serve --transport http --no-auth
-
-  # Start in multi-tenant mode (per-user API keys in URL path)
-  seerr-cli mcp serve --transport http --no-auth --multi-tenant`,
+  seerr-cli mcp serve --transport http --no-auth`,
 	RunE: runServe,
 }
 
@@ -89,12 +82,11 @@ func runServe(_ *cobra.Command, args []string) error {
 	transport := viper.GetString("mcp.transport")
 	addr := viper.GetString("mcp.addr")
 	authToken := viper.GetString("mcp.auth_token")
-	routeToken := viper.GetString("mcp.route_token")
 	noAuth := viper.GetBool("mcp.no_auth")
 	tlsCert := viper.GetString("mcp.tls_cert")
 	tlsKey := viper.GetString("mcp.tls_key")
 	cors := viper.GetBool("mcp.cors")
-	multiTenant := viper.GetBool("mcp.multi_tenant")
+	allowAPIKeyQueryParam := viper.GetBool("mcp.allow_api_key_query_param")
 	logFile := viper.GetString("mcp.log_file")
 	logLevel := viper.GetString("mcp.log_level")
 	logFormat := viper.GetString("mcp.log_format")
@@ -107,12 +99,8 @@ func runServe(_ *cobra.Command, args []string) error {
 		return err
 	}
 
-	if transport == "http" && authToken == "" && routeToken == "" && !noAuth {
-		return fmt.Errorf("HTTP transport requires --auth-token, --route-token, or --no-auth (insecure) to be set explicitly")
-	}
-
-	if multiTenant && transport != "http" {
-		return fmt.Errorf("--multi-tenant requires --transport http")
+	if transport == "http" && authToken == "" && !allowAPIKeyQueryParam && !noAuth {
+		return fmt.Errorf("HTTP transport requires --auth-token, --allow-api-key-query-param, or --no-auth (insecure) to be set explicitly")
 	}
 
 	s := server.NewMCPServer("electather/seerr-cli", buildVersion)
@@ -156,13 +144,7 @@ func runServe(_ *cobra.Command, args []string) error {
 		if strings.HasPrefix(host, ":") {
 			host = "localhost" + host
 		}
-		mcpPath := "/mcp"
-		if multiTenant {
-			mcpPath = "/{seerr-api-token}/mcp"
-		} else if routeToken != "" {
-			mcpPath = "/" + routeToken + "/mcp"
-		}
-		endpoint := fmt.Sprintf("%s://%s%s", scheme, host, mcpPath)
+		endpoint := fmt.Sprintf("%s://%s/mcp", scheme, host)
 
 		mcpLog.Info("starting MCP server",
 			"transport", "http",
@@ -171,25 +153,15 @@ func runServe(_ *cobra.Command, args []string) error {
 			"tools", 46, "resources", 9, "prompts", 6,
 			"tls", tlsCert != "",
 			"auth_token", authToken != "",
-			"route_token", routeToken != "",
 			"cors", cors,
-			"multi_tenant", multiTenant,
+			"allow_api_key_query_param", allowAPIKeyQueryParam,
 		)
 
 		httpHandler := server.NewStreamableHTTPServer(s)
-		var handler http.Handler
-		if multiTenant {
-			handler = tenantRoutingHandler(httpHandler)
-		} else if routeToken != "" {
-			// Strip the route-token prefix so mcp-go still sees /mcp, /mcp/sse, etc.
-			prefix := "/" + routeToken
-			mux := http.NewServeMux()
-			mux.Handle(prefix+"/", http.StripPrefix(prefix, httpHandler))
-			handler = mux
-		} else {
-			handler = httpHandler
-		}
-		handler = httpLoggingMiddleware(handler, routeToken, multiTenant)
+		handler := http.Handler(httpHandler)
+		// Per-request Seerr API key injection (header or optional query param).
+		handler = SeerrAPIKeyMiddleware(allowAPIKeyQueryParam, handler)
+		handler = httpLoggingMiddleware(handler)
 		if authToken != "" {
 			handler = bearerAuthMiddleware(authToken, handler)
 		}
@@ -288,30 +260,33 @@ func bearerAuthMiddleware(token string, next http.Handler) http.Handler {
 	})
 }
 
-// TenantRoutingHandler extracts the Seerr API token from /{token}/mcp paths and
-// injects it into the request context before forwarding to the MCP handler.
-// Exported for testing.
-func TenantRoutingHandler(mcpHandler http.Handler) http.Handler {
-	return tenantRoutingHandler(mcpHandler)
-}
-
-func tenantRoutingHandler(mcpHandler http.Handler) http.Handler {
+// SeerrAPIKeyMiddleware extracts the Seerr API key from the incoming request
+// and injects it into the request context for use by MCP tool handlers.
+//
+// The key is read from the X-Api-Key request header first. When
+// allowQueryParam is true the middleware also accepts the key via the
+// api_key query parameter; the header takes precedence when both are present.
+//
+// If neither location provides a key the middleware responds with 401.
+func SeerrAPIKeyMiddleware(allowQueryParam bool, next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Expect /{token}/mcp or /{token}/mcp/...
-		path := strings.TrimPrefix(r.URL.Path, "/")
-		slash := strings.Index(path, "/")
-		if slash < 0 {
-			http.NotFound(w, r)
+		var apiKey string
+		if v := r.Header.Get("X-Api-Key"); v != "" {
+			apiKey = v
+		} else if allowQueryParam {
+			if v := r.URL.Query().Get("api_key"); v != "" {
+				apiKey = v
+			}
+		}
+
+		if apiKey != "" {
+			ctx := context.WithValue(r.Context(), apiKeyCtxKey, apiKey)
+			r = r.Clone(ctx)
+		} else {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return
 		}
-		token, rest := path[:slash], path[slash:] // rest = "/mcp" or "/mcp/..."
-		if token == "" || !strings.HasPrefix(rest, "/mcp") {
-			http.NotFound(w, r)
-			return
-		}
-		ctx := context.WithValue(r.Context(), apiKeyCtxKey, token)
-		r2 := r.Clone(ctx)
-		r2.URL.Path = rest
-		mcpHandler.ServeHTTP(w, r2)
+
+		next.ServeHTTP(w, r)
 	})
 }

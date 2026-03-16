@@ -56,10 +56,6 @@
           "type": "boolean",
           "default": false
         },
-        "route_token": {
-          "description": "Secret path prefix for the MCP endpoint (e.g. 'abc123' → /abc123/mcp). Useful for clients that cannot send custom headers.",
-          "type": "string"
-        },
         "tls_cert": {
           "description": "Path to TLS certificate file (PEM). Required together with tls_key to enable HTTPS.",
           "type": "string"
@@ -73,8 +69,8 @@
           "type": "boolean",
           "default": false
         },
-        "multi_tenant": {
-          "description": "Route /{seerr-api-token}/mcp so each user supplies their own API key in the URL.",
+        "allow_api_key_query_param": {
+          "description": "Accept the Seerr API key via the api_key query parameter in addition to the X-Api-Key header. Opt-in; disabled by default. HTTP transport only.",
           "type": "boolean",
           "default": false
         },
