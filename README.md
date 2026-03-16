@@ -545,24 +545,39 @@ docker run -d \
   ghcr.io/electather/seerr-cli:latest
 ```
 
-### Available tools (43)
+### Available tools (52)
 
-| Category           | Tools                                                                                                                    |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------ |
-| Search & Discovery | `search_multi`, `search_discover_movies`, `search_discover_tv`, `search_trending`                                        |
-| Movies             | `movies_get`, `movies_recommendations`, `movies_similar`, `movies_ratings`                                               |
-| TV Shows           | `tv_get`, `tv_season`, `tv_recommendations`, `tv_similar`, `tv_ratings`                                                  |
-| Requests           | `request_list`, `request_get`, `request_create`, `request_approve`, `request_decline`, `request_delete`, `request_count` |
-| Media              | `media_list`, `media_status_update`                                                                                      |
-| Issues             | `issue_list`, `issue_get`, `issue_create`, `issue_status_update`, `issue_count`                                          |
-| Users              | `users_list`, `users_get`, `users_quota`                                                                                 |
-| People             | `person_get`, `person_credits`                                                                                           |
-| Collections        | `collection_get`                                                                                                         |
-| Services           | `service_radarr_list`, `service_sonarr_list`                                                                             |
-| Settings           | `settings_about`, `settings_jobs_list`, `settings_jobs_run`                                                              |
-| Watchlist          | `watchlist_add`, `watchlist_remove`                                                                                      |
-| Blocklist          | `blocklist_list`, `blocklist_add`, `blocklist_remove`                                                                    |
-| System             | `status_system`                                                                                                          |
+| Category           | Tools                                                                                                                                |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Search & Discovery | `search_multi`, `search_discover_movies`, `search_discover_tv`, `search_trending`, `search_company`, `search_keyword`                |
+| Movies             | `movies_get`, `movies_recommendations`, `movies_similar`, `movies_ratings`, `movies_ratings_combined`                                |
+| TV Shows           | `tv_get`, `tv_season`, `tv_recommendations`, `tv_similar`, `tv_ratings`                                                              |
+| Requests           | `request_list`, `request_get`, `request_create`, `request_approve`, `request_decline`, `request_delete`, `request_count`, `request_retry` |
+| Media              | `media_list`, `media_status_update`                                                                                                  |
+| Issues             | `issue_list`, `issue_get`, `issue_create`, `issue_status_update`, `issue_count`                                                      |
+| Auth               | `auth_me`                                                                                                                            |
+| Users              | `users_list`, `users_get`, `users_quota`, `users_update`                                                                             |
+| People             | `person_get`, `person_credits`                                                                                                       |
+| Collections        | `collection_get`                                                                                                                     |
+| Services           | `service_radarr_list`, `service_sonarr_list`                                                                                         |
+| Settings           | `settings_about`, `settings_jobs_list`, `settings_jobs_run`, `settings_jobs_cancel`, `settings_jobs_schedule`                        |
+| Watchlist          | `watchlist_add`, `watchlist_remove`                                                                                                  |
+| Blocklist          | `blocklist_list`, `blocklist_add`, `blocklist_remove`                                                                                |
+| System             | `status_system`                                                                                                                      |
+
+### Available resources (9)
+
+| URI                          | Description                                                    |
+| ---------------------------- | -------------------------------------------------------------- |
+| `seerr://genres/movies`      | TMDB movie genre ID to name map                                |
+| `seerr://genres/tv`          | TMDB TV genre ID to name map                                   |
+| `seerr://languages`          | ISO language codes and English names supported by TMDB         |
+| `seerr://regions`            | ISO region codes and English names supported by TMDB           |
+| `seerr://certifications/movies` | Content ratings by country for movies (G, PG, R, etc.)      |
+| `seerr://certifications/tv`  | Content ratings by country for TV shows                        |
+| `seerr://services/radarr`    | Configured Radarr instances with quality profiles and root folders |
+| `seerr://services/sonarr`    | Configured Sonarr instances with quality profiles and root folders |
+| `seerr://system/about`       | Seerr version, commit hash, and update availability            |
 
 ## Supported Platforms
 

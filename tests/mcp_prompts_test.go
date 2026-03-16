@@ -135,3 +135,13 @@ func TestMCPAdminOverviewPrompt(t *testing.T) {
 	assert.Contains(t, text, "issue_count")
 	assert.Contains(t, text, "settings_jobs_list")
 }
+
+func TestReportIssuePromptNoMediaTypeArg(t *testing.T) {
+	result := callPrompt(t, cmdmcp.ReportIssuePromptHandler(), map[string]string{
+		"media_title": "Inception",
+	})
+
+	text := promptText(t, result)
+	// issue_create has no mediaType parameter; the prompt must not instruct the AI to pass it.
+	assert.NotContains(t, text, "- mediaType: the type from search results")
+}

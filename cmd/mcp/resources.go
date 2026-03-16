@@ -190,38 +190,6 @@ func CertificationsTVResourceHandler() server.ResourceHandlerFunc {
 	}
 }
 
-// WatchProvidersMoviesResourceHandler returns a resource handler for movie streaming providers.
-func WatchProvidersMoviesResourceHandler() server.ResourceHandlerFunc {
-	return func(ctx context.Context, req mcp.ReadResourceRequest) ([]mcp.ResourceContents, error) {
-		client := newAPIClientWithKey(apiKeyFromContext(ctx))
-		res, _, err := client.OtherAPI.WatchprovidersMoviesGet(ctx).Execute()
-		if err != nil {
-			return nil, err
-		}
-		data, err := json.MarshalIndent(res, "", "  ")
-		if err != nil {
-			return nil, err
-		}
-		return textResource(req.Params.URI, data), nil
-	}
-}
-
-// WatchProvidersTVResourceHandler returns a resource handler for TV streaming providers.
-func WatchProvidersTVResourceHandler() server.ResourceHandlerFunc {
-	return func(ctx context.Context, req mcp.ReadResourceRequest) ([]mcp.ResourceContents, error) {
-		client := newAPIClientWithKey(apiKeyFromContext(ctx))
-		res, _, err := client.OtherAPI.WatchprovidersTvGet(ctx).Execute()
-		if err != nil {
-			return nil, err
-		}
-		data, err := json.MarshalIndent(res, "", "  ")
-		if err != nil {
-			return nil, err
-		}
-		return textResource(req.Params.URI, data), nil
-	}
-}
-
 // RadarrServicesResourceHandler returns a resource handler that lists all configured
 // Radarr instances enriched with per-instance quality profiles and root folders.
 func RadarrServicesResourceHandler() server.ResourceHandlerFunc {

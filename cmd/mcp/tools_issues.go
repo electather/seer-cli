@@ -40,7 +40,7 @@ func registerIssueTools(s *server.MCPServer) {
 			mcp.WithDestructiveHintAnnotation(false),
 			mcp.WithReadOnlyHintAnnotation(false),
 			mcp.WithIdempotentHintAnnotation(false),
-			mcp.WithNumber("issueType", mcp.Required(), mcp.Description("Issue type (1=Video, 2=Audio, 3=Subtitle, 4=Other)")),
+			mcp.WithNumber("issueType", mcp.Required(), mcp.Description("Issue type (1=Video, 2=Audio, 3=Subtitle, 4=Wrong content, 5=Other)")),
 			mcp.WithString("message", mcp.Required(), mcp.Description("Issue message")),
 			mcp.WithNumber("mediaId", mcp.Required(), mcp.Description("Media ID")),
 		),

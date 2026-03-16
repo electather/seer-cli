@@ -136,7 +136,7 @@ The user's preferences: %q
 
 Follow these steps:
 1. Read the seerr://genres/movies and seerr://genres/tv resources to find genre IDs that match the user's preferences.
-2. Based on the media type preference (%q), call search_discover_movies or search_discover_tv with a relevant genre filter.
+2. Based on the media type preference (%q), call search_discover_movies or search_discover_tv with relevant filters (e.g. genre, language, sortBy, or date range) using the genre IDs from the resources above.
 3. Also call search_trending to supplement with trending content.
 4. Present a curated list of 5-8 recommendations, including title, year, genre, and whether each is already Available in Seerr (check mediaInfo.status == 5).
 5. Ask the user if they would like to request any of the shown titles.`,
@@ -225,7 +225,6 @@ Follow these steps:
    - 5: Other
 4. If no description was provided, ask the user to describe the problem briefly.
 5. Call issue_create with:
-   - mediaType: the type from search results
    - mediaId: the TMDB ID
    - issueType: the number selected above (1-5)
    - message: the problem description
