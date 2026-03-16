@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 
+	api "seerr-cli/pkg/api"
+
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
 )
@@ -39,6 +41,29 @@ func registerSettingsTools(s *server.MCPServer) {
 		),
 		SettingsJobsRunHandler(),
 	)
+
+	s.AddTool(
+		mcp.NewTool("settings_jobs_cancel",
+			mcp.WithDescription("Cancel a running scheduled job"),
+			mcp.WithString("jobId", mcp.Required(), mcp.Description("Job ID")),
+			mcp.WithDestructiveHintAnnotation(false),
+			mcp.WithReadOnlyHintAnnotation(false),
+			mcp.WithIdempotentHintAnnotation(false),
+		),
+		SettingsJobsCancelHandler(),
+	)
+
+	s.AddTool(
+		mcp.NewTool("settings_jobs_schedule",
+			mcp.WithDescription("Update the cron schedule for a scheduled job"),
+			mcp.WithString("jobId", mcp.Required(), mcp.Description("Job ID")),
+			mcp.WithString("schedule", mcp.Required(), mcp.Description("Cron expression for the new schedule")),
+			mcp.WithDestructiveHintAnnotation(false),
+			mcp.WithReadOnlyHintAnnotation(false),
+			mcp.WithIdempotentHintAnnotation(false),
+		),
+		SettingsJobsScheduleHandler(),
+	)
 }
 
 func SettingsAboutHandler() server.ToolHandlerFunc {
@@ -62,6 +87,51 @@ func SettingsJobsListHandler() server.ToolHandlerFunc {
 		res, _, err := client.SettingsAPI.SettingsJobsGet(callCtx).Execute()
 		if err != nil {
 			return apiToolError("SettingsJobsGet failed", err)
+		}
+		b, err := json.Marshal(res)
+		if err != nil {
+			return nil, err
+		}
+		return mcp.NewToolResultText(string(b)), nil
+	}
+}
+
+func SettingsJobsCancelHandler() server.ToolHandlerFunc {
+	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+		jobId, err := req.RequireString("jobId")
+		if err != nil {
+			return nil, err
+		}
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		res, _, err := client.SettingsAPI.SettingsJobsJobIdCancelPost(callCtx, jobId).Execute()
+		if err != nil {
+			return apiToolError("SettingsJobsJobIdCancelPost failed", err)
+		}
+		b, err := json.Marshal(res)
+		if err != nil {
+			return nil, err
+		}
+		return mcp.NewToolResultText(string(b)), nil
+	}
+}
+
+func SettingsJobsScheduleHandler() server.ToolHandlerFunc {
+	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+		jobId, err := req.RequireString("jobId")
+		if err != nil {
+			return nil, err
+		}
+		schedule, err := req.RequireString("schedule")
+		if err != nil {
+			return nil, err
+		}
+		body := api.SettingsJobsJobIdSchedulePostRequest{
+			Schedule: &schedule,
+		}
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		res, _, err := client.SettingsAPI.SettingsJobsJobIdSchedulePost(callCtx, jobId).SettingsJobsJobIdSchedulePostRequest(body).Execute()
+		if err != nil {
+			return apiToolError("SettingsJobsJobIdSchedulePost failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {

@@ -54,6 +54,17 @@ func registerMoviesTools(s *server.MCPServer) {
 		),
 		MoviesRatingsHandler(),
 	)
+
+	s.AddTool(
+		mcp.NewTool("movies_ratings_combined",
+			mcp.WithDescription("Get combined RT and IMDB ratings for a given movie"),
+			mcp.WithDestructiveHintAnnotation(false),
+			mcp.WithReadOnlyHintAnnotation(true),
+			mcp.WithIdempotentHintAnnotation(true),
+			mcp.WithNumber("movieId", mcp.Required(), mcp.Description("TMDB movie ID")),
+		),
+		MoviesRatingsCombinedHandler(),
+	)
 }
 
 func MoviesGetHandler() server.ToolHandlerFunc {
@@ -112,6 +123,25 @@ func MoviesSimilarHandler() server.ToolHandlerFunc {
 		res, _, err := r.Execute()
 		if err != nil {
 			return apiToolError("MovieMovieIdSimilarGet failed", err)
+		}
+		b, err := json.Marshal(res)
+		if err != nil {
+			return nil, err
+		}
+		return mcp.NewToolResultText(string(b)), nil
+	}
+}
+
+func MoviesRatingsCombinedHandler() server.ToolHandlerFunc {
+	return func(callCtx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+		movieId, err := req.RequireInt("movieId")
+		if err != nil {
+			return nil, err
+		}
+		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
+		res, _, err := client.MoviesAPI.MovieMovieIdRatingscombinedGet(callCtx, float32(movieId)).Execute()
+		if err != nil {
+			return apiToolError("MovieMovieIdRatingscombinedGet failed", err)
 		}
 		b, err := json.Marshal(res)
 		if err != nil {
