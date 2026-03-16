@@ -51,11 +51,26 @@ env:
   - name: SEERR_MCP_CORS
     description: Set to "true" to enable CORS headers for browser-based MCP clients (e.g. claude.ai)
     required: false
+  - name: SEERR_MCP_MULTI_TENANT
+    description: >-
+      Set to "true" to enable multi-tenant mode (HTTP transport only). The
+      endpoint becomes /{seerr-api-token}/mcp and the path segment is used as
+      the per-user Seerr API key instead of SEERR_API_KEY.
+    required: false
   - name: SEERR_MCP_TLS_CERT
     description: Path to a TLS certificate file for HTTPS on the MCP HTTP server
     required: false
   - name: SEERR_MCP_TLS_KEY
     description: Path to a TLS private-key file for HTTPS on the MCP HTTP server
+    required: false
+  - name: SEERR_MCP_LOG_FILE
+    description: Path to a log file; required for stdio transport to capture logs without polluting stdout
+    required: false
+  - name: SEERR_MCP_LOG_LEVEL
+    description: Log level for the MCP server; one of debug, info, warn, error (default "info")
+    required: false
+  - name: SEERR_MCP_LOG_FORMAT
+    description: Log output format for the MCP server; "text" (default) or "json"
     required: false
 ---
 
