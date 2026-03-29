@@ -2,7 +2,6 @@ package mcp
 
 import (
 	"context"
-	"encoding/json"
 
 	api "seerr-cli/pkg/api"
 
@@ -58,13 +57,10 @@ func UsersListHandler() server.ToolHandlerFunc {
 		if skip := req.GetInt("skip", 0); skip > 0 {
 			r = r.Skip(float32(skip))
 		}
-		res, _, err := r.Execute()
+		res, httpResp, err := r.Execute()
+		b, err := marshalResult(res, httpResp, err)
 		if err != nil {
 			return apiToolError("UserGet failed", err)
-		}
-		b, err := json.Marshal(res)
-		if err != nil {
-			return nil, err
 		}
 		return mcp.NewToolResultText(string(b)), nil
 	}
@@ -77,13 +73,10 @@ func UsersGetHandler() server.ToolHandlerFunc {
 			return nil, err
 		}
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
-		res, _, err := client.UsersAPI.UserUserIdGet(callCtx, float32(userId)).Execute()
+		res, httpResp, err := client.UsersAPI.UserUserIdGet(callCtx, float32(userId)).Execute()
+		b, err := marshalResult(res, httpResp, err)
 		if err != nil {
 			return apiToolError("UserUserIdGet failed", err)
-		}
-		b, err := json.Marshal(res)
-		if err != nil {
-			return nil, err
 		}
 		return mcp.NewToolResultText(string(b)), nil
 	}
@@ -113,13 +106,10 @@ func UsersUpdateHandler() server.ToolHandlerFunc {
 			return mcp.NewToolResultError("at least one field must be provided"), nil
 		}
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
-		res, _, err := client.UsersAPI.UserUserIdPut(callCtx, float32(userId)).UserUpdatePayload(body).Execute()
+		res, httpResp, err := client.UsersAPI.UserUserIdPut(callCtx, float32(userId)).UserUpdatePayload(body).Execute()
+		b, err := marshalResult(res, httpResp, err)
 		if err != nil {
 			return apiToolError("UserUserIdPut failed", err)
-		}
-		b, err := json.Marshal(res)
-		if err != nil {
-			return nil, err
 		}
 		return mcp.NewToolResultText(string(b)), nil
 	}
@@ -132,13 +122,10 @@ func UsersQuotaHandler() server.ToolHandlerFunc {
 			return nil, err
 		}
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
-		res, _, err := client.UsersAPI.UserUserIdQuotaGet(callCtx, float32(userId)).Execute()
+		res, httpResp, err := client.UsersAPI.UserUserIdQuotaGet(callCtx, float32(userId)).Execute()
+		b, err := marshalResult(res, httpResp, err)
 		if err != nil {
 			return apiToolError("UserUserIdQuotaGet failed", err)
-		}
-		b, err := json.Marshal(res)
-		if err != nil {
-			return nil, err
 		}
 		return mcp.NewToolResultText(string(b)), nil
 	}

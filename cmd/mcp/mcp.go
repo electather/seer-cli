@@ -2,7 +2,9 @@ package mcp
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"net/http"
 
 	"seerr-cli/cmd/apiutil"
 	api "seerr-cli/pkg/api"
@@ -61,6 +63,22 @@ func apiToolError(label string, err error) (*mcplib.CallToolResult, error) {
 		mcpLog.Warn("tool error", "label", label, "error", err)
 	}
 	return mcplib.NewToolResultError(msg), nil
+}
+
+// marshalResult marshals res to JSON. When Execute() returns a
+// *GenericOpenAPIError on a 2xx response the structured decode failed because
+// the live API returned fields not present in the generated OpenAPI model. In
+// that case the raw body carried by the error is returned so the caller still
+// receives the full response data instead of a false failure.
+func marshalResult(res interface{}, httpResp *http.Response, err error) ([]byte, error) {
+	if err != nil {
+		if e, ok := err.(*api.GenericOpenAPIError); ok &&
+			httpResp != nil && httpResp.StatusCode < 300 && len(e.Body()) > 0 {
+			return e.Body(), nil
+		}
+		return nil, err
+	}
+	return json.Marshal(res)
 }
 
 func init() {

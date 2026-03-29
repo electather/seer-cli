@@ -120,13 +120,10 @@ func RequestListHandler() server.ToolHandlerFunc {
 		if sort := req.GetString("sort", ""); sort != "" {
 			r = r.Sort(sort)
 		}
-		res, _, err := r.Execute()
+		res, httpResp, err := r.Execute()
+		b, err := marshalResult(res, httpResp, err)
 		if err != nil {
 			return apiToolError("RequestGet failed", err)
-		}
-		b, err := json.Marshal(res)
-		if err != nil {
-			return nil, err
 		}
 		return mcp.NewToolResultText(string(b)), nil
 	}
@@ -139,13 +136,10 @@ func RequestGetHandler() server.ToolHandlerFunc {
 			return nil, err
 		}
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
-		res, _, err := client.RequestAPI.RequestRequestIdGet(callCtx, requestId).Execute()
+		res, httpResp, err := client.RequestAPI.RequestRequestIdGet(callCtx, requestId).Execute()
+		b, err := marshalResult(res, httpResp, err)
 		if err != nil {
 			return apiToolError("RequestRequestIdGet failed", err)
-		}
-		b, err := json.Marshal(res)
-		if err != nil {
-			return nil, err
 		}
 		return mcp.NewToolResultText(string(b)), nil
 	}
@@ -183,13 +177,10 @@ func RequestCreateHandler() server.ToolHandlerFunc {
 			body.Is4k = &is4k
 		}
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
-		res, _, err := client.RequestAPI.RequestPost(callCtx).RequestPostRequest(*body).Execute()
+		res, httpResp, err := client.RequestAPI.RequestPost(callCtx).RequestPostRequest(*body).Execute()
+		b, err := marshalResult(res, httpResp, err)
 		if err != nil {
 			return apiToolError("RequestPost failed", err)
-		}
-		b, err := json.Marshal(res)
-		if err != nil {
-			return nil, err
 		}
 		return mcp.NewToolResultText(string(b)), nil
 	}
@@ -202,13 +193,10 @@ func RequestApproveHandler() server.ToolHandlerFunc {
 			return nil, err
 		}
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
-		res, _, err := client.RequestAPI.RequestRequestIdStatusPost(callCtx, requestId, "approve").Execute()
+		res, httpResp, err := client.RequestAPI.RequestRequestIdStatusPost(callCtx, requestId, "approve").Execute()
+		b, err := marshalResult(res, httpResp, err)
 		if err != nil {
 			return apiToolError("RequestRequestIdStatusPost(approve) failed", err)
-		}
-		b, err := json.Marshal(res)
-		if err != nil {
-			return nil, err
 		}
 		return mcp.NewToolResultText(string(b)), nil
 	}
@@ -221,13 +209,10 @@ func RequestDeclineHandler() server.ToolHandlerFunc {
 			return nil, err
 		}
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
-		res, _, err := client.RequestAPI.RequestRequestIdStatusPost(callCtx, requestId, "decline").Execute()
+		res, httpResp, err := client.RequestAPI.RequestRequestIdStatusPost(callCtx, requestId, "decline").Execute()
+		b, err := marshalResult(res, httpResp, err)
 		if err != nil {
 			return apiToolError("RequestRequestIdStatusPost(decline) failed", err)
-		}
-		b, err := json.Marshal(res)
-		if err != nil {
-			return nil, err
 		}
 		return mcp.NewToolResultText(string(b)), nil
 	}
@@ -255,13 +240,10 @@ func RequestRetryHandler() server.ToolHandlerFunc {
 			return nil, err
 		}
 		client := newAPIClientWithKey(apiKeyFromContext(callCtx))
-		res, _, err := client.RequestAPI.RequestRequestIdRetryPost(callCtx, requestId).Execute()
+		res, httpResp, err := client.RequestAPI.RequestRequestIdRetryPost(callCtx, requestId).Execute()
+		b, err := marshalResult(res, httpResp, err)
 		if err != nil {
 			return apiToolError("RequestRequestIdRetryPost failed", err)
-		}
-		b, err := json.Marshal(res)
-		if err != nil {
-			return nil, err
 		}
 		return mcp.NewToolResultText(string(b)), nil
 	}
